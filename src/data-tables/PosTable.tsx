@@ -1,131 +1,67 @@
-import { useEffect, useState } from "react";
-import { fetchCollectionData, handleAdd, handleSave, handleDelete } from "../utils-components/firebaseUtils";
-import { Pos } from "../interfaces/PosInterface";
-import TableReadData from "../components/TableReadData";
-import AddModal from "../components/AddModal";
+import React, { useState } from "react";
+import "./Pos.css";
+
+const products = [
+  { id: 1, name: "Apple", category: "Fruits" },
+  { id: 2, name: "Banana", category: "Fruits" },
+  { id: 3, name: "Carrot", category: "Vegetables" },
+  { id: 4, name: "Tomato", category: "Vegetables" },
+];
+
+const categories = ["Fruits", "Vegetables"];
 
 const PosTable = () => {
-  const [pos, setPos] = useState<Pos[]>([]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [cart, setCart] = useState([]);
 
-  useEffect(() => {
-    const fetchPos = async () => {
-      try {
-        const localData = localStorage.getItem("pos");
-        if (localData) {
-          setPos(JSON.parse(localData));
-          console.log("Datos cargados desde localStorage");
-        } else {
-          const posList = await fetchCollectionData("pos");
-          setPos(posList as Pos[]);
-          localStorage.setItem("pos", JSON.stringify(posList));
-          console.log("Datos cargados desde Firebase y guardados en localStorage");
-        }
-      } catch (error) {
-        console.error("Error fetching pos:", error);
-      }
-    };
-
-    fetchPos();
-  }, []);
-
-  const handleSavePos = async (updatedRow: Pos) => {
-    try {
-      await handleSave("pos", updatedRow);
-      setPos((prevPos) => {
-        const updatedPos = prevPos.map((pos) =>
-          pos.id === updatedRow.id ? updatedRow : pos
-        );
-        localStorage.setItem("pos", JSON.stringify(updatedPos));
-        return updatedPos;
-      });
-      console.log("Cambios actualizados en local y Firebase.");
-    } catch (error) {
-      console.error("Error al guardar los cambios:", error);
-    }
+  const handleDrop = (event, product) => {
+    event.preventDefault();
+    setCart((prevCart) => [...prevCart, product]);
   };
 
-  const handleAddPos = async (newPos: Omit<Pos, "id">) => {
-    try {
-      const timestamp = new Date();
-      const posWithDefaults = {
-        ...newPos,
-        date: { seconds: Math.floor(timestamp.getTime() / 1000), nanoseconds: (timestamp.getTime() % 1000) * 1000000 },
-        isActive: true,
-      };
-
-      const docRef = await handleAdd("pos", posWithDefaults);
-
-      setPos((prevPos) => {
-        const updatedPos = [
-          ...prevPos,
-          { id: docRef.id, ...posWithDefaults } as unknown as Pos,
-        ];
-        localStorage.setItem("pos", JSON.stringify(updatedPos));
-        return updatedPos;
-      });
-
-      console.log("POS añadido correctamente.");
-      setIsModalOpen(false);
-    } catch (error) {
-      console.error("Error al agregar POS:", error);
-    }
+  const handleDragOver = (event) => {
+    event.preventDefault();
   };
-
-  const handleDeletePos = async (posId: string) => {
-    try {
-      await handleDelete("pos", posId);
-
-      setPos((prevPos) => {
-        const updatedPos = prevPos.filter((pos) => pos.id !== posId);
-        localStorage.setItem("pos", JSON.stringify(updatedPos));
-        return updatedPos;
-      });
-
-      console.log("POS eliminado.");
-    } catch (error) {
-      console.error("Error al eliminar el POS:", error);
-    }
-  };
-
-  const columns = ["productName", "quantity", "price", "date"];
-  const columnNames = {
-    productName: "Nombre del Producto",
-    quantity: "Cantidad",
-    price: "Precio",
-    date: "Fecha",
-  };
-
-  const editableColumns = ["productName", "quantity", "price"];
 
   return (
-    <div className="pos-container">
-      <h1>POS</h1>
-
-      <TableReadData<Pos>
-        columns={columns}
-        data={pos}
-        columnNames={columnNames}
-        editableColumns={editableColumns}
-        onSave={handleSavePos}
-        onDelete={handleDeletePos}
-      />
-
-      <button className="add-pos-button" onClick={() => setIsModalOpen(true)}>
-        Agregar POS
-      </button>
-
-      {isModalOpen && (
-        <AddModal
-          fields={[
-            { key: "productName", label: "Nombre del Producto" },
-            { key: "quantity", label: "Cantidad" },
-            { key: "price", label: "Precio" },
-          ]}
-          onSave={(data) => handleAddPos(data as Omit<Pos, "id">)}
-          onClose={() => setIsModalOpen(false)}
-        />
-      )}
+    <div className="container">
+      <div className="products">
+        <h2>Products</h2>
+        {categories.map((category) => (
+          <div key={category} className="category">
+            <h3>{category}</h3>
+            <div className="product-list">
+              {products
+                .filter((product) => product.category === category)
+                .map((product) => (
+                  <div
+                    key={product.id}
+                    className="product"
+                    draggable
+                    onDragStart={(e) => e.dataTransfer.setData("product", JSON.stringify(product))}
+                  >
+                    {product.name}
+                  </div>
+                ))}
+            </div>
+          </div>
+        ))}
+      </div>
+      <div
+        className="cart"
+        onDrop={(e) => handleDrop(e, JSON.parse(e.dataTransfer.getData("product")))}
+        onDragOver={handleDragOver}
+      >
+        <h2>Cart</h2>
+        {cart.length === 0 ? (
+          <p>Drag products here</p>
+        ) : (
+          cart.map((item, index) => (
+            <div key={index} className="cart-item">
+              {item.name}
+            </div>
+          ))
+        )}
+      </div>
     </div>
   );
 };

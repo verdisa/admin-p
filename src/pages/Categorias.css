@@ -110,3 +110,52 @@
 .submenu-label {
   font-size: 13px;
 }
+
+.categories-container {
+  display: flex;
+}
+
+/* Estilo general para el contenedor de la tabla */
+.categories-table-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilo para el título */
+.categories-table-container h1 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* Estilo de la tabla */
+.categories-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+/* Estilo para las celdas de la cabecera */
+.categories-table th {
+  background-color: #2d3748;
+  color: #fff;
+  padding: 10px;
+  text-align: left;
+  font-weight: normal;
+}
+
+/* Estilo para las filas de datos */
+.categories-table td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  color: #555;
+}
+
+/* Estilo para las filas alternadas */
+.categories-table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}

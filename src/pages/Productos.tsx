@@ -2,20 +2,18 @@ import React from 'react';
 import Navbar from '../components/Navbar';
 import Sidebar from '../components/Sidebar';
 import ProductosTable from '../data-tables/ProductosTable';
+import './Comun.css'; // Asegúrate de importar el archivo CSS
 
-const ProductosPage: React.FC = () => {
+
+export default function ProductosPage() {
   return (
     <div>
       <Navbar />
-      <div className="productos-container">
+      <div className="usuarios-container">
         <Sidebar />
-        <div className="content">
-          <h1>Gestión de Productos</h1>
-          <ProductosTable />
-        </div>
+        <ProductosTable />
       </div>
     </div>
   );
-};
+}
 
-export default ProductosPage;
