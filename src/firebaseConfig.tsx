@@ -5,14 +5,17 @@ import { getAnalytics } from 'firebase/analytics';
 
 // Configuración de Firebase
 const firebaseConfig = {
-  apiKey: 'AIzaSyDSRw8-eI1MVJA8XU0L31Faiq_vw4BMZUo',
-  authDomain: 'midonki-app.firebaseapp.com',
-  projectId: 'midonki-app',
-  storageBucket: 'midonki-app.appspot.com',
-  messagingSenderId: '750639975160',
-  appId: '1:750639975160:web:3b2a69809c9aa68e67490d',
-  measurementId: 'G-668W3ZKWG3',
+
+  apiKey: "AIzaSyDq5W5FGwE-GVjWiL1Ic2cpsenG_qocAlE",
+  authDomain: "midonkipos.firebaseapp.com",
+  projectId: "midonkipos",
+  storageBucket: "midonkipos.firebasestorage.app",
+  messagingSenderId: "477040758139",
+  appId: "1:477040758139:web:7924a691c7520300b2c1de",
+  measurementId: "G-3TTHN4GZND"
+
 };
+
 
 // Inicializa Firebase
 const app = initializeApp(firebaseConfig);

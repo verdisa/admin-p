@@ -9,7 +9,7 @@ interface TableReadDataProps<T = { [key: string]: any }> {
   columnRenderers?: { [key: string]: (value: any, row: T) => React.ReactNode };
   editableColumns?: string[]; // Nueva propiedad para especificar columnas editables
   onSave?: (updatedRow: T) => void;
-  onDelete?: (id: string) => void; // Función para manejar la eliminación
+  onDelete?: (uid: string) => void; // Función para manejar la eliminación
 }
 
 const TableReadData = <T extends { [key: string]: any }>(
@@ -27,9 +27,6 @@ const TableReadData = <T extends { [key: string]: any }>(
   const [editing, setEditing] = useState<{ [key: string]: boolean }>({});
 
   const defaultRenderer = (value: any, column: string) => {
-    if (column === 'photoURL' && value) {
-      return <img src={value} alt="profile" className="profile-image" />;
-    }
     if (typeof value === 'boolean') {
       return value ? <i className="fas fa-check check-icon"></i> : null;
     }
@@ -114,7 +111,7 @@ const TableReadData = <T extends { [key: string]: any }>(
               <td className="actions-cell">
                 <button
                   className="delete-button"
-                  onClick={() => onDelete(row.id)} // Llamar la función de eliminar
+                  onClick={() => onDelete(row.uid)} // Llamar la función de eliminar
                 >
                   Eliminar
                 </button>

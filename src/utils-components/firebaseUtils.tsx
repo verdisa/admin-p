@@ -1,60 +1,51 @@
 // firebaseUtils.ts
-import { deleteDoc, collection, query, where, getDocs, DocumentData, doc, updateDoc, addDoc, getDoc, DocumentReference } from "firebase/firestore";
+import { deleteDoc, setDoc, collection, query, where, getDocs, DocumentData, doc, updateDoc, addDoc, getDoc, DocumentReference } from "firebase/firestore";
 import { db } from '../firebaseConfig';
-import { Subcategory, Category } from '../interfaces/subCategoriaInterface';
-import { Operator } from '../interfaces/EmpleadosInterface';
+import { Subcategory, Category } from '../interfaces/subCategoryInterface';
+import { Empleado } from '../interfaces/EmpleadosInterface';
 import { User } from '../interfaces/UserInterface';
-import { Machine } from '../interfaces/ProveedoresInterface';
-import { Inventory } from '../interfaces/Inventarionterface';
+import { Machine } from '../interfaces/MachinesInterface';
 
-export const handleDelete = async (collectionName: string, id: string) => {
+export const handleDelete = async (collectionName: string, uid: string) => {
   try {
-    const docRef = doc(db, collectionName, id);
+    const docRef = doc(db, collectionName, uid);
     await deleteDoc(docRef); // Elimina el documento
-    console.log(`Categoría con ID ${id} eliminada`);
+    console.log(`Documento con UID ${uid} eliminado`);
   } catch (error) {
-    console.error("Error al eliminar la categoría:", error);
+    console.error("Error al eliminar el documento:", error);
   }
 };
 
-export const handleSave = async <T extends { id: string }>(
+export const handleSave = async <T extends { uid?: string }>(
   collectionName: string,
   updatedRow: T
 ): Promise<void> => {
   try {
-    const { id, ...dataToUpdate } = updatedRow; // Excluye `id` ya que no se usa en Firebase
-    const docRef = doc(db, collectionName, id);
-    const docSnapshot = await getDoc(docRef);
-    if (docSnapshot.exists()) {
-      await updateDoc(docRef, dataToUpdate);
-      console.log(`Datos actualizados correctamente en la colección: ${collectionName}`);
+    const { uid, ...dataToUpdate } = updatedRow;
+    let docRef;
+
+    if (uid) {
+      docRef = doc(db, collectionName, uid);
+      const docSnapshot = await getDoc(docRef);
+      if (docSnapshot.exists()) {
+        await updateDoc(docRef, dataToUpdate);
+        console.log(`Datos actualizados correctamente en la colección: ${collectionName}`);
+      } else {
+        console.error(`No se encontró el documento con UID ${uid} en la colección ${collectionName}`);
+      }
     } else {
-      console.error(`No se encontró el documento con ID ${id} en la colección ${collectionName}`);
+      docRef = doc(db, collectionName);
+      await setDoc(docRef, { ...dataToUpdate, uid: docRef.id });
+      console.log(`Nuevo documento creado correctamente en la colección: ${collectionName}`);
     }
   } catch (error) {
-    console.error(`Error al actualizar en la colección ${collectionName}:`, error);
+    console.error(`Error al guardar en la colección ${collectionName}:`, error);
   }
 };
 
 export const fetchCollectionData = async (collectionName: string) => {
   const querySnapshot = await getDocs(collection(db, collectionName));
-  return querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-};
-
-export const fetchAndStoreCollectionData = async (collectionName: string) => {
-  try {
-    const querySnapshot = await getDocs(collection(db, collectionName));
-    const data = querySnapshot.docs.map(doc => doc.data());
-
-    if (data.length === 0) {
-      throw new Error(`No hay datos en la colección ${collectionName}`);
-    }
-
-    localStorage.setItem(collectionName, JSON.stringify(data));
-    console.log(`Datos de la colección ${collectionName} guardados en localStorage`);
-  } catch (error) {
-    console.error(`Error al obtener y guardar datos de la colección ${collectionName}: `, error);
-  }
+  return querySnapshot.docs.map((doc) => ({ uid: doc.id, ...doc.data() }));
 };
 
 export const fetchSubcategoriesWithCategories = async () => {
@@ -98,6 +89,59 @@ export const fetchSubcategoriesWithCategories = async () => {
     return subcategoriesWithCategories;
   } catch (error) {
     console.error('Error fetching subcategories with categories:', error);
+    throw error;
+  }
+};
+
+export const fetchInventoriesWithUsersAndCategories = async (): Promise<Inventory[]> => {
+  try {
+    // Intentar cargar datos de `inventories`, `users` y `categories` desde localStorage
+    const localInventories = localStorage.getItem("inventories");
+    const localUsers = localStorage.getItem("users");
+    const localCategories = localStorage.getItem("categories");
+
+    const inventories = localInventories
+      ? JSON.parse(localInventories)
+      : await fetchCollectionData("inventories"); // Obtener inventarios de Firebase si no están en localStorage
+
+    const users = localUsers
+      ? JSON.parse(localUsers)
+      : await fetchCollectionData("users"); // Obtener usuarios de Firebase si no están en localStorage
+
+    const categories = localCategories
+      ? JSON.parse(localCategories)
+      : await fetchCollectionData("categories"); // Obtener categorías de Firebase si no están en localStorage
+
+    // Guardar datos en localStorage si se obtuvieron de Firebase
+    if (!localInventories) {
+      localStorage.setItem("inventories", JSON.stringify(inventories));
+    }
+    if (!localUsers) {
+      localStorage.setItem("users", JSON.stringify(users));
+    }
+    if (!localCategories) {
+      localStorage.setItem("categories", JSON.stringify(categories));
+    }
+
+    // Crear un mapa de categorías para búsqueda rápida
+    const categoryMap = new Map(
+      categories.map((category) => [category.id, category.name])
+    );
+
+    // Combine data based on matching `uid` and `IdCategory`
+    const combinedData = inventories.map((inventory) => {
+      const user = users.find((user) => user.id === inventory.uid); // Buscar usuario correspondiente
+      const categoryName = categoryMap.get(inventory.IdCategory) || 'Categoría no encontrada'; // Buscar categoría correspondiente
+      return {
+        ...inventory,
+        displayName: user?.displayName || "Sin Nombre", // Tomar el nombre del usuario o un valor predeterminado
+        categoryName, // Tomar el nombre de la categoría o un valor predeterminado
+      };
+    });
+
+    return combinedData;
+  } catch (error) {
+    console.error("Error fetching or combining data:", error);
     throw error;
   }
 };
@@ -197,66 +241,19 @@ export const fetchMachinesWithUsersAndCategories = async (): Promise<Machine[]> 
   }
 };
 
-export const fetchInventoriesWithUsersAndCategories = async (): Promise<Inventory[]> => {
-  try {
-    const localInventories = localStorage.getItem("inventories");
-    const localUsers = localStorage.getItem("users");
-    const localCategories = localStorage.getItem("categories");
 
-    const inventories = localInventories
-      ? JSON.parse(localInventories)
-      : await fetchCollectionData("inventories");
 
-    const users = localUsers
-      ? JSON.parse(localUsers)
-      : await fetchCollectionData("users");
-
-    const categories = localCategories
-      ? JSON.parse(localCategories)
-      : await fetchCollectionData("categories");
-
-    if (!localInventories) {
-      localStorage.setItem("inventories", JSON.stringify(inventories));
-    }
-    if (!localUsers) {
-      localStorage.setItem("users", JSON.stringify(users));
-    }
-    if (!localCategories) {
-      localStorage.setItem("categories", JSON.stringify(categories));
-    }
-
-    const categoryMap = new Map(
-      categories.map((category) => [category.id, category.name])
-    );
-
-    const combinedData = inventories.map((inventory) => {
-      const user = users.find((user) => user.id === inventory.uid);
-      const categoryName = categoryMap.get(inventory.category) || 'Categoría no encontrada';
-      return {
-        ...inventory,
-        displayName: user?.displayName || "Sin Nombre",
-        categoryName,
-      };
-    });
-
-    return combinedData;
-  } catch (error) {
-    console.error("Error fetching or combining data:", error);
-    throw error;
-  }
-};
-
-export const handleAdd = async<T>(
+export const handleAdd = async <T>(
   collectionName: string,
   data: T
 ): Promise<DocumentReference<DocumentData>> => {
   try {
     const docRef = await addDoc(collection(db, collectionName), data);
-  console.log(`Nuevo documento agregado a la colección ${collectionName}`);
-  return docRef;
+    console.log(`Nuevo documento agregado a la colección ${collectionName}`);
+    return docRef;
   } catch (error) {
-    console.error(`Error al agregar a la colección ${collectionName}: `, error);
-  throw error;
+    console.error(`Error al agregar a la colección ${collectionName}:`, error);
+    throw error;
   }
 };
 

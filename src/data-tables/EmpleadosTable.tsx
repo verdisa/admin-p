@@ -1,93 +1,132 @@
-import { useEffect, useState } from "react";
-import {
-  fetchOperatorsWithUsers,
-  handleSave,
-} from "../utils-components/firebaseUtils";
-import TableReadData from "../components/TableReadData";
-import { Operator } from "../interfaces/EmpleadosInterface";
+import { useEffect, useState } from 'react';
+import { fetchCollectionData, handleAdd, handleSave } from '../utils-components/firebaseUtils';
+import { User } from '../interfaces/UserInterface';
+import TableReadData from '../components/TableReadData';
+import AddModal from '../components/AddModal';
 
-const Operators = () => {
-  // Especificar el tipo explícito para evitar errores
-  const [operators, setOperators] = useState<Operator[]>([]);
-  const [users, setUsers] = useState<any[]>([]); // Si necesitas tipar los usuarios, define una interfaz similar
+const Empleados = () => {
+  const [users, setUsers] = useState<User[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
-    const fetchOperators = async () => {
+    const fetchUsers = async () => {
       try {
-        const localData = localStorage.getItem("operatorsWithUsers");
+        const localData = localStorage.getItem("users");
         if (localData) {
-          setOperators(JSON.parse(localData) as Operator[]); // Asegúrate de tipar el parseo
-          console.log(
-            "Datos de operadores con usuarios cargados desde localStorage"
-          );
+          const users = JSON.parse(localData) as User[];
+          const filteredUsers = users.filter(user => !user.roles.includes('admin'));
+          setUsers(filteredUsers);
+          console.log("Datos cargados desde localStorage");
         } else {
-          const operatorsList: Operator[] = await fetchOperatorsWithUsers();
-          console.log("operatorsList", operatorsList);
-          setOperators(operatorsList);
-          localStorage.setItem(
-            "operatorsWithUsers",
-            JSON.stringify(operatorsList)
-          );
-          console.log(
-
-
-
-            "Datos de operadores con usuarios cargados desde Firebase y guardados en localStorage"
-          );
+          const usersList = await fetchCollectionData('users');
+          const filteredUsers = (usersList as User[]).filter(user => !user.roles.includes('admin'));
+          setUsers(filteredUsers);
+          localStorage.setItem("users", JSON.stringify(usersList));
+          console.log("Datos cargados desde Firebase y guardados en localStorage");
         }
       } catch (error) {
-        console.error("Error fetching operators:", error);
+        console.error('Error fetching users:', error);
       }
     };
 
-    fetchOperators();
+    fetchUsers();
   }, []);
 
-  const handleSaveOperator = async (updatedRow: Operator) => {
+  const handleSaveUser = async (updatedRow: User) => {
     try {
-      await handleSave("operators", updatedRow); // Cambiado a "operators"
-
-      setOperators((prevOperators) => {
-        const updatedOperators = prevOperators.map((operator) =>
-          operator.id === updatedRow.id ? updatedRow : operator
-        );
-        localStorage.setItem(
-          "operatorsWithUsers",
-          JSON.stringify(updatedOperators)
-        );
-        return updatedOperators;
+      await handleSave('users', updatedRow);
+      setUsers((prevUsers) => {
+        const updatedUsers = prevUsers.map((user) => (user.uid === updatedRow.uid ? updatedRow : user));
+        localStorage.setItem("users", JSON.stringify(updatedUsers));
+        return updatedUsers.filter(user => !user.roles.includes('admin'));
       });
-
-      console.log("Operador actualizado correctamente.");
+      console.log("Cambios actualizados en local y Firebase.");
     } catch (error) {
-      console.error("Error al guardar el operador:", error);
+      console.error('Error al guardar los cambios:', error);
     }
   };
 
-  const columns = ["displayName", "licence", "DniBack", "DniFront"];
-  const columnNames = {
-    displayName: "Nombre Usuario",
-    licence: "Licencia",
-    DniBack: "DNI Trasero",
-    DniFront: "DNI Frontal",
+  const handleAddUser = async (newUser: Omit<User, 'uid'>) => {
+    try {
+      const docRef = await handleAdd('users', newUser);
+      const uid = docRef.id; // Obtener el UID generado por Firebase
+      const newUserWithUid = { uid, ...newUser } as User;
+      setUsers((prevUsers) => {
+        const updatedUsers = [...prevUsers, newUserWithUid];
+        localStorage.setItem("users", JSON.stringify(updatedUsers));
+        return updatedUsers.filter(user => !user.roles.includes('admin'));
+      });
+
+      console.log("Usuario agregado correctamente.");
+      setIsModalOpen(false);
+    } catch (error) {
+      console.error('Error al agregar usuario:', error);
+    }
   };
 
-  const editableColumns = ["licence", "DniBack", "DniFront"];
+  const columns = ['nombre', 'apellidos', 'email', 'telefono', 'username', 'roles', 'posicion', 'fechaContratacion', 'turnoAsignado', 'sucursal', 'estado', 'salario', 'isEmailVerified'];
+  const columnNames = {
+    nombre: 'Nombre',
+    apellidos: 'Apellidos',
+    email: 'Correo Electrónico',
+    telefono: 'Teléfono',
+    username: 'Nombre de Usuario',
+    roles: 'Roles',
+    posicion: 'Posición',
+    fechaContratacion: 'Fecha de Contratación',
+    turnoAsignado: 'Turno Asignado',
+    sucursal: 'Sucursal',
+    estado: 'Estado',
+    salario: 'Salario',
+    isEmailVerified: 'Correo Verificado',
+  };
+
+  const editableColumns = ['nombre', 'apellidos', 'telefono', 'posicion', 'turnoAsignado', 'sucursal', 'estado', 'salario'];
 
   return (
     <div className="users-container">
-      <h1>Operadores</h1>
-
-      <TableReadData
+      <h1>Usuarios</h1>
+      <TableReadData<User>
         columns={columns}
-        data={operators}
+        data={users}
         columnNames={columnNames}
         editableColumns={editableColumns}
-        onSave={handleSaveOperator}
+        onSave={handleSaveUser}
       />
+      {/* 
+        Botón para agregar usuario, actualmente comentado para que no aparezca:
+      */}
+      {/* 
+      <button 
+        className="add-user-button" 
+        onClick={() => setIsModalOpen(true)}>
+        Agregar Usuario
+      </button>
+      */}
+  
+      {isModalOpen && (
+        <AddModal
+          fields={[
+            { key: 'nombre', label: 'Nombre' },
+            { key: 'apellidos', label: 'Apellidos' },
+            { key: 'email', label: 'Correo Electrónico' },
+            { key: 'telefono', label: 'Teléfono' },
+            { key: 'username', label: 'Nombre de Usuario' },
+            { key: 'roles', label: 'Roles', type: 'select', options: ['admin', 'cajero', 'supervisor', 'visita'] },
+            { key: 'posicion', label: 'Posición' },
+            { key: 'fechaContratacion', label: 'Fecha de Contratación' },
+            { key: 'turnoAsignado', label: 'Turno Asignado' },
+            { key: 'sucursal', label: 'Sucursal' },
+            { key: 'estado', label: 'Estado', type: 'select', options: ['Activo', 'Inactivo', 'Bloqueado'] },
+            { key: 'salario', label: 'Salario' },
+            { key: 'isEmailVerified', label: 'Correo Verificado', type: 'select', options: ['true', 'false'] },
+          ]}
+          onSave={(data) => handleAddUser(data as Omit<User, 'uid'>)}
+          onClose={() => setIsModalOpen(false)}
+        />
+      )}
     </div>
   );
-};
+}
 
-export default Operators;
+export default Empleados;

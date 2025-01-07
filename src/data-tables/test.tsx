@@ -4,38 +4,41 @@ import { User } from '../interfaces/UserInterface';
 import TableReadData from '../components/TableReadData';
 import AddModal from '../components/AddModal';
 
-const Users = () => {
-  const [users, setUsers] = useState<User[]>([]);
+const Empleados = () => {
+  const [empleados, setEmpleados] = useState<User[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
-    const fetchUsers = async () => {
+    const fetchEmpleados = async () => {
       try {
         const localData = localStorage.getItem("users");
         if (localData) {
-          setUsers(JSON.parse(localData));
+          const users = JSON.parse(localData) as User[];
+          const empleados = users.filter(user => !user.roles.includes('admin'));
+          setEmpleados(empleados);
           console.log("Datos cargados desde localStorage");
         } else {
           const usersList = await fetchCollectionData('users');
-          setUsers(usersList as User[]);
+          const empleados = (usersList as User[]).filter(user => !user.roles.includes('admin'));
+          setEmpleados(empleados);
           localStorage.setItem("users", JSON.stringify(usersList));
           console.log("Datos cargados desde Firebase y guardados en localStorage");
         }
       } catch (error) {
-        console.error('Error fetching users:', error);
+        console.error('Error fetching empleados:', error);
       }
     };
 
-    fetchUsers();
+    fetchEmpleados();
   }, []);
 
-  const handleSaveUser = async (updatedRow: User) => {
+  const handleSaveEmpleado = async (updatedRow: User) => {
     try {
       await handleSave('users', updatedRow);
-      setUsers((prevUsers) => {
-        const updatedUsers = prevUsers.map((user) => (user.uid === updatedRow.uid ? updatedRow : user));
-        localStorage.setItem("users", JSON.stringify(updatedUsers));
-        return updatedUsers;
+      setEmpleados((prevEmpleados) => {
+        const updatedEmpleados = prevEmpleados.map((empleado) => (empleado.uid === updatedRow.uid ? updatedRow : empleado));
+        localStorage.setItem("users", JSON.stringify(updatedEmpleados));
+        return updatedEmpleados;
       });
       console.log("Cambios actualizados en local y Firebase.");
     } catch (error) {
@@ -43,73 +46,71 @@ const Users = () => {
     }
   };
 
-  const handleAddUser = async (newUser: Omit<User, 'uid'>) => {
+  const handleAddEmpleado = async (newEmpleado: Omit<User, 'uid'>) => {
     try {
-      const docRef = await handleAdd('users', newUser);
+      const docRef = await handleAdd('users', newEmpleado);
       const uid = docRef.id; // Obtener el UID generado por Firebase
-      const newUserWithUid = { uid, ...newUser } as User;
-      setUsers((prevUsers) => {
-        const updatedUsers = [...prevUsers, newUserWithUid];
-        localStorage.setItem("users", JSON.stringify(updatedUsers));
-        return updatedUsers;
+      const newEmpleadoWithUid = { uid, ...newEmpleado } as User;
+      setEmpleados((prevEmpleados) => {
+        const updatedEmpleados = [...prevEmpleados, newEmpleadoWithUid];
+        localStorage.setItem("users", JSON.stringify(updatedEmpleados));
+        return updatedEmpleados;
       });
 
-      console.log("Usuario agregado correctamente.");
+      console.log("Empleado agregado correctamente.");
       setIsModalOpen(false);
     } catch (error) {
-      console.error('Error al agregar usuario:', error);
+      console.error('Error al agregar empleado:', error);
     }
   };
 
-  const handleDeleteUser = async (userUid: string) => {
+  const handleDeleteEmpleado = async (empleadoUid: string) => {
     try {
-      await handleDelete("users", userUid);
-      setUsers((prevUsers) => {
-        const updatedUsers = prevUsers.filter((user) => user.uid !== userUid);
-        localStorage.setItem("users", JSON.stringify(updatedUsers));
-        return updatedUsers;
+      await handleDelete("users", empleadoUid);
+      setEmpleados((prevEmpleados) => {
+        const updatedEmpleados = prevEmpleados.filter((empleado) => empleado.uid !== empleadoUid);
+        localStorage.setItem("users", JSON.stringify(updatedEmpleados));
+        return updatedEmpleados;
       });
 
-      console.log("Usuario eliminado.");
+      console.log("Empleado eliminado.");
     } catch (error) {
-      console.error("Error al eliminar el usuario:", error);
+      console.error("Error al eliminar el empleado:", error);
     }
   };
 
-  const columns = ['nombre', 'apellidos', 'email', 'telefono', 'username', 'roles', 'posicion', 'fechaContratacion', 'turnoAsignado', 'sucursal', 'estado', 'salario', 'isEmailVerified'];
+  const columns = ['nombre', 'apellidos', 'email', 'telefono', 'roles', 'posicion', 'fechaContratacion', 'turnoAsignado', 'sucursal', 'estado', 'photoURL'];
   const columnNames = {
     nombre: 'Nombre',
     apellidos: 'Apellidos',
     email: 'Correo Electrónico',
     telefono: 'Teléfono',
-    username: 'Nombre de Usuario',
     roles: 'Roles',
     posicion: 'Posición',
     fechaContratacion: 'Fecha de Contratación',
     turnoAsignado: 'Turno Asignado',
     sucursal: 'Sucursal',
     estado: 'Estado',
-    salario: 'Salario',
-    isEmailVerified: 'Correo Verificado',
+    photoURL: 'Foto',
   };
 
-  const editableColumns = ['nombre', 'apellidos', 'telefono', 'posicion', 'turnoAsignado', 'sucursal', 'estado', 'salario'];
+  const editableColumns = ['nombre', 'apellidos', 'telefono', 'posicion', 'turnoAsignado', 'sucursal', 'estado'];
 
   return (
     <div className="users-container">
-      <h1>Usuarios</h1>
+      <h1>Empleados</h1>
       <TableReadData<User>
         columns={columns}
-        data={users}
+        data={empleados}
         columnNames={columnNames}
         editableColumns={editableColumns}
-        onSave={handleSaveUser}
-        onDelete={handleDeleteUser}
+        onSave={handleSaveEmpleado}
+        onDelete={handleDeleteEmpleado}
       />
       <button 
         className="add-user-button" 
         onClick={() => setIsModalOpen(true)}>
-        Agregar Usuario
+        Agregar Empleado
       </button>
       {isModalOpen && (
         <AddModal
@@ -118,17 +119,15 @@ const Users = () => {
             { key: 'apellidos', label: 'Apellidos' },
             { key: 'email', label: 'Correo Electrónico' },
             { key: 'telefono', label: 'Teléfono' },
-            { key: 'username', label: 'Nombre de Usuario' },
-            { key: 'roles', label: 'Roles', type: 'select', options: ['admin', 'cajero', 'supervisor', 'visita'] },
+            { key: 'roles', label: 'Roles', type: 'select', options: ['cajero', 'supervisor', 'visita'] },
             { key: 'posicion', label: 'Posición' },
             { key: 'fechaContratacion', label: 'Fecha de Contratación' },
             { key: 'turnoAsignado', label: 'Turno Asignado' },
             { key: 'sucursal', label: 'Sucursal' },
             { key: 'estado', label: 'Estado', type: 'select', options: ['Activo', 'Inactivo', 'Bloqueado'] },
-            { key: 'salario', label: 'Salario' },
-            { key: 'isEmailVerified', label: 'Correo Verificado', type: 'select', options: ['true', 'false'] },
+            { key: 'photoURL', label: 'Foto (URL)' },
           ]}
-          onSave={(data) => handleAddUser(data as Omit<User, 'uid'>)}
+          onSave={(data) => handleAddEmpleado(data as Omit<User, 'uid'>)}
           onClose={() => setIsModalOpen(false)}
         />
       )}
@@ -136,4 +135,4 @@ const Users = () => {
   );
 };
 
-export default Users;
+export default Empleados;

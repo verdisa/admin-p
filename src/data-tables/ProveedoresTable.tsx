@@ -1,151 +1,126 @@
-import React, { useEffect, useState } from 'react';
-import { fetchMachinesWithUsersAndCategories, handleSave, handleAdd, handleDelete, fetchCollectionData } from '../utils-components/firebaseUtils';
-import { Machine } from '../interfaces/ProveedoresInterface';
+import { useEffect, useState } from 'react';
+import { fetchCollectionData, handleAdd, handleSave, handleDelete } from '../utils-components/firebaseUtils';
+import { Proveedor } from '../interfaces/ProveedoresInterface';
 import TableReadData from '../components/TableReadData';
-import AddModal from '../components/AddModal'; // Asegúrate de que este modal exista
+import AddModal from '../components/AddModal';
 
-const MaquinariaTable: React.FC = () => {
-  const [machines, setMachines] = useState<Machine[]>([]);
-  const [categories, setCategories] = useState<{ id: string; name: string }[]>([]);
-  const [isModalOpen, setIsModalOpen] = useState(false); // Para abrir y cerrar el modal
+const ProveedoresTable = () => {
+  const [proveedores, setProveedores] = useState<Proveedor[]>([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
-    const fetchMachines = async () => {
+    const fetchProveedores = async () => {
       try {
-        const localData = localStorage.getItem("machinesWithUsersAndCategories");
+        const localData = localStorage.getItem("proveedores");
         if (localData) {
-          setMachines(JSON.parse(localData));
-          console.log("Datos de máquinas con usuarios y categorías cargados desde localStorage");
+          setProveedores(JSON.parse(localData));
+          console.log("Datos cargados desde localStorage");
         } else {
-          const machinesList = await fetchMachinesWithUsersAndCategories();
-          setMachines(machinesList as Machine[]);
-          localStorage.setItem("machinesWithUsersAndCategories", JSON.stringify(machinesList));
-          console.log("Datos de máquinas con usuarios y categorías cargados desde Firebase y guardados en localStorage");
+          const proveedoresList = await fetchCollectionData('proveedores');
+          setProveedores(proveedoresList as Proveedor[]);
+          localStorage.setItem("proveedores", JSON.stringify(proveedoresList));
+          console.log("Datos cargados desde Firebase y guardados en localStorage");
         }
       } catch (error) {
-        console.error("Error fetching machines:", error);
+        console.error('Error fetching proveedores:', error);
       }
     };
 
-    const fetchCategories = async () => {
-      try {
-        const categoriesList = await fetchCollectionData("categories");
-        setCategories(categoriesList as { id: string; name: string }[]);
-        localStorage.setItem("categories", JSON.stringify(categoriesList));
-        console.log("Datos de categorías cargados desde Firebase y guardados en localStorage");
-      } catch (error) {
-        console.error("Error fetching categories:", error);
-      }
-    };
-
-    fetchMachines();
-    fetchCategories();
+    fetchProveedores();
   }, []);
 
-  const handleSaveMachine = async (updatedRow: Machine) => {
+  const handleSaveProveedor = async (updatedRow: Proveedor) => {
     try {
-      // Guarda los cambios en Firebase usando la función genérica
-      await handleSave("machines", updatedRow);
-
-      // Actualiza el estado local
-      setMachines((prevMachines) => {
-        const updatedMachines = prevMachines.map((machine) =>
-          machine.uid === updatedRow.uid ? updatedRow : machine
-        );
-        localStorage.setItem("machinesWithUsersAndCategories", JSON.stringify(updatedMachines));
-        return updatedMachines;
+      await handleSave('proveedores', updatedRow);
+      setProveedores((prevProveedores) => {
+        const updatedProveedores = prevProveedores.map((proveedor) => (proveedor.uid === updatedRow.uid ? updatedRow : proveedor));
+        localStorage.setItem("proveedores", JSON.stringify(updatedProveedores));
+        return updatedProveedores;
       });
-
       console.log("Cambios actualizados en local y Firebase.");
     } catch (error) {
-      console.error("Error al guardar los cambios:", error);
+      console.error('Error al guardar los cambios:', error);
     }
   };
 
-  const handleAddMachine = async (newMachine: Omit<Machine, "uid">) => {
+  const handleAddProveedor = async (newProveedor: Omit<Proveedor, 'uid'>) => {
     try {
-      const timestamp = new Date();
-      const machineWithDefaults = {
-        ...newMachine,
-        createdAt: { seconds: Math.floor(timestamp.getTime() / 1000), nanoseconds: (timestamp.getTime() % 1000) * 1000000 },
-        isActive: true,
-      };
-
-      const docRef = await handleAdd("machines", machineWithDefaults);
-
-      setMachines((prevMachines) => {
-        const updatedMachines = [
-          ...prevMachines,
-          { uid: docRef.id, ...machineWithDefaults, categoryName: categories.find(cat => cat.id === machineWithDefaults.IdCategory)?.name || 'Categoría no encontrada' } as unknown as Machine,
-        ];
-        localStorage.setItem("machinesWithUsersAndCategories", JSON.stringify(updatedMachines));
-        return updatedMachines;
+      const docRef = await handleAdd('proveedores', newProveedor);
+      const uid = docRef.id; // Obtener el ID generado por Firebase
+      const newProveedorWithId = { uid, ...newProveedor } as Proveedor;
+      setProveedores((prevProveedores) => {
+        const updatedProveedores = [...prevProveedores, newProveedorWithId];
+        localStorage.setItem("proveedores", JSON.stringify(updatedProveedores));
+        return updatedProveedores;
       });
 
-      console.log("Máquina añadida correctamente.");
+      console.log("Proveedor agregado correctamente.");
       setIsModalOpen(false);
     } catch (error) {
-      console.error("Error al agregar máquina:", error);
+      console.error('Error al agregar proveedor:', error);
     }
   };
 
-  const handleDeleteMachine = async (machineId: string) => {
+  const handleDeleteProveedor = async (proveedorUid: string) => {
     try {
-      await handleDelete("machines", machineId);
-
-      setMachines((prevMachines) => {
-        const updatedMachines = prevMachines.filter((machine) => machine.uid !== machineId);
-        localStorage.setItem("machinesWithUsersAndCategories", JSON.stringify(updatedMachines));
-        return updatedMachines;
+      await handleDelete("proveedores", proveedorUid);
+      setProveedores((prevProveedores) => {
+        const updatedProveedores = prevProveedores.filter((proveedor) => proveedor.uid !== proveedorUid);
+        localStorage.setItem("proveedores", JSON.stringify(updatedProveedores));
+        return updatedProveedores;
       });
-
-      console.log("Máquina eliminada.");
+      console.log("Proveedor eliminado.");
     } catch (error) {
-      console.error("Error al eliminar la máquina:", error);
+      console.error("Error al eliminar el proveedor:", error);
     }
   };
 
-  const columns = ["name", "categoryName", "displayName", "año", "documento", "placa"];
+  const columns = ['nombre', 'direccion', 'telefono', 'email', 'nombreComercial', 'rfcNitTaxId', 'horarioAtencion', 'cuentaBancaria', 'estado', 'fechaRegistro'];
   const columnNames = {
-    name: "Nombre",
-    categoryName: "Categoría",
-    displayName: "Usuario",
-    año: "Año",
-    documento: "Documento",
-    placa: "Placa",
+    nombre: 'Nombre',
+    direccion: 'Dirección',
+    telefono: 'Teléfono',
+    email: 'Correo Electrónico',
+    nombreComercial: 'Nombre Comercial',
+    rfcNitTaxId: 'RFC/NIT/Tax ID',
+    horarioAtencion: 'Horario de Atención',
+    cuentaBancaria: 'Cuenta Bancaria',
+    estado: 'Estado',
+    fechaRegistro: 'Fecha de Registro',
   };
 
-  // Solo los campos 'name', 'año', 'documento' y 'placa' son editables
-  const editableColumns = ["name", "usuario", "año", "documento", "placa"];
-
-  // Leer las categorías desde localStorage
-  const categoriesFromLocalStorage = JSON.parse(localStorage.getItem("categories") || "[]");
+  const editableColumns = ['nombre', 'direccion', 'telefono', 'email', 'nombreComercial', 'rfcNitTaxId', 'horarioAtencion', 'cuentaBancaria', 'estado'];
 
   return (
     <div className="users-container">
-      <h1>Máquinas</h1>
-
-      <TableReadData<Machine>
+      <h1>Proveedores</h1>
+      <TableReadData<Proveedor>
         columns={columns}
-        data={machines}
+        data={proveedores}
         columnNames={columnNames}
-        editableColumns={editableColumns} // Especifica las columnas editables
-        onSave={handleSaveMachine} // Pasa la función para guardar cambios
-        onDelete={handleDeleteMachine} // Pasa la función para eliminar
+        editableColumns={editableColumns}
+        onSave={handleSaveProveedor}
+        onDelete={handleDeleteProveedor}
       />
-
-      <button className="add-user-button" onClick={() => setIsModalOpen(true)}>Agregar Máquina</button>
-
+      <button 
+        className="add-user-button" 
+        onClick={() => setIsModalOpen(true)}>
+        Agregar Proveedor
+      </button>
       {isModalOpen && (
         <AddModal
           fields={[
-            { key: "name", label: "Nombre Máquina" },
-            { key: "año", label: "Año" },
-            { key: "documento", label: "Documento" },
-            { key: "placa", label: "Placa" },
-            { key: "IdCategory", label: "Categoría", type: "select", options: categoriesFromLocalStorage },
+            { key: 'nombre', label: 'Nombre' },
+            { key: 'direccion', label: 'Dirección' },
+            { key: 'telefono', label: 'Teléfono' },
+            { key: 'email', label: 'Correo Electrónico' },
+            { key: 'nombreComercial', label: 'Nombre Comercial' },
+            { key: 'rfcNitTaxId', label: 'RFC/NIT/Tax ID' },
+            { key: 'horarioAtencion', label: 'Horario de Atención' },
+            { key: 'cuentaBancaria', label: 'Cuenta Bancaria' },
+            { key: 'estado', label: 'Estado', type: 'select', options: ['Activo', 'Inactivo'] },
           ]}
-          onSave={(data) => handleAddMachine(data as Omit<Machine, "uid">)}
+          onSave={(data) => handleAddProveedor(data as Omit<Proveedor, 'id'>)}
           onClose={() => setIsModalOpen(false)}
         />
       )}
@@ -153,4 +128,4 @@ const MaquinariaTable: React.FC = () => {
   );
 };
 
-export default MaquinariaTable;
+export default ProveedoresTable;

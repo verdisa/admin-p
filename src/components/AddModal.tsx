@@ -1,57 +1,82 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+
+interface Field {
+  key: string;
+  label: string;
+  type?: 'text' | 'select' | 'checkbox';
+  options?: string[];
+}
 
 interface AddModalProps {
-  fields: { key: string; label: string; type?: string; options?: any[] }[]; // Campos dinámicos (clave, etiqueta, tipo y opciones)
-  onSave: (data: { [key: string]: any }) => void; // Función para manejar el guardado
-  onClose: () => void; // Función para cerrar el modal
+  fields: Field[];
+  onSave: (data: any) => void;
+  onClose: () => void;
 }
 
 const AddModal: React.FC<AddModalProps> = ({ fields, onSave, onClose }) => {
   const [formData, setFormData] = useState<{ [key: string]: any }>({});
 
-  const handleChange = (key: string, value: any) => {
-    setFormData((prev) => ({ ...prev, [key]: value }));
+  useEffect(() => {
+    const initialData: { [key: string]: any } = {};
+    fields.forEach(field => {
+      if (field.type === 'select' && field.options && field.options.length > 0) {
+        // Para campos select, usar la primera opción como valor inicial
+        initialData[field.key] = field.options[0];
+      } else if (field.type === 'checkbox') {
+        initialData[field.key] = false;
+      } else {
+        initialData[field.key] = '';
+      }
+    });
+    setFormData(initialData);
+  }, [fields]);
+
+  const handleInputChange = (key: string, value: any) => {
+    setFormData(prev => ({ ...prev, [key]: value }));
   };
 
-  const handleSave = () => {
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
     onSave(formData);
-    onClose();
   };
 
   return (
     <div className="modal">
       <div className="modal-content">
-        <h2>Agregar Nuevo</h2>
-        {fields.map((field) => (
-          <div key={field.key} className="modal-field">
-            <label>{field.label}</label>
-            {/* Si el campo es de tipo select */}
-            {field.type === 'select' ? (
-              <select
-                name={field.key}
-                value={formData[field.key] || ''}
-                onChange={(e) => handleChange(field.key, e.target.value)}
-              >
-                {field.options?.map((option) => (
-                  <option key={option.id} value={option.id}>
-                    {option.name}
+        <form onSubmit={handleSubmit}>
+          {fields.map((field) => (
+            <div key={field.key} className="modal-field">
+              <label>{field.label}</label>
+              {field.type === 'select' && field.options ? (
+                <select
+                  value={formData[field.key] || ''}
+                  onChange={(e) => handleInputChange(field.key, e.target.value)}
+                >
+                  <option key={`${field.key}-default`} value="">
+                    Seleccione una opción
                   </option>
-                ))}
-              </select>
-            ) : (
-              // Si no es un select, mostramos un input normal
-              <input
-                type="text"
-                value={formData[field.key] || ''}
-                onChange={(e) => handleChange(field.key, e.target.value)}
-              />
-            )}
+                  {field.options.map((option, index) => (
+                    <option key={`${field.key}-${index}`} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </select>
+              ) : (
+                <input
+                  type={field.type || 'text'}
+                  value={formData[field.key] || ''}
+                  onChange={(e) => handleInputChange(field.key, e.target.value)}
+                />
+              )}
+            </div>
+          ))}
+          <div className="modal-actions">
+            <button type="submit">Guardar</button>
+            <button type="button" onClick={onClose}>
+              Cancelar
+            </button>
           </div>
-        ))}
-        <div className="modal-actions">
-          <button onClick={handleSave}>Guardar</button>
-          <button onClick={onClose}>Cancelar</button>
-        </div>
+        </form>
       </div>
     </div>
   );

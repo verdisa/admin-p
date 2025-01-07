@@ -121,20 +121,6 @@ const menuItems: MenuItem[] = [
     ],
   },
   {
-    id: 'employees',
-    label: 'Empleados',
-    icon: 'fas fa-user-cog',
-    path: '/employees',
-    submenu: [
-      {
-        id: 'employee-list',
-        label: 'Lista Empleados',
-        icon: 'fas fa-list',
-        path: '/empleados',
-      },
-    ],
-  },
-  {
     id: 'proveedores',
     label: 'Proveedores',
     icon: 'fas fa-parachute-box',
