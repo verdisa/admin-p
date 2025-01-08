@@ -39,12 +39,13 @@ const ProductItem: React.FC<ProductItemProps> = ({ product, addToCart }) => {
   const [, drag] = useDrag(() => ({
     type: 'product',
     item: product,
-    end: (item, monitor) => {
-      const dropResult = monitor.getDropResult();
-      if (item && dropResult) {
-        addToCart(item);
-      }
-    },
+    // Eliminamos la llamada a addToCart en "end" para que no se duplique
+    // end: (item, monitor) => {
+    //   const dropResult = monitor.getDropResult();
+    //   if (item && dropResult) {
+    //     addToCart(item);
+    //   }
+    // },
   }));
 
   return (

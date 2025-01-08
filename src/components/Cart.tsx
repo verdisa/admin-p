@@ -44,9 +44,11 @@ const Cart: React.FC<CartProps> = ({ items, setItems }) => {
     <div ref={drop} className="cart">
       <div className="cart-items">
         {items.map((item, index) => (
-          <div key={index} className="cart-item">
-            <span className="item-name">{item.name}</span>
-            <div className="item-quantity">Cantidad: {item.quantity}</div>
+          <div key={item.id} className="cart-item">
+            <div className="item-details">
+              <span className="item-name">{item.name}</span>
+              <span className="item-quantity">Cant: {item.quantity}</span>
+            </div>
             <div className="item-price-remove">
               <span className="item-price">${(item.price * item.quantity).toFixed(2)}</span>
               <button

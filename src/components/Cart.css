@@ -23,6 +23,11 @@
   width: 100%; /* Asegurar que ocupe todo el ancho disponible */
 }
 
+.item-details {
+  display: flex;
+  flex-direction: column;
+}
+
 .item-name {
   font-weight: 500;
 }

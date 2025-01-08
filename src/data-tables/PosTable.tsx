@@ -9,6 +9,7 @@ interface Product {
   id: string;
   name: string;
   price: number;
+  quantity?: number; // Agregamos la propiedad quantity
 }
 
 interface Category {
@@ -48,7 +49,16 @@ const PosTable: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState<string>(productCategories[0].name);
 
   const addToCart = (product: Product) => {
-    setCartItems(prevItems => [...prevItems, product]);
+    setCartItems(prevItems => {
+      const existingItem = prevItems.find(i => i.id === product.id);
+      if (existingItem) {
+        return prevItems.map(i =>
+          i.id === product.id ? { ...i, quantity: (i.quantity || 1) + 1 } : i
+        );
+      } else {
+        return [...prevItems, { ...product, quantity: 1 }];
+      }
+    });
   };
 
   return (
