@@ -3,19 +3,17 @@ import Navbar from '../components/Navbar';
 import Sidebar from '../components/Sidebar';
 import PosTable from '../data-tables/PosTable';
 
-const PosPage: React.FC = () => {
+
+
+export default function PosPage() {
   return (
     <div>
       <Navbar />
-      <div className="pos-container">
+      <div className="usuarios-container">
         <Sidebar />
-        <div className="content">
-          <h1>Gestión de POS</h1>
-          <PosTable />
-        </div>
+        <PosTable />
       </div>
     </div>
   );
-};
+}
 
-export default PosPage;

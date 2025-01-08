@@ -1,0 +1,51 @@
+.app {
+    display: flex;
+    height: 100vh;
+  }
+  
+  .products-section {
+    width: 66.67%;
+    padding: 1rem;
+    background-color: #f3f4f6;
+  }
+  
+  .cart-section {
+    width: 33.33%;
+    padding: 1rem;
+    background-color: white;
+  }
+  
+  h1, h2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+  }
+  
+  .category-buttons {
+    margin-bottom: 1rem;
+  }
+  
+  .category-button {
+    padding: 0.5rem 1rem;
+    margin-right: 0.5rem;
+    border-radius: 0.25rem;
+    background-color: #e5e7eb;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .category-button.active {
+    background-color: #3b82f6;
+    color: white;
+  }
+  
+  .product-lists {
+    height: calc(100vh - 200px);
+    overflow-y: auto;
+  }
+  
+  .hidden {
+    display: none;
+  }
+  
+  
