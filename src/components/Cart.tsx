@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDrop } from 'react-dnd';
 import './Cart.css';
 
@@ -15,6 +15,9 @@ interface CartProps {
 }
 
 const Cart: React.FC<CartProps> = ({ items, setItems }) => {
+  const [showModal, setShowModal] = useState(false);
+  const [showToast, setShowToast] = useState(false);
+
   const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const discount = subtotal * 0.1; // Ejemplo: 10% de descuento
   const tax = (subtotal - discount) * 0.15; // Ejemplo: 15% de impuestos
@@ -61,6 +64,46 @@ const Cart: React.FC<CartProps> = ({ items, setItems }) => {
       });
     },
   }));
+
+  const handleSale = () => {
+    setShowToast(true);
+    setTimeout(() => {
+      setShowToast(false);
+      setShowModal(true);
+    }, 1500);
+  };
+
+  const handleDownloadPdf = () => {
+    const content = `
+*********** LA TIENDITA S.A. ***********
+RTN: 080119991111
+Cliente: Juan Pérez
+Fecha: ${new Date().toLocaleString()}
+---------------------------------------
+Productos:
+${items
+  .map(
+    (item, idx) =>
+      `${idx + 1}. ${item.name}\n   Cantidad: ${item.quantity}\n   Precio: $${item.price.toFixed(
+        2
+      )}\n   Subtotal: $${(item.price * item.quantity).toFixed(2)}\n`
+  )
+  .join('\n')}
+---------------------------------------
+Subtotal: $${subtotal.toFixed(2)}
+Descuento: $${discount.toFixed(2)}
+Impuestos: $${tax.toFixed(2)}
+Total: $${total.toFixed(2)}
+********** ¡Gracias por su compra! **********
+`;
+    const blob = new Blob([content], { type: 'application/pdf' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = `Recibo-${Date.now()}.pdf`;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+  };
 
   return (
     <div ref={drop} className="cart">
@@ -112,7 +155,25 @@ const Cart: React.FC<CartProps> = ({ items, setItems }) => {
         <div className="cart-total">
           Total: ${total.toFixed(2)}
         </div>
+        <button className="sell-button" onClick={handleSale}>Vender</button>
       </div>
+
+      {showToast && (
+        <div className="toast-confirmation">
+          Confirmando venta...
+        </div>
+      )}
+
+      {showModal && (
+        <div className="modal-overlay" onClick={() => setShowModal(false)}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <h3>Vendido e imprimir recibo</h3>
+            <button className="print-button" onClick={handleDownloadPdf}>
+              Descargar PDF
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
