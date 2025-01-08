@@ -1,4 +1,5 @@
 import React from 'react';
+import { useDrop } from 'react-dnd';
 import './Cart.css';
 
 interface Product {
@@ -19,8 +20,13 @@ const Cart: React.FC<CartProps> = ({ items, setItems }) => {
     setItems(prevItems => prevItems.filter((_, i) => i !== index));
   };
 
+  const [, drop] = useDrop(() => ({
+    accept: 'product',
+    drop: () => ({ name: 'Cart' }),
+  }));
+
   return (
-    <div className="cart">
+    <div ref={drop} className="cart">
       {items.map((item, index) => (
         <div key={index} className="cart-item">
           <span className="item-name">{item.name}</span>
@@ -43,4 +49,3 @@ const Cart: React.FC<CartProps> = ({ items, setItems }) => {
 }
 
 export default Cart;
-

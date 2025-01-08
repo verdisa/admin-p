@@ -1,5 +1,5 @@
 import React from 'react';
-import { Droppable, Draggable } from 'react-beautiful-dnd';
+import { useDrag } from 'react-dnd';
 import './ProductList.css';
 
 interface Product {
@@ -15,34 +15,44 @@ interface Category {
 
 interface ProductListProps {
   category: Category;
+  addToCart: (product: Product) => void;
 }
 
-const ProductList: React.FC<ProductListProps> = ({ category }) => {
+const ProductList: React.FC<ProductListProps> = ({ category, addToCart }) => {
+  const { name, products } = category || { name: '', products: [] };
+
   return (
-    <Droppable droppableId={category.name}>
-      {(provided) => (
-        <div {...provided.droppableProps} ref={provided.innerRef} className="product-list">
-          {category.products.map((product, index) => (
-            <Draggable key={product.id} draggableId={product.id} index={index}>
-              {(provided) => (
-                <div
-                  ref={provided.innerRef}
-                  {...provided.draggableProps}
-                  {...provided.dragHandleProps}
-                  className="product-item"
-                >
-                  <span className="product-name">{product.name}</span>
-                  <span className="product-price">${product.price.toFixed(2)}</span>
-                </div>
-              )}
-            </Draggable>
-          ))}
-          {provided.placeholder}
-        </div>
-      )}
-    </Droppable>
+    <div className="product-list">
+      {products.map((product) => (
+        <ProductItem key={product.id} product={product} addToCart={addToCart} />
+      ))}
+    </div>
+  );
+}
+
+interface ProductItemProps {
+  product: Product;
+  addToCart: (product: Product) => void;
+}
+
+const ProductItem: React.FC<ProductItemProps> = ({ product, addToCart }) => {
+  const [, drag] = useDrag(() => ({
+    type: 'product',
+    item: product,
+    end: (item, monitor) => {
+      const dropResult = monitor.getDropResult();
+      if (item && dropResult) {
+        addToCart(item);
+      }
+    },
+  }));
+
+  return (
+    <div ref={drag} className="product-item">
+      <span className="product-name">{product.name}</span>
+      <span className="product-price">${product.price.toFixed(2)}</span>
+    </div>
   );
 }
 
 export default ProductList;
-
