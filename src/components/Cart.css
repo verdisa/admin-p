@@ -37,10 +37,11 @@
   font-weight: 500;
 }
 
-.item-price-remove {
+/* .item-price-remove {
   display: flex;
   align-items: center;
-}
+} 
+   Eliminada por no ser necesaria */
 
 .item-price {
   margin-right: 0.5rem;
@@ -54,6 +55,28 @@
   border-radius: 0.25rem;
   padding: 0.25rem 0.5rem;
   cursor: pointer;
+}
+
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.quantity-controls button {
+  background-color: #4b5563;
+  color: #ffffff;
+  border: none;
+  border-radius: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  cursor: pointer;
+}
+
+.quantity-controls input {
+  width: 3rem;
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
 }
 
 .cart-summary {
@@ -76,3 +99,13 @@
   text-align: right;
   margin-bottom: 1rem; /* Añadir margen inferior */
 }
+
+.name-price {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* .item-unit-price { 
+  Eliminar esta clase 
+} */

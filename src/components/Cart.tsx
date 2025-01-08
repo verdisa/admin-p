@@ -24,6 +24,28 @@ const Cart: React.FC<CartProps> = ({ items, setItems }) => {
     setItems(prevItems => prevItems.filter((_, i) => i !== index));
   };
 
+  const incrementQuantity = (index: number) => {
+    setItems(prevItems => {
+      return prevItems.map((item, i) => {
+        if (i === index) {
+          return { ...item, quantity: item.quantity + 1 };
+        }
+        return item;
+      });
+    });
+  };
+
+  const decrementQuantity = (index: number) => {
+    setItems(prevItems => {
+      return prevItems.map((item, i) => {
+        if (i === index && item.quantity > 1) {
+          return { ...item, quantity: item.quantity - 1 };
+        }
+        return item;
+      });
+    });
+  };
+
   const [, drop] = useDrop(() => ({
     accept: 'product',
     drop: (item: Product) => {
@@ -46,17 +68,33 @@ const Cart: React.FC<CartProps> = ({ items, setItems }) => {
         {items.map((item, index) => (
           <div key={item.id} className="cart-item">
             <div className="item-details">
-              <span className="item-name">{item.name}</span>
-              <span className="item-quantity">Cant: {item.quantity}</span>
-            </div>
-            <div className="item-price-remove">
-              <span className="item-price">${(item.price * item.quantity).toFixed(2)}</span>
-              <button
-                className="remove-button"
-                onClick={() => removeItem(index)}
-              >
-                X
-              </button>
+              <div className="name-price">
+                <span className="item-name">{item.name}</span>
+                <span className="item-price">
+                  ${(item.price * item.quantity).toFixed(2)}
+                </span>
+              </div>
+              <div className="quantity-controls">
+                <button onClick={() => decrementQuantity(index)}>
+                  <i className="fas fa-minus"></i>
+                </button>
+                <input
+                  type="number"
+                  min="1"
+                  value={item.quantity}
+                  onChange={(e) => {
+                    const newQty = parseInt(e.target.value, 10) || 1;
+                    setItems(prevItems =>
+                      prevItems.map((prev, i) =>
+                        i === index ? { ...prev, quantity: newQty } : prev
+                      )
+                    );
+                  }}
+                />
+                <button onClick={() => incrementQuantity(index)}>
+                  <i className="fas fa-plus"></i>
+                </button>
+              </div>
             </div>
           </div>
         ))}
