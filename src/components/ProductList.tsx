@@ -48,7 +48,11 @@ const ProductItem: React.FC<ProductItemProps> = ({ product, addToCart }) => {
   }));
 
   return (
-    <div ref={drag} className="product-item">
+    <div
+      ref={drag}
+      className="product-item"
+      onDoubleClick={() => addToCart(product)}
+    >
       <span className="product-name">{product.name}</span>
       <span className="product-price">${product.price.toFixed(2)}</span>
     </div>

@@ -1,46 +1,73 @@
 .cart {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .cart-item {
-    background-color: white;
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
-    border-radius: 0.5rem;
-    padding: 1rem;
-    margin-bottom: 0.5rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .item-name {
-    font-weight: 500;
-  }
-  
-  .item-price-remove {
-    display: flex;
-    align-items: center;
-  }
-  
-  .item-price {
-    margin-right: 0.5rem;
-    font-weight: 600;
-  }
-  
-  .remove-button {
-    background-color: #ef4444;
-    color: white;
-    border: none;
-    border-radius: 0.25rem;
-    padding: 0.25rem 0.5rem;
-    cursor: pointer;
-  }
-  
-  .cart-total {
-    margin-top: 1rem;
-    font-size: 1.25rem;
-    font-weight: bold;
-  }
-  
-  
+  display: flex;
+  flex-direction: row; /* Cambiar a fila */
+  height: 100%;
+  width: 100%;
+}
+
+.cart-items {
+  flex: 3; /* Ajustar el tamaño relativo para ocupar más espacio */
+  overflow-y: auto;
+  margin-right: 1rem; /* Añadir margen derecho */
+}
+
+.cart-item {
+  background-color: white;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin-bottom: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%; /* Asegurar que ocupe todo el ancho disponible */
+}
+
+.item-name {
+  font-weight: 500;
+}
+
+.item-quantity {
+  margin-right: 1rem;
+  font-weight: 500;
+}
+
+.item-price-remove {
+  display: flex;
+  align-items: center;
+}
+
+.item-price {
+  margin-right: 0.5rem;
+  font-weight: 600;
+}
+
+.remove-button {
+  background-color: #ef4444;
+  color: white;
+  border: none;
+  border-radius: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  cursor: pointer;
+}
+
+.cart-summary {
+  flex: 2; /* Ajustar el tamaño relativo para ocupar más espacio */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.cart-summary div {
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.cart-total {
+  font-size: 1.25rem;
+  font-weight: bold;
+  text-align: right;
+  margin-bottom: 1rem; /* Añadir margen inferior */
+}

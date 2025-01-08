@@ -53,9 +53,9 @@ const PosTable: React.FC = () => {
 
   return (
     <DndProvider backend={HTML5Backend}>
-      <div className="app">
-        <div className="products-section">
-          <h1>Productos</h1>
+      <div className="pos-container">
+        <div className="sidebar">
+          <h1>Categorías</h1>
           <div className="category-buttons">
             {productCategories.map(category => (
               <button
@@ -67,6 +67,9 @@ const PosTable: React.FC = () => {
               </button>
             ))}
           </div>
+        </div>
+        <div className="products-section">
+          <h1>Productos</h1>
           <div className="product-lists">
             {productCategories.map(category => (
               <div key={category.name} className={activeCategory === category.name ? 'active' : 'hidden'}>

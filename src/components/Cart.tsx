@@ -6,6 +6,7 @@ interface Product {
   id: string;
   name: string;
   price: number;
+  quantity: number;
 }
 
 interface CartProps {
@@ -14,7 +15,10 @@ interface CartProps {
 }
 
 const Cart: React.FC<CartProps> = ({ items, setItems }) => {
-  const total = items.reduce((sum, item) => sum + item.price, 0);
+  const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const discount = subtotal * 0.1; // Ejemplo: 10% de descuento
+  const tax = (subtotal - discount) * 0.15; // Ejemplo: 15% de impuestos
+  const total = subtotal - discount + tax;
 
   const removeItem = (index: number) => {
     setItems(prevItems => prevItems.filter((_, i) => i !== index));
@@ -22,27 +26,52 @@ const Cart: React.FC<CartProps> = ({ items, setItems }) => {
 
   const [, drop] = useDrop(() => ({
     accept: 'product',
-    drop: () => ({ name: 'Cart' }),
+    drop: (item: Product) => {
+      setItems(prevItems => {
+        const existingItem = prevItems.find(i => i.id === item.id);
+        if (existingItem) {
+          return prevItems.map(i =>
+            i.id === item.id ? { ...i, quantity: i.quantity + 1 } : i
+          );
+        } else {
+          return [...prevItems, { ...item, quantity: 1 }];
+        }
+      });
+    },
   }));
 
   return (
     <div ref={drop} className="cart">
-      {items.map((item, index) => (
-        <div key={index} className="cart-item">
-          <span className="item-name">{item.name}</span>
-          <div className="item-price-remove">
-            <span className="item-price">${item.price.toFixed(2)}</span>
-            <button
-              className="remove-button"
-              onClick={() => removeItem(index)}
-            >
-              X
-            </button>
+      <div className="cart-items">
+        {items.map((item, index) => (
+          <div key={index} className="cart-item">
+            <span className="item-name">{item.name}</span>
+            <div className="item-quantity">Cantidad: {item.quantity}</div>
+            <div className="item-price-remove">
+              <span className="item-price">${(item.price * item.quantity).toFixed(2)}</span>
+              <button
+                className="remove-button"
+                onClick={() => removeItem(index)}
+              >
+                X
+              </button>
+            </div>
           </div>
+        ))}
+      </div>
+      <div className="cart-summary">
+        <div className="cart-subtotal">
+          Subtotal: ${subtotal.toFixed(2)}
         </div>
-      ))}
-      <div className="cart-total">
-        Total: ${total.toFixed(2)}
+        <div className="cart-discount">
+          Descuento: -${discount.toFixed(2)}
+        </div>
+        <div className="cart-tax">
+          Impuestos: ${tax.toFixed(2)}
+        </div>
+        <div className="cart-total">
+          Total: ${total.toFixed(2)}
+        </div>
       </div>
     </div>
   );
