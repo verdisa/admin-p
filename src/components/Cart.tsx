@@ -137,6 +137,9 @@ Total: $${total.toFixed(2)}
                 <button onClick={() => incrementQuantity(index)}>
                   <i className="fas fa-plus"></i>
                 </button>
+                <button onClick={() => removeItem(index)}>
+                  <i className="fas fa-trash"></i>
+                </button>
               </div>
             </div>
           </div>
