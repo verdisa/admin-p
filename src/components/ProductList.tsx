@@ -56,6 +56,9 @@ const ProductItem: React.FC<ProductItemProps> = ({ product, addToCart }) => {
     >
       <span className="product-name">{product.name}</span>
       <span className="product-price">${product.price.toFixed(2)}</span>
+      <button className="add-button" onClick={() => addToCart(product)}>
+        <i className="fas fa-plus"></i> 
+      </button>
     </div>
   );
 }

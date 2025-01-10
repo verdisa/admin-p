@@ -23,3 +23,12 @@
   font-weight: 600;
 }
 
+
+.add-button {
+  background-color: #4b5563;
+  color: #ffffff;
+  border: none;
+  border-radius: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  cursor: pointer;
+}
