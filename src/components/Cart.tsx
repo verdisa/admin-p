@@ -147,9 +147,9 @@ const Cart: React.FC<CartProps> = ({ items, setItems }) => {
   
     // Resumen
     currentY += 10;
-    doc.text(`Subtotal: $${subtotal.toFixed(2)}`, 150, currentY, { align: "right" });
-    doc.text(`Impuestos (15%): $${tax.toFixed(2)}`, 150, currentY + 6, { align: "right" });
-    doc.text(`Total: $${total.toFixed(2)}`, 150, currentY + 12, { align: "right" });
+    doc.text(`Subtotal: $${subtotal.toFixed(2)}`, 180, currentY, { align: "right" });
+    doc.text(`Impuestos (15%): $${tax.toFixed(2)}`, 180, currentY + 6, { align: "right" });
+    doc.text(`Total: $${total.toFixed(2)}`, 180, currentY + 12, { align: "right" });
   
     // Pie de página
     currentY += 20;
