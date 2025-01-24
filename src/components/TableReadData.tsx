@@ -57,7 +57,14 @@ const TableReadData = <T extends { [key: string]: any }>(
 
   return (
     <table className="users-table">
-      <thead><tr>{columns.map((column) => <th key={column}>{columnNames[column] || column}</th>)}</tr></thead>
+      <thead>
+        <tr>
+          {columns.map((column) => (
+            <th key={column}>{columnNames[column] || column}</th>
+          ))}
+          {onDelete && <th>Acciones</th>} {/* Columna de acciones */}
+        </tr>
+      </thead>
       <tbody>
         {data.map((row, rowIndex) => (
           <tr key={rowIndex}>
