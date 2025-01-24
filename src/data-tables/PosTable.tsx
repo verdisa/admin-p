@@ -29,7 +29,13 @@ const PosTable: React.FC = () => {
 
     const categoriesWithProducts = storedCategories.map((category: any) => ({
       ...category,
-      products: storedProducts.filter((product: any) => product.IdCategory === category.uid)
+      products: storedProducts
+        .filter((product: any) => product.IdCategory === category.uid)
+        .map((p: any) => ({
+          id: p.uid,
+          name: p.name,
+          price: p.price
+        }))
     }));
 
     setCategories(categoriesWithProducts);
