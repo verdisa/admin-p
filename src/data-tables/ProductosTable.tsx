@@ -120,6 +120,13 @@ const ProductosTable = () => {
       data.IdCategory = found.uid;
       data.categoryName = found.name;
     }
+
+    // Validar que price y stock sean números
+    if (isNaN(data.price) || isNaN(data.stock)) {
+      alert("El precio y el stock deben ser números.");
+      return;
+    }
+
     handleAddProducto(data as Omit<Producto, 'uid'>);
   };
 

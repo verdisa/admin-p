@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import ProductList from '../components/ProductList';
@@ -9,44 +9,34 @@ interface Product {
   id: string;
   name: string;
   price: number;
-  quantity?: number; // Agregamos la propiedad quantity
+  quantity?: number;
 }
 
 interface Category {
+  uid: string;
   name: string;
   products: Product[];
 }
 
-const productCategories: Category[] = [
-  {
-    name: "Bebidas",
-    products: [
-      { id: "bebidas-1", name: "Café", price: 2.5 },
-      { id: "bebidas-2", name: "Té", price: 2.0 },
-      { id: "bebidas-3", name: "Jugo de naranja", price: 3.0 },
-    ]
-  },
-  {
-    name: "Comidas",
-    products: [
-      { id: "comidas-1", name: "Sandwich", price: 5.0 },
-      { id: "comidas-2", name: "Ensalada", price: 6.0 },
-      { id: "comidas-3", name: "Pizza", price: 8.0 },
-    ]
-  },
-  {
-    name: "Postres",
-    products: [
-      { id: "postres-1", name: "Tarta de manzana", price: 4.0 },
-      { id: "postres-2", name: "Helado", price: 3.5 },
-      { id: "postres-3", name: "Brownie", price: 3.0 },
-    ]
-  }
-];
-
 const PosTable: React.FC = () => {
   const [cartItems, setCartItems] = useState<Product[]>([]);
-  const [activeCategory, setActiveCategory] = useState<string>(productCategories[0].name);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [activeCategory, setActiveCategory] = useState<string>('');
+
+  useEffect(() => {
+    const storedCategories = JSON.parse(localStorage.getItem("categories") || "[]");
+    const storedProducts = JSON.parse(localStorage.getItem("productos") || "[]");
+
+    const categoriesWithProducts = storedCategories.map((category: any) => ({
+      ...category,
+      products: storedProducts.filter((product: any) => product.IdCategory === category.uid)
+    }));
+
+    setCategories(categoriesWithProducts);
+    if (categoriesWithProducts.length > 0) {
+      setActiveCategory(categoriesWithProducts[0].uid);
+    }
+  }, []);
 
   const addToCart = (product: Product) => {
     setCartItems(prevItems => {
@@ -67,11 +57,11 @@ const PosTable: React.FC = () => {
         <div className="sidebar">
           <h1>Categorías</h1>
           <div className="category-buttons">
-            {productCategories.map(category => (
+            {categories.map(category => (
               <button
-                key={category.name}
-                className={`category-button ${activeCategory === category.name ? 'active' : ''}`}
-                onClick={() => setActiveCategory(category.name)}
+                key={category.uid}
+                className={`category-button ${activeCategory === category.uid ? 'active' : ''}`}
+                onClick={() => setActiveCategory(category.uid)}
               >
                 {category.name}
               </button>
@@ -81,8 +71,8 @@ const PosTable: React.FC = () => {
         <div className="products-section">
           <h1>Productos</h1>
           <div className="product-lists">
-            {productCategories.map(category => (
-              <div key={category.name} className={activeCategory === category.name ? 'active' : 'hidden'}>
+            {categories.map(category => (
+              <div key={category.uid} className={activeCategory === category.uid ? 'active' : 'hidden'}>
                 <ProductList category={category} addToCart={addToCart} />
               </div>
             ))}

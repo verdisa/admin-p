@@ -5,7 +5,7 @@ import './ProductList.css';
 interface Product {
   id: string;
   name: string;
-  price: number;
+  price: number | string;
 }
 
 interface Category {
@@ -39,14 +39,9 @@ const ProductItem: React.FC<ProductItemProps> = ({ product, addToCart }) => {
   const [, drag] = useDrag(() => ({
     type: 'product',
     item: product,
-    // Eliminamos la llamada a addToCart en "end" para que no se duplique
-    // end: (item, monitor) => {
-    //   const dropResult = monitor.getDropResult();
-    //   if (item && dropResult) {
-    //     addToCart(item);
-    //   }
-    // },
   }));
+
+  const price = typeof product.price === 'number' ? product.price : parseFloat(product.price);
 
   return (
     <div
@@ -55,7 +50,7 @@ const ProductItem: React.FC<ProductItemProps> = ({ product, addToCart }) => {
       onDoubleClick={() => addToCart(product)}
     >
       <span className="product-name">{product.name}</span>
-      <span className="product-price">${product.price.toFixed(2)}</span>
+      <span className="product-price">${price.toFixed(2)}</span>
       <button className="add-button" onClick={() => addToCart(product)}>
         <i className="fas fa-plus"></i> 
       </button>
