@@ -41,7 +41,7 @@ const ProductosTable = () => {
   const handleSaveProducto = async (updatedRow: Producto) => {
     try {
       if (updatedRow.IdCategory) {
-        const foundCategory = categories.find((cat) => cat.id === updatedRow.IdCategory);
+        const foundCategory = categories.find((cat) => cat.uid === updatedRow.IdCategory);
         updatedRow.categoryName = foundCategory ? foundCategory.name : 'Sin categoría';
       }
       await handleSave('productos', updatedRow);
@@ -58,7 +58,7 @@ const ProductosTable = () => {
 
   const handleAddProducto = async (newProducto: Omit<Producto, 'uid'>) => {
     try {
-      const foundCategory = categories.find((cat) => cat.id === newProducto.IdCategory);
+      const foundCategory = categories.find((cat) => cat.uid === newProducto.IdCategory);
       const categoryName = foundCategory ? foundCategory.name : 'Sin categoría';
 
       const timestamp = new Date(); // Fecha actual
@@ -113,6 +113,16 @@ const ProductosTable = () => {
 
   const editableColumns = ['name', 'description', 'price', 'stock', 'isActive'];
 
+  const handleAddModalSave = (data: any) => {
+    const categories = JSON.parse(localStorage.getItem("categories") || "[]");
+    const found = categories.find((cat: { uid: string; name: string }) => cat.uid === data.IdCategory);
+    if (found) {
+      data.IdCategory = found.uid;
+      data.categoryName = found.name;
+    }
+    handleAddProducto(data as Omit<Producto, 'uid'>);
+  };
+
   return (
     <div className="users-container">
       <h1>Productos</h1>
@@ -136,15 +146,15 @@ const ProductosTable = () => {
             { key: 'description', label: 'Descripción' },
             { key: 'price', label: 'Precio' },
             { key: 'stock', label: 'Stock' },
-            { key: 'isActive', label: 'Activo', type: 'select', options: ['true', 'false'] },
+            { key: 'isActive', label: 'Activo', type: 'select', options: [{ id: 'true', name: 'Sí' }, { id: 'false', name: 'No' }] },
             {
               key: 'IdCategory',
               label: 'Categoría',
               type: 'select',
-              options: categories.map((c) => ({ id: c.id, name: c.name }))
+              options: categories.map((c) => ({ id: c.uid, name: c.name }))
             }
           ]}
-          onSave={(data) => handleAddProducto(data as Omit<Producto, 'uid'>)}
+          onSave={handleAddModalSave}
           onClose={() => setIsModalOpen(false)}
         />
       )}

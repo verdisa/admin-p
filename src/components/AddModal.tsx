@@ -20,8 +20,7 @@ const AddModal: React.FC<AddModalProps> = ({ fields, onSave, onClose }) => {
     const initialData: { [key: string]: any } = {};
     fields.forEach(field => {
       if (field.type === 'select' && field.options && field.options.length > 0) {
-        // Para campos select, usar la primera opción como valor inicial
-        initialData[field.key] = field.options[0].id;
+        initialData[field.key] = '';
       } else if (field.type === 'checkbox') {
         initialData[field.key] = false;
       } else {
@@ -33,21 +32,10 @@ const AddModal: React.FC<AddModalProps> = ({ fields, onSave, onClose }) => {
 
   const handleInputChange = (key: string, value: any) => {
     setFormData(prev => ({ ...prev, [key]: value }));
-    if (key === 'IdCategory') {
-      const categories = JSON.parse(localStorage.getItem("categories") || "[]");
-      const found = categories.find((cat: { id: string; name: string }) => cat.id === value);
-      setFormData(prev => ({ ...prev, categoryName: found ? found.name : '' }));
-    }
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const categories = JSON.parse(localStorage.getItem("categories") || "[]");
-    const found = categories.find((cat: { id: string; name: string }) => cat.id === formData.IdCategory);
-    if (found) {
-      formData.IdCategory = found.id;
-      formData.categoryName = found.name;
-    }
     onSave(formData);
   };
 
@@ -61,20 +49,7 @@ const AddModal: React.FC<AddModalProps> = ({ fields, onSave, onClose }) => {
               {field.type === 'select' && field.options ? (
                 <select
                   value={formData[field.key] || ''}
-                  onChange={(e) => {
-                    handleInputChange(field.key, e.target.value);
-                    if (field.key === 'IdCategory') {
-                      const categories = JSON.parse(localStorage.getItem("categories") || "[]");
-                      const found = categories.find((cat: { id: string; name: string }) => cat.name === e.target.value);
-                      console.log('found', found);
-                      setFormData((prev) => ({
-                        ...prev,
-                        categoryName: found ? found.name : '',
-                        IdCategory: found ? found.uid : ''
-
-                      }));
-                    }
-                  }}
+                  onChange={(e) => handleInputChange(field.key, e.target.value)}
                 >
                   <option key={`${field.key}-default`} value="">
                     Seleccione una opción
