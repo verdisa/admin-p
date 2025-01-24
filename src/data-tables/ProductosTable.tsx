@@ -7,6 +7,7 @@ import AddModal from '../components/AddModal';
 const ProductosTable = () => {
   const [productos, setProductos] = useState<Producto[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [categories, setCategories] = useState<any[]>([]);
 
   useEffect(() => {
     const fetchProductos = async () => {
@@ -27,10 +28,22 @@ const ProductosTable = () => {
     };
 
     fetchProductos();
+
+    const storedCategories = localStorage.getItem("categories");
+    if (storedCategories) {
+      setCategories(JSON.parse(storedCategories));
+    } else {
+      // Si no hay datos en localStorage, puedes cargarlos desde Firebase
+      // y guardarlos en localStorage, tal como se hace con "productos"
+    }
   }, []);
 
   const handleSaveProducto = async (updatedRow: Producto) => {
     try {
+      if (updatedRow.IdCategory) {
+        const foundCategory = categories.find((cat) => cat.id === updatedRow.IdCategory);
+        updatedRow.categoryName = foundCategory ? foundCategory.name : 'Sin categoría';
+      }
       await handleSave('productos', updatedRow);
       setProductos((prevProductos) => {
         const updatedProductos = prevProductos.map((producto) => (producto.uid === updatedRow.uid ? updatedRow : producto));
@@ -45,9 +58,13 @@ const ProductosTable = () => {
 
   const handleAddProducto = async (newProducto: Omit<Producto, 'uid'>) => {
     try {
+      const foundCategory = categories.find((cat) => cat.id === newProducto.IdCategory);
+      const categoryName = foundCategory ? foundCategory.name : 'Sin categoría';
+
       const timestamp = new Date(); // Fecha actual
       const productoWithDefaults = {
         ...newProducto,
+        categoryName,
         createdAt: { seconds: Math.floor(timestamp.getTime() / 1000), nanoseconds: (timestamp.getTime() % 1000) * 1000000 }, // Agrega la fecha actual
         isActive: true, // Marca como activo por defecto
       };
@@ -83,12 +100,13 @@ const ProductosTable = () => {
     }
   };
 
-  const columns = ['name', 'description', 'price', 'stock', 'createdAt', 'isActive'];
+  const columns = ['name', 'description', 'price', 'stock', 'categoryName', 'createdAt', 'isActive'];
   const columnNames = {
     name: 'Nombre',
     description: 'Descripción',
     price: 'Precio',
     stock: 'Stock',
+    categoryName: 'Categoría',
     createdAt: 'Fecha de Creación',
     isActive: 'Activo',
   };
@@ -119,6 +137,12 @@ const ProductosTable = () => {
             { key: 'price', label: 'Precio' },
             { key: 'stock', label: 'Stock' },
             { key: 'isActive', label: 'Activo', type: 'select', options: ['true', 'false'] },
+            {
+              key: 'IdCategory',
+              label: 'Categoría',
+              type: 'select',
+              options: categories.map((c) => ({ id: c.id, name: c.name }))
+            }
           ]}
           onSave={(data) => handleAddProducto(data as Omit<Producto, 'uid'>)}
           onClose={() => setIsModalOpen(false)}

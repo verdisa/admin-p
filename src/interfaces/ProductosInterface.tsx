@@ -9,4 +9,6 @@ export interface Producto {
     nanoseconds: number;
   };
   isActive?: boolean;
+  IdCategory?: string; // Campo para la categoría
+  categoryName?: string; // Campo para el nombre de la categoría
 }
