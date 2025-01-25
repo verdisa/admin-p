@@ -35,33 +35,33 @@ export const handleDownloadPdf = (items: Product[]) => {
   doc.text(contact, 10, 36);
 
   // Título
-  doc.setFontSize(18);
-  doc.text("PROFORMA", 150, 20);
+  doc.setFontSize(22);
+  doc.text("PROFORMA", 150, 10);
 
   // Información de factura
   doc.setFontSize(10);
   doc.setFont(undefined, 'bold');
-  doc.text("No. Proforma:", 130, 46);
-  doc.text("Fecha:", 130, 50);
-  doc.text("Orden:", 130, 54);
+  doc.text("No. Proforma:", 140, 46, { align: "right" });
+  doc.text("Fecha:", 140, 50, { align: "right" });
+  doc.text("Orden:", 140, 54, { align: "right" });
   doc.setFont(undefined, 'normal');
-  doc.text(invoiceNumber, 160, 46);
-  doc.text(date, 160, 50);
-  doc.text(order, 160, 54);
+  doc.text(invoiceNumber, 195, 46, { align: "right" });
+  doc.text(date, 195, 50, { align: "right" });
+  doc.text(order, 195, 54, { align: "right" });
 
   // Información del cliente
   doc.setFont(undefined, 'bold');
-  doc.text("Facturar a:", 130, 62);
-  doc.text("RTN:", 130, 66);
-  doc.text("Contacto:", 130, 70);
-  doc.text("Tel:", 130, 74);
-  doc.text("Email:", 130, 78);
+  doc.text("Facturar a:", 140, 62, { align: "right" });
+  doc.text("RTN:", 140, 66, { align: "right" });
+  doc.text("Contacto:", 140, 70, { align: "right" });
+  doc.text("Tel:", 140, 74, { align: "right" });
+  doc.text("Email:", 140, 78, { align: "right" });
   doc.setFont(undefined, 'normal');
-  doc.text(customerName, 160, 62);
-  doc.text(customerRTN, 160, 66);
-  doc.text(customerContact, 160, 70);
-  doc.text(customerTel, 160, 74);
-  doc.text(customerEmail, 160, 78);
+  doc.text(customerName, 195, 62, { align: "right" });
+  doc.text(customerRTN, 195, 66, { align: "right" });
+  doc.text(customerContact, 195, 70, { align: "right" });
+  doc.text(customerTel, 195, 74, { align: "right" });
+  doc.text(customerEmail, 195, 78, { align: "right" });
 
   // Tabla de productos
   const startY = 90;
@@ -69,8 +69,8 @@ export const handleDownloadPdf = (items: Product[]) => {
   doc.text("Item", 10, startY);
   doc.text("Descripción", 30, startY);
   doc.text("Cant.", 130, startY, { align: "right" });
-  doc.text("Precio Unit", 150, startY, { align: "right" });
-  doc.text("Total", 180, startY, { align: "right" });
+  doc.text("Precio Unit", 165, startY, { align: "right" });
+  doc.text("Total", 195, startY, { align: "right" });
 
   let currentY = startY + 6;
 
@@ -79,16 +79,16 @@ export const handleDownloadPdf = (items: Product[]) => {
     doc.text(`${index + 1}`, 10, currentY);
     doc.text(item.name, 30, currentY);
     doc.text(`${item.quantity}`, 130, currentY, { align: "right" });
-    doc.text(`$${price.toFixed(2)}`, 150, currentY, { align: "right" });
-    doc.text(`$${(item.quantity * price).toFixed(2)}`, 180, currentY, { align: "right" });
+    doc.text(`$${price.toFixed(2)}`, 165, currentY, { align: "right" });
+    doc.text(`$${(item.quantity * price).toFixed(2)}`, 195, currentY, { align: "right" });
     currentY += 6;
   });
 
   // Resumen
   currentY += 10;
-  doc.text(`Subtotal: $${subtotal.toFixed(2)}`, 180, currentY, { align: "right" });
-  doc.text(`Impuestos (15%): $${tax.toFixed(2)}`, 180, currentY + 6, { align: "right" });
-  doc.text(`Total: $${total.toFixed(2)}`, 180, currentY + 12, { align: "right" });
+  doc.text(`Subtotal: $${subtotal.toFixed(2)}`, 195, currentY, { align: "right" });
+  doc.text(`Impuestos (15%): $${tax.toFixed(2)}`, 195, currentY + 6, { align: "right" });
+  doc.text(`Total: $${total.toFixed(2)}`, 195, currentY + 12, { align: "right" });
 
   // Pie de página
   currentY += 20;
