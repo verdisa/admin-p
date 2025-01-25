@@ -63,6 +63,7 @@ const AddModal: React.FC<AddModalProps> = ({ fields, onSave, onClose }) => {
               ) : (
                 <input
                   type={field.type || 'text'}
+                  id={field.key}
                   value={formData[field.key] || ''}
                   onChange={(e) => handleInputChange(field.key, e.target.value)}
                 />

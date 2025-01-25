@@ -79,7 +79,6 @@ const Clientes = () => {
   const columns = ['nombre', 'apellidos', 'email', 'telefono', 'rtn', 'contacto', 'direccion', 'companyName', 'cai', 'address', 'contact', 'invoiceNumber', 'date', 'order', 'costumerEnvoiceFileName', 'costumerBusinessName', 'costumerBusinessWithNumber', 'envoiceFooter'];
   const columnNames = {
     nombre: 'Nombre',
-    apellidos: 'Apellidos',
     email: 'Correo Electrónico',
     telefono: 'Teléfono',
     rtn: 'RTN',
@@ -120,7 +119,6 @@ const Clientes = () => {
         <AddModal
           fields={[
             { key: 'nombre', label: 'Nombre' },
-            { key: 'apellidos', label: 'Apellidos' },
             { key: 'email', label: 'Correo Electrónico' },
             { key: 'telefono', label: 'Teléfono' },
             { key: 'rtn', label: 'RTN' },
