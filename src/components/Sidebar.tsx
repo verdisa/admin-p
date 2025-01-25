@@ -73,6 +73,20 @@ const menuItems: MenuItem[] = [
     ],
   },
   {
+    id: 'clientes',
+    label: 'Clientes',
+    icon: 'fas fa-users',
+    path: '/clientes',
+    submenu: [
+      {
+        id: 'clientes-list',
+        label: 'Lista Clientes',
+        icon: 'fas fa-list',
+        path: '/clientes',
+      },
+    ],
+  },
+  {
     id: 'products',
     label: 'Productos',
     icon: 'fas fa-box',

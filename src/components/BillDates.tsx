@@ -13,13 +13,24 @@ export const handleDownloadPdf = (items: Product[]) => {
   const date = "23-Jan-2025";
   const order = "Josue Pastor";
   const customerName = "JOSUE PASTOR";
+  const costumerEnvoiceFile = "Proforma";
   const customerRTN = "0000000000";
   const customerContact = "Ing. Josué Miguel Pastor";
   const customerTel = "2233-9277";
   const customerEmail = "jmpastor18@hotmail.com";
+  const costumerBusinessName = "PROFORMA";
+  const costumerBusinessWithNumber = "No. Proforma";
 
+
+  // Envoice data
+  const envoiceFooter = "Proforma Sujeta Aceptación con Firma de Contrato\nPrecio no incluye la instalación";
+
+
+  // Cálculos
+  const principalISv = 0.15;
+  const secundaryIsv = 0.18;
   const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  const tax = subtotal * 0.15; // 15% ISV
+  const tax = subtotal * principalISv; // 15% ISV
   const total = subtotal + tax;
 
   // Crear PDF
@@ -36,12 +47,12 @@ export const handleDownloadPdf = (items: Product[]) => {
 
   // Título
   doc.setFontSize(22);
-  doc.text("PROFORMA", 150, 10);
+  doc.text(costumerBusinessName, 150, 10);
 
   // Información de factura
   doc.setFontSize(10);
   doc.setFont(undefined, 'bold');
-  doc.text("No. Proforma:", 140, 46, { align: "right" });
+  doc.text(costumerBusinessWithNumber, 140, 46, { align: "right" });
   doc.text("Fecha:", 140, 50, { align: "right" });
   doc.text("Orden:", 140, 54, { align: "right" });
   doc.setFont(undefined, 'normal');
@@ -92,11 +103,11 @@ export const handleDownloadPdf = (items: Product[]) => {
 
   // Pie de página
   currentY += 20;
-  doc.text("Proforma Sujeta Aceptación con Firma de Contrato", 10, currentY);
-  doc.text("Precio no incluye la instalación", 10, currentY + 6);
+  doc.text(envoiceFooter, 10, currentY);
+  //doc.text("Precio no incluye la instalación", 10, currentY + 6);
 
   // Descargar PDF
-  doc.save(`Proforma-${Date.now()}.pdf`);
+  doc.save(`${costumerEnvoiceFile}-${Date.now()}.pdf`);
 };
 
 const BillDates = () => {
