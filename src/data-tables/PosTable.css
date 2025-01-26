@@ -10,6 +10,25 @@
   color: #ffffff;
 }
 
+.icon-menu {
+  display: flex;
+  justify-content: flex-end; /* Alinea los iconos a la derecha */
+  gap: 0.1rem; /* Reduce el espacio entre los iconos */
+  margin-top: 0.1rem;
+}
+
+.icon-menu-item {
+  display: flex;
+  align-items: center;
+  padding: 0.3rem;
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.icon-menu-item i {
+  margin-right: 0.4 rem;
+}
+
 .products-section {
   padding: 1rem;
   background-color: #f3f4f6;
@@ -65,4 +84,3 @@ h1, h2 {
   font-weight: bold;
   text-align: right;
 }
-

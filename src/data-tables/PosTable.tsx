@@ -61,6 +61,14 @@ const PosTable: React.FC = () => {
     <DndProvider backend={HTML5Backend}>
       <div className="pos-container">
         <div className="sidebar">
+          <div className="icon-menu">
+            <a href="/config-factura" className="icon-menu-item">
+              <i className="fas fa-file-invoice"></i>
+            </a>
+            <a href="/config-usuario" className="icon-menu-item">
+              <i className="fas fa-user-cog"></i>
+            </a>
+          </div>
           <h1>Categorías</h1>
           <div className="category-buttons">
             {categories.map(category => (
@@ -92,5 +100,4 @@ const PosTable: React.FC = () => {
     </DndProvider>
   );
 }
-
 export default PosTable;
