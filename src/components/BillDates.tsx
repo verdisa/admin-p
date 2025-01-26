@@ -42,8 +42,6 @@ export const handleDownloadPdf = (items: Product[], subtotalL: number, subtotal:
   subtotal = Number(subtotal) || 0;
   total = Number(total) || 0;
 
-
-
   // Obtener datos del cliente comprador desde localStorage
   const clienteComprador = JSON.parse(localStorage.getItem('clienteComprador') || '{}');
   
@@ -150,8 +148,8 @@ export const handleDownloadPdf = (items: Product[], subtotalL: number, subtotal:
   doc.text(`Descuento: -$${discount.toFixed(2)}`, 195, currentY + 24, { align: "right" });
   doc.text(`Gravados (18%): $${(importeGravable - discount).toFixed(2)}`, 195, currentY + 30, { align: "right" });
   doc.text(`Sub Total neto L.: $${subtotal.toFixed(2)}`, 195, currentY + 36, { align: "right" });
-  doc.text(`ISV (${principalISv*100}%): $${principalTax.toFixed(2)}`, 195, currentY + 42, { align: "right" });
-  doc.text(`ISV (${secundaryIsv*100}%): $${secundaryTax.toFixed(2)}`, 195, currentY + 48, { align: "right" });
+  doc.text(`ISV (${principalISv}%): $${principalTax.toFixed(2)}`, 195, currentY + 42, { align: "right" });
+  doc.text(`ISV (${secundaryIsv}%): $${secundaryTax.toFixed(2)}`, 195, currentY + 48, { align: "right" });
   doc.setFontSize(10);
   doc.setFont(undefined, 'bold');
   doc.text(`TOTAL: $${total.toFixed(2)}`, 195, currentY + 54, { align: "right" });

@@ -26,13 +26,13 @@ const Cart: React.FC<CartProps> = ({ items, setItems }) => {
   const importeExonerado = items.filter(item => item.type === 'exonerado').reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   const subtotalL = importeGravable + importeExento + importeExonerado;
-  const discountAmount = facturaData.discountAmount || 0.0;
-  const discount = subtotalL * discountAmount; // Ejemplo: 0% de descuento
-  const principalISv = facturaData.principalISv || 0.15;
-  const secundaryIsv = facturaData.secundaryIsv || 0.00;
-  const principalTax = (importeGravable - discount) * principalISv; // Aplicar ISV principal al importe gravable
-  const secundaryTax = (importeGravable - discount) * secundaryIsv; // Aplicar ISV secundario al importe gravable
-  const totalTax = principalTax + secundaryTax; // Sumar ambos ISV
+  const discountAmount = (facturaData.discountAmount || 0) / 100;
+  const discount = subtotalL * discountAmount;
+  const principalISv = (facturaData.principalISv || 15) / 100;
+  const secundaryIsv = (facturaData.secundaryIsv || 0) / 100;
+  const principalTax = (importeGravable - discount) * principalISv;
+  const secundaryTax = (importeGravable - discount) * secundaryIsv;
+  const totalTax = principalTax + secundaryTax;
   const subtotal = subtotalL - discount;
   const total = subtotal + totalTax;
   
@@ -135,10 +135,10 @@ const Cart: React.FC<CartProps> = ({ items, setItems }) => {
           SubTotal: ${subtotal.toFixed(2)}
         </div>
         <div className="cart-tax">
-          ISV ({principalISv*100}%): ${principalTax.toFixed(2)}
+          ISV ({principalISv * 100}%): ${principalTax.toFixed(2)}
         </div>
         <div className="cart-tax">
-          ISV ({secundaryIsv*100}%): ${secundaryTax.toFixed(2)}
+          ISV ({secundaryIsv * 100}%): ${secundaryTax.toFixed(2)}
         </div>
         <div className="cart-total">
           TOTAL: ${total.toFixed(2)}

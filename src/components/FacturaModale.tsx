@@ -12,9 +12,9 @@ const FacturaModale: React.FC<FacturaModaleProps> = ({ onClose }) => {
     rango: "000000000001 al 000000000100",
     address: "Residencial Altos del Comercio\n3era cuadra izquierda 3era casa izquierda",
     contact: "Tel: +504 2705-9182 | info@solsolenergy.com",
-    principalISv: 0.15,
-    secundaryIsv: 0.18,
-    discountAmount: 0.0,
+    principalISv: 15, // Valor de 0 a 100
+    secundaryIsv: 18, // Valor de 0 a 100
+    discountAmount: 0, // Valor de 0 a 100
     importeGravable: 0.0,
     importeExento: 0.0,
     importeExonerado: 0.0,
@@ -29,7 +29,12 @@ const FacturaModale: React.FC<FacturaModaleProps> = ({ onClose }) => {
   }, []);
 
   const handleInputChange = (key: string, value: any) => {
-    setFormData(prev => ({ ...prev, [key]: value }));
+    let val = parseInt(value, 10);
+    if (key === 'principalISv' || key === 'secundaryIsv' || key === 'discountAmount') {
+      if (val < 0) val = 0;
+      if (val > 100) val = 100;
+    }
+    setFormData(prev => ({ ...prev, [key]: isNaN(val) ? 0 : val }));
   };
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -116,7 +121,7 @@ const FacturaModale: React.FC<FacturaModaleProps> = ({ onClose }) => {
           <input
             type="number"
             value={formData.principalISv}
-            onChange={(e) => handleInputChange('principalISv', parseFloat(e.target.value))}
+            onChange={(e) => handleInputChange('principalISv', parseInt(e.target.value))}
           />
         </div>
         <div className="modal-field">
@@ -124,7 +129,7 @@ const FacturaModale: React.FC<FacturaModaleProps> = ({ onClose }) => {
           <input
             type="number"
             value={formData.secundaryIsv}
-            onChange={(e) => handleInputChange('secundaryIsv', parseFloat(e.target.value))}
+            onChange={(e) => handleInputChange('secundaryIsv', parseInt(e.target.value))}
           />
         </div>
         <div className="modal-field">
@@ -132,7 +137,7 @@ const FacturaModale: React.FC<FacturaModaleProps> = ({ onClose }) => {
           <input
             type="number"
             value={formData.discountAmount}
-            onChange={(e) => handleInputChange('discountAmount', parseFloat(e.target.value))}
+            onChange={(e) => handleInputChange('discountAmount', parseInt(e.target.value))}
           />
         </div>
         <div className="modal-field">
