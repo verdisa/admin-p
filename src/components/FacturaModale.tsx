@@ -19,6 +19,7 @@ const FacturaModale: React.FC<FacturaModaleProps> = ({ onClose }) => {
     importeExento: 0.0,
     importeExonerado: 0.0,
     companyLogo: "", // Campo para la imagen del logo
+    moneda: "", // Nueva propiedad para la moneda
   });
 
   useEffect(() => {
@@ -29,6 +30,10 @@ const FacturaModale: React.FC<FacturaModaleProps> = ({ onClose }) => {
   }, []);
 
   const handleInputChange = (key: string, value: any) => {
+    if (key === 'moneda') {
+      setFormData(prev => ({ ...prev, [key]: value }));
+      return;
+    }
     let val = parseInt(value, 10);
     if (key === 'principalISv' || key === 'secundaryIsv' || key === 'discountAmount') {
       if (val < 0) val = 0;
@@ -114,6 +119,14 @@ const FacturaModale: React.FC<FacturaModaleProps> = ({ onClose }) => {
           {formData.companyLogo && (
             <img src={formData.companyLogo} alt="Company Logo" style={{ width: '100px', height: '100px' }} />
           )}
+        </div>
+        <div className="modal-field">
+          <label>Moneda</label>
+          <input
+            type="text"
+            value={formData.moneda}
+            onChange={(e) => handleInputChange('moneda', e.target.value)}
+          />
         </div>
         <h3>Configuración de Impuestos</h3>
         <div className="modal-field">

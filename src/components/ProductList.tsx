@@ -34,6 +34,8 @@ interface ProductItemProps {
   product: Product;
   addToCart: (product: Product) => void;
 }
+const facturaData = JSON.parse(localStorage.getItem('facturaData') || '{}');
+const moneda = facturaData.moneda || 'L';
 
 const ProductItem: React.FC<ProductItemProps> = ({ product, addToCart }) => {
   const [, drag] = useDrag(() => ({
@@ -50,7 +52,7 @@ const ProductItem: React.FC<ProductItemProps> = ({ product, addToCart }) => {
       onDoubleClick={() => addToCart(product)}
     >
       <span className="product-name">{product.name}</span>
-      <span className="product-price">${price.toFixed(2)}</span>
+      <span className="product-price">{moneda}{price.toFixed(2)}</span>
       <button className="add-button" onClick={() => addToCart(product)}>
         <i className="fas fa-plus"></i> 
       </button>

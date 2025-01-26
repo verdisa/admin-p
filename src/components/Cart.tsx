@@ -21,6 +21,8 @@ const Cart: React.FC<CartProps> = ({ items, setItems }) => {
   const [showModal, setShowModal] = useState(false);
   const [showToast, setShowToast] = useState(false);
 
+  const moneda = facturaData.moneda || 'L';
+
   const importeGravable = items.filter(item => (item.type || 'gravable') === 'gravable').reduce((sum, item) => sum + item.price * item.quantity, 0);
   const importeExento = items.filter(item => item.type === 'exento').reduce((sum, item) => sum + item.price * item.quantity, 0);
   const importeExonerado = items.filter(item => item.type === 'exonerado').reduce((sum, item) => sum + item.price * item.quantity, 0);
@@ -96,7 +98,7 @@ const Cart: React.FC<CartProps> = ({ items, setItems }) => {
               <div className="name-price">
                 <span className="item-name">{item.name}</span>
                 <span className="item-price">
-                  ${(item.price * item.quantity).toFixed(2)}
+                  {moneda}{(item.price * item.quantity).toFixed(2)}
                 </span>
               </div>
               <div className="quantity-controls">
@@ -129,19 +131,19 @@ const Cart: React.FC<CartProps> = ({ items, setItems }) => {
       </div>
       <div className="cart-summary">
         <div className="cart-discount">
-          Descuentos({discountAmount * 100}%): -${discount.toFixed(2)}
+          Descuentos({discountAmount * 100}%): -{moneda}{discount.toFixed(2)}
         </div>
         <div className="cart-total">
-          SubTotal: ${subtotal.toFixed(2)}
+          SubTotal: {moneda}{subtotal.toFixed(2)}
         </div>
         <div className="cart-tax">
-          ISV ({principalISv * 100}%): ${principalTax.toFixed(2)}
+          ISV ({principalISv * 100}%): {moneda}{principalTax.toFixed(2)}
         </div>
         <div className="cart-tax">
-          ISV ({secundaryIsv * 100}%): ${secundaryTax.toFixed(2)}
+          ISV ({secundaryIsv * 100}%): {moneda}{secundaryTax.toFixed(2)}
         </div>
         <div className="cart-total">
-          TOTAL: ${total.toFixed(2)}
+          TOTAL: {moneda}{total.toFixed(2)}
         </div>
         <button className="sell-button" onClick={handleSale}>Vender</button>
       </div>
@@ -156,7 +158,7 @@ const Cart: React.FC<CartProps> = ({ items, setItems }) => {
         <div className="modal-overlay" onClick={() => setShowModal(false)}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <h3>Vendido e imprimir recibo</h3>
-            <button className="print-button" onClick={() => handleDownloadPdf(items, subtotalL, subtotal, discount, totalTax, total, principalISv, secundaryIsv, principalTax, secundaryTax, importeGravable, importeExento, importeExonerado)}>
+            <button className="print-button" onClick={() => handleDownloadPdf(items, subtotalL, subtotal, discount, totalTax, total, principalISv, secundaryIsv, principalTax, secundaryTax, importeGravable, importeExento, importeExonerado, moneda)}>
               Descargar PDF
             </button>
           </div>

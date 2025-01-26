@@ -26,7 +26,7 @@ const limitDate = new Date(currentDate.setMonth(currentDate.getMonth() + 6)).toL
   year: 'numeric'
 });
 
-export const handleDownloadPdf = (items: Product[], subtotalL: number, subtotal: number, discount: number, totalTax: number, total: number, principalISv: number, secundaryIsv: number, principalTax: number, secundaryTax: number, importeGravable: number, importeExento: number, importeExonerado: number) => {
+export const handleDownloadPdf = (items: Product[], subtotalL: number, subtotal: number, discount: number, totalTax: number, total: number, principalISv: number, secundaryIsv: number, principalTax: number, secundaryTax: number, importeGravable: number, importeExento: number, importeExonerado: number, moneda: string) => {
   // Asegurarse de que los valores sean números
   importeGravable = Number(importeGravable) || 0;
   importeExento = Number(importeExento) || 0;
@@ -134,25 +134,25 @@ export const handleDownloadPdf = (items: Product[], subtotalL: number, subtotal:
     doc.text(`${index + 1}`, 10, currentY);
     doc.text(item.name, 30, currentY);
     doc.text(`${item.quantity}`, 130, currentY, { align: "right" });
-    doc.text(`$${price.toFixed(2)}`, 165, currentY, { align: "right" });
-    doc.text(`$${(item.quantity * price).toFixed(2)}`, 195, currentY, { align: "right" });
+    doc.text(`${moneda}${price.toFixed(2)}`, 165, currentY, { align: "right" });
+    doc.text(`${moneda}${(item.quantity * price).toFixed(2)}`, 195, currentY, { align: "right" });
     currentY += 6;
   });
 
   // Resumen
   currentY += 10;
-  doc.text(`Importe Gravable: $${importeGravable.toFixed(2)}`, 195, currentY, { align: "right" });
-  doc.text(`Importe Exento: $${importeExento.toFixed(2)}`, 195, currentY + 6, { align: "right" });
-  doc.text(`Importe Exonerado: $${importeExonerado.toFixed(2)}`, 195, currentY + 12, { align: "right" });
-  doc.text(`Sub-Total L.: $${subtotalL.toFixed(2)}`, 195, currentY + 18, { align: "right" });
-  doc.text(`Descuento: -$${discount.toFixed(2)}`, 195, currentY + 24, { align: "right" });
-  doc.text(`Gravados (18%): $${(importeGravable - discount).toFixed(2)}`, 195, currentY + 30, { align: "right" });
-  doc.text(`Sub Total neto L.: $${subtotal.toFixed(2)}`, 195, currentY + 36, { align: "right" });
-  doc.text(`ISV (${principalISv}%): $${principalTax.toFixed(2)}`, 195, currentY + 42, { align: "right" });
-  doc.text(`ISV (${secundaryIsv}%): $${secundaryTax.toFixed(2)}`, 195, currentY + 48, { align: "right" });
+  doc.text(`Importe Gravable: ${moneda}${importeGravable.toFixed(2)}`, 195, currentY, { align: "right" });
+  doc.text(`Importe Exento: ${moneda}${importeExento.toFixed(2)}`, 195, currentY + 6, { align: "right" });
+  doc.text(`Importe Exonerado: ${moneda}${importeExonerado.toFixed(2)}`, 195, currentY + 12, { align: "right" });
+  doc.text(`Sub-Total L.: ${moneda}${subtotalL.toFixed(2)}`, 195, currentY + 18, { align: "right" });
+  doc.text(`Descuento: -${moneda}${discount.toFixed(2)}`, 195, currentY + 24, { align: "right" });
+  doc.text(`Gravados (18%): ${moneda}${(importeGravable - discount).toFixed(2)}`, 195, currentY + 30, { align: "right" });
+  doc.text(`Sub Total neto L.: ${moneda}${subtotal.toFixed(2)}`, 195, currentY + 36, { align: "right" });
+  doc.text(`ISV (${principalISv}%): ${moneda}${principalTax.toFixed(2)}`, 195, currentY + 42, { align: "right" });
+  doc.text(`ISV (${secundaryIsv}%): ${moneda}${secundaryTax.toFixed(2)}`, 195, currentY + 48, { align: "right" });
   doc.setFontSize(10);
   doc.setFont(undefined, 'bold');
-  doc.text(`TOTAL: $${total.toFixed(2)}`, 195, currentY + 54, { align: "right" });
+  doc.text(`TOTAL: ${moneda}${total.toFixed(2)}`, 195, currentY + 54, { align: "right" });
 
   currentY += 60;
 
