@@ -141,22 +141,44 @@ export const handleDownloadPdf = (items: Product[], subtotalL: number, subtotal:
 
   // Resumen
   currentY += 10;
-  doc.text(`Importe Gravable: ${moneda}${importeGravable.toFixed(2)}`, 195, currentY, { align: "right" });
-  doc.text(`Importe Exento: ${moneda}${importeExento.toFixed(2)}`, 195, currentY + 6, { align: "right" });
-  doc.text(`Importe Exonerado: ${moneda}${importeExonerado.toFixed(2)}`, 195, currentY + 12, { align: "right" });
-  doc.text(`Sub-Total L.: ${moneda}${subtotalL.toFixed(2)}`, 195, currentY + 18, { align: "right" });
-  doc.text(`Descuento: -${moneda}${discount.toFixed(2)}`, 195, currentY + 24, { align: "right" });
-  doc.text(`Gravados (18%): ${moneda}${(importeGravable - discount).toFixed(2)}`, 195, currentY + 30, { align: "right" });
-  doc.text(`Sub Total neto L.: ${moneda}${subtotal.toFixed(2)}`, 195, currentY + 36, { align: "right" });
-  doc.text(`ISV (${principalISv}%): ${moneda}${principalTax.toFixed(2)}`, 195, currentY + 42, { align: "right" });
-  doc.text(`ISV (${secundaryIsv}%): ${moneda}${secundaryTax.toFixed(2)}`, 195, currentY + 48, { align: "right" });
+
+  // Información de importes
+  doc.text("Importe Gravable:", 140, currentY, { align: "left" });
+  doc.text(`${moneda}${importeGravable.toFixed(2)}`, 195, currentY, { align: "right" });
+  
+  doc.text("Importe Exento:", 140, currentY + 6, { align: "left" });
+  doc.text(`${moneda}${importeExento.toFixed(2)}`, 195, currentY + 6, { align: "right" });
+  
+  doc.text("Importe Exonerado:", 140, currentY + 12, { align: "left" });
+  doc.text(`${moneda}${importeExonerado.toFixed(2)}`, 195, currentY + 12, { align: "right" });
+  
+  doc.text("Sub-Total:", 140, currentY + 18, { align: "left" });
+  doc.text(`${moneda}${subtotalL.toFixed(2)}`, 195, currentY + 18, { align: "right" });
+  
+  doc.text("Descuento:", 140, currentY + 24, { align: "left" });
+  doc.text(`-${moneda}${discount.toFixed(2)}`, 195, currentY + 24, { align: "right" });
+  
+  doc.text("Gravados (18%):", 140, currentY + 30, { align: "left" });
+  doc.text(`${moneda}${(importeGravable - discount).toFixed(2)}`, 195, currentY + 30, { align: "right" });
+  
+  doc.text("Sub Total neto:", 140, currentY + 36, { align: "left" });
+  doc.text(`${moneda}${subtotal.toFixed(2)}`, 195, currentY + 36, { align: "right" });
+  
+  doc.text(`ISV (${principalISv}%):`, 140, currentY + 42, { align: "left" });
+  doc.text(`${moneda}${principalTax.toFixed(2)}`, 195, currentY + 42, { align: "right" });
+  
+  doc.text(`ISV (${secundaryIsv}%):`, 140, currentY + 48, { align: "left" });
+  doc.text(`${moneda}${secundaryTax.toFixed(2)}`, 195, currentY + 48, { align: "right" });
+  
+  // Total
   doc.setFontSize(10);
   doc.setFont(undefined, 'bold');
-  doc.text(`TOTAL: ${moneda}${total.toFixed(2)}`, 195, currentY + 54, { align: "right" });
-
+  doc.text("TOTAL:", 140, currentY + 54, { align: "left" });
+  doc.text(`${moneda}${total.toFixed(2)}`, 195, currentY + 54, { align: "right" });
+  
   currentY += 60;
 
-  doc.text(envoiceFooter, 10, currentY);
+  doc.text(envoiceFooter, 80, currentY + 20);
   //doc.text("Precio no incluye la instalación", 10, currentY + 6);
 
   // Descargar PDF
