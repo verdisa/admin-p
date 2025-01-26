@@ -1,6 +1,5 @@
 import React from 'react';
 import jsPDF from "jspdf";
-import { Product } from './Cart'; // Asegúrate de exportar la interfaz Product desde Cart.tsx
 
   // Generar número de factura y orden de forma aleatoria
   const generateRandomString = (length: number) => {
