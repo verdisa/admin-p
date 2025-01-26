@@ -55,6 +55,7 @@ const FacturaModale: React.FC<FacturaModaleProps> = ({ onClose }) => {
 
   const handleSave = () => {
     localStorage.setItem('facturaData', JSON.stringify(formData));
+    window.dispatchEvent(new Event('storage'));
     onClose();
   };
 
