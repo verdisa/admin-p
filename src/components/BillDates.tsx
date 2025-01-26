@@ -21,31 +21,21 @@ const date = new Date().toLocaleDateString('es-ES', {
 
 export const handleDownloadPdf = (items: Product[], subtotalL: number, subtotal: number, discount: number, totalTax: number, total: number, principalISv: number, secundaryIsv: number, principalTax: number, secundaryTax: number, importeGravable: number, importeExento: number, importeExonerado: number) => {
   // Asegurarse de que los valores sean números
-  console.log('Items:', items);
-  console.log('Subtotal L:', subtotalL);
-  console.log('Subtotal:', subtotal);
-  console.log('Discount:', discount);
-  console.log('Total Tax:', totalTax);
-  console.log('Total:', total);
-  console.log('Principal ISV:', principalISv);
-  console.log('Secundary ISV:', secundaryIsv);
-  console.log('Principal Tax:', principalTax);
-  console.log('Secundary Tax:', secundaryTax);
-  console.log('Importe Gravable:', importeGravable);
-  console.log('Importe Exento:', importeExento);
-  console.log('Importe Exonerado:', importeExonerado);
+  importeGravable = Number(importeGravable) || 0;
+  importeExento = Number(importeExento) || 0;
+  importeExonerado = Number(importeExonerado) || 0;
+
   subtotalL = Number(subtotalL) || 0;
-  subtotal = Number(subtotal) || 0;
   discount = Number(discount) || 0;
-  totalTax = Number(totalTax) || 0;
-  total = Number(total) || 0;
   principalISv = Number(principalISv) || 0;
   secundaryIsv = Number(secundaryIsv) || 0;
   principalTax = Number(principalTax) || 0;
   secundaryTax = Number(secundaryTax) || 0;
-  importeGravable = Number(importeGravable) || 0;
-  importeExento = Number(importeExento) || 0;
-  importeExonerado = Number(importeExonerado) || 0;
+  totalTax = Number(totalTax) || 0;
+  subtotal = Number(subtotal) || 0;
+  total = Number(total) || 0;
+
+
 
   // Obtener datos del cliente comprador desde localStorage
   const clienteComprador = JSON.parse(localStorage.getItem('clienteComprador') || '{}');
@@ -79,8 +69,10 @@ export const handleDownloadPdf = (items: Product[], subtotalL: number, subtotal:
 
   // Encabezado
   doc.setFontSize(14);
+  doc.setFont(undefined, 'bold');
   doc.text(companyName, 10, 10);
   doc.setFontSize(10);
+  doc.setFont(undefined, 'normal');
   doc.text(`RTN: ${rtn}`, 10, 16);
   doc.text(`CAI: ${cai}`, 10, 20);
   doc.text(address, 10, 26);
@@ -147,11 +139,12 @@ export const handleDownloadPdf = (items: Product[], subtotalL: number, subtotal:
   doc.text(`Sub Total neto L.: $${subtotal.toFixed(2)}`, 195, currentY + 36, { align: "right" });
   doc.text(`ISV (15%): $${principalTax.toFixed(2)}`, 195, currentY + 42, { align: "right" });
   doc.text(`ISV (18%): $${secundaryTax.toFixed(2)}`, 195, currentY + 48, { align: "right" });
+  doc.setFontSize(10);
+  doc.setFont(undefined, 'bold');
   doc.text(`TOTAL: $${total.toFixed(2)}`, 195, currentY + 54, { align: "right" });
 
   currentY += 60;
 
-  // Pie de página
   doc.text(envoiceFooter, 10, currentY);
   //doc.text("Precio no incluye la instalación", 10, currentY + 6);
 
@@ -160,7 +153,6 @@ export const handleDownloadPdf = (items: Product[], subtotalL: number, subtotal:
 };
 
 const BillDates = () => {
-  // Aquí puedes usar handleDownloadPdf con los datos necesarios
   return (
     <div>
       {/* Tu componente aquí */}
