@@ -2,29 +2,49 @@ import React from 'react';
 import jsPDF from "jspdf";
 import { Product } from './Cart'; // Asegúrate de exportar la interfaz Product desde Cart.tsx
 
+  // Generar número de factura y orden de forma aleatoria
+  const generateRandomString = (length: number) => {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    let result = '';
+    for (let i = 0; i < length; i++) {
+      result += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+    return result;
+  };
+
+
+    // Obtener la fecha actual
+  const date = new Date().toLocaleDateString('es-ES', {
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric'
+    });
+
 export const handleDownloadPdf = (items: Product[]) => {
+  // Obtener datos del cliente comprador desde localStorage
+  const clienteComprador = JSON.parse(localStorage.getItem('clienteComprador') || '{}');
+
   // Variables dinámicas
   const companyName = "SOLUCIONES SOLARES S.A.";
   const rtn = "08019014639996";
   const cai = "B2EDD8-0F6781-4D4B86-8B96A2-CD3A12-D5";
   const address = "Residencial Altos del Comercio\n3era cuadra izquierda 3era casa izquierda";
   const contact = "Tel: +504 2705-9182 | info@solsolenergy.com";
-  const invoiceNumber = "250123-1-JMP";
-  const date = "23-Jan-2025";
-  const order = "Josue Pastor";
-  const customerName = "JOSUE PASTOR";
-  const costumerEnvoiceFile = "Proforma";
-  const customerRTN = "0000000000";
-  const customerContact = "Ing. Josué Miguel Pastor";
-  const customerTel = "2233-9277";
-  const customerEmail = "jmpastor18@hotmail.com";
-  const costumerBusinessName = "PROFORMA";
-  const costumerBusinessWithNumber = "No. Proforma";
 
+
+  const invoiceNumber = `${generateRandomString(6)}-${generateRandomString(3)}`;
+  const order = generateRandomString(8);
+  const customerName = clienteComprador.nombre || "N/A";
+  const costumerEnvoiceFile = "Proforma";
+  const customerRTN = clienteComprador.rtn || "N/A";
+  const customerContact = clienteComprador.contacto || "N/A";
+  const customerTel = clienteComprador.telefono || "N/A";
+  const customerEmail = clienteComprador.email || "N/A";
+  const costumerBusinessName = clienteComprador.costumerBusinessName || "N/A";
+  const costumerBusinessWithNumber = clienteComprador.costumerBusinessWithNumber || "N/A";
 
   // Envoice data
-  const envoiceFooter = "Proforma Sujeta Aceptación con Firma de Contrato\nPrecio no incluye la instalación";
-
+  const envoiceFooter = clienteComprador.envoiceFooter || "N/A";
 
   // Cálculos
   const principalISv = 0.15;
