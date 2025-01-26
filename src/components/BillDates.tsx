@@ -23,14 +23,16 @@ import { Product } from './Cart'; // Asegúrate de exportar la interfaz Product 
 export const handleDownloadPdf = (items: Product[]) => {
   // Obtener datos del cliente comprador desde localStorage
   const clienteComprador = JSON.parse(localStorage.getItem('clienteComprador') || '{}');
+  
+  // Obtener datos de la factura desde localStorage
+  const facturaData = JSON.parse(localStorage.getItem('facturaData') || '{}');
 
   // Variables dinámicas
-  const companyName = "SOLUCIONES SOLARES S.A.";
-  const rtn = "08019014639996";
-  const cai = "B2EDD8-0F6781-4D4B86-8B96A2-CD3A12-D5";
-  const address = "Residencial Altos del Comercio\n3era cuadra izquierda 3era casa izquierda";
-  const contact = "Tel: +504 2705-9182 | info@solsolenergy.com";
-
+  const companyName = facturaData.companyName || "N/A";
+  const rtn = facturaData.rtn || "N/A";
+  const cai = facturaData.cai || "N/A";
+  const address = facturaData.address || "N/A";
+  const contact = facturaData.contact || "N/A";
 
   const invoiceNumber = `${generateRandomString(6)}-${generateRandomString(3)}`;
   const order = generateRandomString(8);
