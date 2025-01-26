@@ -132,13 +132,13 @@ const Cart: React.FC<CartProps> = ({ items, setItems }) => {
           Descuentos: -${discount.toFixed(2)}
         </div>
         <div className="cart-total">
-          Sub-Total: ${subtotal.toFixed(2)}
+          SubTotal: ${subtotal.toFixed(2)}
         </div>
         <div className="cart-tax">
-          ISV (15%): ${principalTax.toFixed(2)}
+          ISV ({principalISv*100}%): ${principalTax.toFixed(2)}
         </div>
         <div className="cart-tax">
-          ISV (18%): ${secundaryTax.toFixed(2)}
+          ISV ({secundaryIsv*100}%): ${secundaryTax.toFixed(2)}
         </div>
         <div className="cart-total">
           TOTAL: ${total.toFixed(2)}

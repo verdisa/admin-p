@@ -19,6 +19,13 @@ const date = new Date().toLocaleDateString('es-ES', {
   year: 'numeric'
 });
 
+const currentDate = new Date();
+const limitDate = new Date(currentDate.setMonth(currentDate.getMonth() + 6)).toLocaleDateString('es-ES', {
+  day: '2-digit',
+  month: 'short',
+  year: 'numeric'
+});
+
 export const handleDownloadPdf = (items: Product[], subtotalL: number, subtotal: number, discount: number, totalTax: number, total: number, principalISv: number, secundaryIsv: number, principalTax: number, secundaryTax: number, importeGravable: number, importeExento: number, importeExonerado: number) => {
   // Asegurarse de que los valores sean números
   importeGravable = Number(importeGravable) || 0;
@@ -49,6 +56,8 @@ export const handleDownloadPdf = (items: Product[], subtotalL: number, subtotal:
   const cai = facturaData.cai || "N/A";
   const address = facturaData.address || "N/A";
   const contact = facturaData.contact || "N/A";
+  const companyLogo = facturaData.companyLogo || "";
+  const rango = facturaData.rango || "N/A";
 
   const invoiceNumber = `${generateRandomString(6)}-${generateRandomString(3)}`;
   const order = generateRandomString(8);
@@ -67,45 +76,49 @@ export const handleDownloadPdf = (items: Product[], subtotalL: number, subtotal:
   // Crear PDF
   const doc = new jsPDF();
 
-  // Encabezado
+  if (companyLogo) {
+    doc.addImage(companyLogo, 'PNG', 10, 10, 45, 15); // Ajustar el tamaño y posición según sea necesario
+  }
   doc.setFontSize(14);
   doc.setFont(undefined, 'bold');
-  doc.text(companyName, 10, 10);
+  doc.text(companyName, 10, 36); // 45 - 9
   doc.setFontSize(10);
   doc.setFont(undefined, 'normal');
-  doc.text(`RTN: ${rtn}`, 10, 16);
-  doc.text(`CAI: ${cai}`, 10, 20);
-  doc.text(address, 10, 26);
-  doc.text(contact, 10, 36);
+  doc.text(`RTN: ${rtn}`, 10, 42); // 51 - 9
+  doc.text(`CAI: ${cai}`, 10, 46); // 55 - 9
+  doc.text(`Del ${rango}`, 10, 50); // Añadir rango
+  doc.text(`Fecha límite: ${limitDate}`, 10, 54); // Añadir fecha límite
+  doc.text(address, 10, 60); // 61 - 9
+  doc.text(contact, 10, 70); // 71 - 9
 
   // Título
   doc.setFontSize(22);
-  doc.text(costumerBusinessName, 150, 10);
+  doc.text(costumerBusinessName, 150, 20);
 
   // Información de factura
   doc.setFontSize(10);
   doc.setFont(undefined, 'bold');
-  doc.text(costumerBusinessWithNumber, 140, 46, { align: "right" });
-  doc.text("Fecha:", 140, 50, { align: "right" });
-  doc.text("Orden:", 140, 54, { align: "right" });
+  doc.text(costumerBusinessWithNumber, 140, 36, { align: "right" }); // 46 - 10
+  doc.text("Fecha:", 140, 40, { align: "right" }); // 50 - 10
+  doc.text("Orden:", 140, 44, { align: "right" }); // 54 - 10
   doc.setFont(undefined, 'normal');
-  doc.text(invoiceNumber, 195, 46, { align: "right" });
-  doc.text(date, 195, 50, { align: "right" });
-  doc.text(order, 195, 54, { align: "right" });
-
+  doc.text(invoiceNumber, 195, 36, { align: "right" }); // 46 - 10
+  doc.text(date, 195, 40, { align: "right" }); // 50 - 10
+  doc.text(order, 195, 44, { align: "right" }); // 54 - 10
+  
   // Información del cliente
   doc.setFont(undefined, 'bold');
-  doc.text("Facturar a:", 140, 62, { align: "right" });
-  doc.text("RTN:", 140, 66, { align: "right" });
-  doc.text("Contacto:", 140, 70, { align: "right" });
-  doc.text("Tel:", 140, 74, { align: "right" });
-  doc.text("Email:", 140, 78, { align: "right" });
+  doc.text("Facturar a:", 140, 52, { align: "right" }); // 62 - 10
+  doc.text("RTN:", 140, 56, { align: "right" }); // 66 - 10
+  doc.text("Contacto:", 140, 60, { align: "right" }); // 70 - 10
+  doc.text("Tel:", 140, 64, { align: "right" }); // 74 - 10
+  doc.text("Email:", 140, 68, { align: "right" }); // 78 - 10
   doc.setFont(undefined, 'normal');
-  doc.text(customerName, 195, 62, { align: "right" });
-  doc.text(customerRTN, 195, 66, { align: "right" });
-  doc.text(customerContact, 195, 70, { align: "right" });
-  doc.text(customerTel, 195, 74, { align: "right" });
-  doc.text(customerEmail, 195, 78, { align: "right" });
+  doc.text(customerName, 195, 52, { align: "right" }); // 62 - 10
+  doc.text(customerRTN, 195, 56, { align: "right" }); // 66 - 10
+  doc.text(customerContact, 195, 60, { align: "right" }); // 70 - 10
+  doc.text(customerTel, 195, 64, { align: "right" }); // 74 - 10
+  doc.text(customerEmail, 195, 68, { align: "right" }); // 78 - 10
 
   // Tabla de productos
   const startY = 90;
@@ -134,11 +147,11 @@ export const handleDownloadPdf = (items: Product[], subtotalL: number, subtotal:
   doc.text(`Importe Exento: $${importeExento.toFixed(2)}`, 195, currentY + 6, { align: "right" });
   doc.text(`Importe Exonerado: $${importeExonerado.toFixed(2)}`, 195, currentY + 12, { align: "right" });
   doc.text(`Sub-Total L.: $${subtotalL.toFixed(2)}`, 195, currentY + 18, { align: "right" });
-  doc.text(`Descuentos y rebajas: -$${discount.toFixed(2)}`, 195, currentY + 24, { align: "right" });
+  doc.text(`Descuento: -$${discount.toFixed(2)}`, 195, currentY + 24, { align: "right" });
   doc.text(`Gravados (18%): $${(importeGravable - discount).toFixed(2)}`, 195, currentY + 30, { align: "right" });
   doc.text(`Sub Total neto L.: $${subtotal.toFixed(2)}`, 195, currentY + 36, { align: "right" });
-  doc.text(`ISV (15%): $${principalTax.toFixed(2)}`, 195, currentY + 42, { align: "right" });
-  doc.text(`ISV (18%): $${secundaryTax.toFixed(2)}`, 195, currentY + 48, { align: "right" });
+  doc.text(`ISV (${principalISv*100}%): $${principalTax.toFixed(2)}`, 195, currentY + 42, { align: "right" });
+  doc.text(`ISV (${secundaryIsv*100}%): $${secundaryTax.toFixed(2)}`, 195, currentY + 48, { align: "right" });
   doc.setFontSize(10);
   doc.setFont(undefined, 'bold');
   doc.text(`TOTAL: $${total.toFixed(2)}`, 195, currentY + 54, { align: "right" });

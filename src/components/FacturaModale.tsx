@@ -9,6 +9,7 @@ const FacturaModale: React.FC<FacturaModaleProps> = ({ onClose }) => {
     companyName: "SOLUCIONES SOLARES S.A.",
     rtn: "08019014639996",
     cai: "B2EDD8-0F6781-4D4B86-8B96A2-CD3A12-D5",
+    rango: "000000000001 al 000000000100",
     address: "Residencial Altos del Comercio\n3era cuadra izquierda 3era casa izquierda",
     contact: "Tel: +504 2705-9182 | info@solsolenergy.com",
     principalISv: 0.15,
@@ -17,6 +18,7 @@ const FacturaModale: React.FC<FacturaModaleProps> = ({ onClose }) => {
     importeGravable: 0.0,
     importeExento: 0.0,
     importeExonerado: 0.0,
+    companyLogo: "", // Campo para la imagen del logo
   });
 
   useEffect(() => {
@@ -28,6 +30,17 @@ const FacturaModale: React.FC<FacturaModaleProps> = ({ onClose }) => {
 
   const handleInputChange = (key: string, value: any) => {
     setFormData(prev => ({ ...prev, [key]: value }));
+  };
+
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setFormData(prev => ({ ...prev, companyLogo: reader.result as string }));
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   const handleSave = () => {
@@ -64,6 +77,14 @@ const FacturaModale: React.FC<FacturaModaleProps> = ({ onClose }) => {
           />
         </div>
         <div className="modal-field">
+          <label>Rango</label>
+          <input
+            type="text"
+            value={formData.rango}
+            onChange={(e) => handleInputChange('rango', e.target.value)}
+          />
+        </div>
+        <div className="modal-field">
           <label>Dirección</label>
           <textarea
             value={formData.address}
@@ -77,6 +98,17 @@ const FacturaModale: React.FC<FacturaModaleProps> = ({ onClose }) => {
             value={formData.contact}
             onChange={(e) => handleInputChange('contact', e.target.value)}
           />
+        </div>
+        <div className="modal-field">
+          <label>Logo de la Empresa</label>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleImageUpload}
+          />
+          {formData.companyLogo && (
+            <img src={formData.companyLogo} alt="Company Logo" style={{ width: '100px', height: '100px' }} />
+          )}
         </div>
         <h3>Configuración de Impuestos</h3>
         <div className="modal-field">
