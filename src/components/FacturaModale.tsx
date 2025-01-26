@@ -10,7 +10,9 @@ const FacturaModale: React.FC<FacturaModaleProps> = ({ onClose }) => {
     rtn: "08019014639996",
     cai: "B2EDD8-0F6781-4D4B86-8B96A2-CD3A12-D5",
     address: "Residencial Altos del Comercio\n3era cuadra izquierda 3era casa izquierda",
-    contact: "Tel: +504 2705-9182 | info@solsolenergy.com"
+    contact: "Tel: +504 2705-9182 | info@solsolenergy.com",
+    principalISv: 0.15,
+    secundaryIsv: 0.18
   });
 
   useEffect(() => {
@@ -70,6 +72,23 @@ const FacturaModale: React.FC<FacturaModaleProps> = ({ onClose }) => {
             type="text"
             value={formData.contact}
             onChange={(e) => handleInputChange('contact', e.target.value)}
+          />
+        </div>
+        <h3>Configuración de Impuestos</h3>
+        <div className="modal-field">
+          <label>ISV Principal (%)</label>
+          <input
+            type="number"
+            value={formData.principalISv}
+            onChange={(e) => handleInputChange('principalISv', parseFloat(e.target.value))}
+          />
+        </div>
+        <div className="modal-field">
+          <label>ISV Secundario (%)</label>
+          <input
+            type="number"
+            value={formData.secundaryIsv}
+            onChange={(e) => handleInputChange('secundaryIsv', parseFloat(e.target.value))}
           />
         </div>
         <div className="modal-actions">

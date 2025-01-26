@@ -65,10 +65,10 @@ const ClienteModale: React.FC<ClienteModaleProps> = ({ onClose }) => {
             <h3>Detalles del Cliente</h3>
             <p><strong>Nombre:</strong> {selectedCliente.nombre}</p>
             <p><strong>Nombre Empresa:</strong> {selectedCliente.companyName}</p>
+            <p><strong>Nombre Factura:</strong> {selectedCliente.costumerEnvoiceFileName}</p>
             <p><strong>CAI:</strong> {selectedCliente.cai}</p>
             <p><strong>Dirección Empresa:</strong> {selectedCliente.address}</p>
             <p><strong>Contacto Empresa:</strong> {selectedCliente.contact}</p>
-            <p><strong>Número Factura:</strong> {selectedCliente.invoiceNumber}</p>
             <p><strong>Nombre Negocio:</strong> {selectedCliente.costumerBusinessName}</p>
             <p><strong>Número Negocio:</strong> {selectedCliente.costumerBusinessWithNumber}</p>
             <p><strong>Factura Footer:</strong> {selectedCliente.envoiceFooter}</p>

@@ -1,23 +1,23 @@
 import React from 'react';
 import jsPDF from "jspdf";
+import { Product } from './Cart'; // Asegúrate de exportar la interfaz Product desde Cart.tsx
 
-  // Generar número de factura y orden de forma aleatoria
-  const generateRandomString = (length: number) => {
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    let result = '';
-    for (let i = 0; i < length; i++) {
-      result += characters.charAt(Math.floor(Math.random() * characters.length));
-    }
-    return result;
-  };
+// Generar número de factura y orden de forma aleatoria
+const generateRandomString = (length: number) => {
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  let result = '';
+  for (let i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * characters.length));
+  }
+  return result;
+};
 
-
-    // Obtener la fecha actual
-  const date = new Date().toLocaleDateString('es-ES', {
-      day: '2-digit',
-      month: 'short',
-      year: 'numeric'
-    });
+// Obtener la fecha actual
+const date = new Date().toLocaleDateString('es-ES', {
+  day: '2-digit',
+  month: 'short',
+  year: 'numeric'
+});
 
 export const handleDownloadPdf = (items: Product[]) => {
   // Obtener datos del cliente comprador desde localStorage
@@ -36,7 +36,7 @@ export const handleDownloadPdf = (items: Product[]) => {
   const invoiceNumber = `${generateRandomString(6)}-${generateRandomString(3)}`;
   const order = generateRandomString(8);
   const customerName = clienteComprador.nombre || "N/A";
-  const costumerEnvoiceFile = "Proforma";
+  const costumerEnvoiceFile = clienteComprador.costumerEnvoiceFileName || "factura-";
   const customerRTN = clienteComprador.rtn || "N/A";
   const customerContact = clienteComprador.contacto || "N/A";
   const customerTel = clienteComprador.telefono || "N/A";
@@ -48,10 +48,11 @@ export const handleDownloadPdf = (items: Product[]) => {
   const envoiceFooter = clienteComprador.envoiceFooter || "N/A";
 
   // Cálculos
-  const principalISv = 0.15;
-  const secundaryIsv = 0.18;
+  const principalISv = facturaData.principalISv || 0.15;
+  const secundaryIsv = facturaData.secundaryIsv || 0.00;
   const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  const tax = subtotal * principalISv; // 15% ISV
+  const totalIsv = principalISv + secundaryIsv; // Sumar ambos ISV
+  const tax = subtotal * totalIsv; // Aplicar el total de ISV al subtotal
   const total = subtotal + tax;
 
   // Crear PDF
@@ -119,8 +120,9 @@ export const handleDownloadPdf = (items: Product[]) => {
   // Resumen
   currentY += 10;
   doc.text(`Subtotal: $${subtotal.toFixed(2)}`, 195, currentY, { align: "right" });
-  doc.text(`Impuestos (15%): $${tax.toFixed(2)}`, 195, currentY + 6, { align: "right" });
-  doc.text(`Total: $${total.toFixed(2)}`, 195, currentY + 12, { align: "right" });
+  doc.text(`Impuestos (${facturaData.principalISv}%): $${tax.toFixed(2)}`, 195, currentY + 6, { align: "right" });
+  doc.text(`Impuesto2 (${facturaData.secundaryIsv}%): $${tax.toFixed(2)}`, 195, currentY + 12, { align: "right" });
+  doc.text(`Total: $${total.toFixed(2)}`, 195, currentY + 18, { align: "right" });
 
   // Pie de página
   currentY += 20;
