@@ -3,6 +3,7 @@ import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import ProductList from '../components/ProductList';
 import Cart from '../components/Cart';
+import ClienteModale from '../components/clienteModale';
 import './PosTable.css';
 
 interface Product {
@@ -22,6 +23,7 @@ const PosTable: React.FC = () => {
   const [cartItems, setCartItems] = useState<Product[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [activeCategory, setActiveCategory] = useState<string>('');
+  const [isClienteModaleOpen, setIsClienteModaleOpen] = useState(false);
 
   useEffect(() => {
     const storedCategories = JSON.parse(localStorage.getItem("categories") || "[]");
@@ -65,7 +67,7 @@ const PosTable: React.FC = () => {
             <a href="/config-factura" className="icon-menu-item">
               <i className="fas fa-file-invoice"></i>
             </a>
-            <a href="/config-usuario" className="icon-menu-item">
+            <a href="#" className="icon-menu-item" onClick={() => setIsClienteModaleOpen(true)}>
               <i className="fas fa-user-cog"></i>
             </a>
           </div>
@@ -97,6 +99,7 @@ const PosTable: React.FC = () => {
           <Cart items={cartItems} setItems={setCartItems} />
         </div>
       </div>
+      {isClienteModaleOpen && <ClienteModale onClose={() => setIsClienteModaleOpen(false)} />}
     </DndProvider>
   );
 }
