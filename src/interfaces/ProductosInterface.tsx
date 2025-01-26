@@ -11,4 +11,5 @@ export interface Producto {
   isActive?: boolean;
   IdCategory?: string; // Campo para la categoría
   categoryName?: string; // Campo para el nombre de la categoría
+  type: 'gravable' | 'exento' | 'exonerado'; // Campo para el tipo de producto
 }

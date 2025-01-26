@@ -14,6 +14,9 @@ const FacturaModale: React.FC<FacturaModaleProps> = ({ onClose }) => {
     principalISv: 0.15,
     secundaryIsv: 0.18,
     discountAmount: 0.0,
+    importeGravable: 0.0,
+    importeExento: 0.0,
+    importeExonerado: 0.0,
   });
 
   useEffect(() => {
@@ -98,6 +101,30 @@ const FacturaModale: React.FC<FacturaModaleProps> = ({ onClose }) => {
             type="number"
             value={formData.discountAmount}
             onChange={(e) => handleInputChange('discountAmount', parseFloat(e.target.value))}
+          />
+        </div>
+        <div className="modal-field">
+          <label>Importe Gravable</label>
+          <input
+            type="number"
+            value={formData.importeGravable}
+            onChange={(e) => handleInputChange('importeGravable', parseFloat(e.target.value))}
+          />
+        </div>
+        <div className="modal-field">
+          <label>Importe Exento</label>
+          <input
+            type="number"
+            value={formData.importeExento}
+            onChange={(e) => handleInputChange('importeExento', parseFloat(e.target.value))}
+          />
+        </div>
+        <div className="modal-field">
+          <label>Importe Exonerado</label>
+          <input
+            type="number"
+            value={formData.importeExonerado}
+            onChange={(e) => handleInputChange('importeExonerado', parseFloat(e.target.value))}
           />
         </div>
         <div className="modal-actions">

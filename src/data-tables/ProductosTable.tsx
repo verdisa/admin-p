@@ -100,18 +100,19 @@ const ProductosTable = () => {
     }
   };
 
-  const columns = ['name', 'description', 'price', 'stock', 'categoryName', 'createdAt', 'isActive'];
+  const columns = ['name', 'description', 'price', 'stock', 'categoryName', 'type', 'createdAt', 'isActive'];
   const columnNames = {
     name: 'Nombre',
     description: 'Descripción',
     price: 'Precio',
     stock: 'Stock',
     categoryName: 'Categoría',
+    type: 'Tipo',
     createdAt: 'Fecha de Creación',
     isActive: 'Activo',
   };
 
-  const editableColumns = ['name', 'description', 'price', 'stock', 'isActive'];
+  const editableColumns = ['name', 'description', 'price', 'stock', 'type', 'isActive'];
 
   const handleAddModalSave = (data: any) => {
     const categories = JSON.parse(localStorage.getItem("categories") || "[]");
@@ -153,6 +154,11 @@ const ProductosTable = () => {
             { key: 'description', label: 'Descripción' },
             { key: 'price', label: 'Precio' },
             { key: 'stock', label: 'Stock' },
+            { key: 'type', label: 'Tipo', type: 'select', options: [
+              { id: 'gravable', name: 'Gravable' },
+              { id: 'exento', name: 'Exento' },
+              { id: 'exonerado', name: 'Exonerado' }
+            ]},
             { key: 'isActive', label: 'Activo', type: 'select', options: [{ id: 'true', name: 'Sí' }, { id: 'false', name: 'No' }] },
             {
               key: 'IdCategory',

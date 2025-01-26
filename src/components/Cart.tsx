@@ -8,6 +8,7 @@ interface Product {
   name: string;
   price: number;
   quantity: number;
+  type?: 'gravable' | 'exento' | 'exonerado';
 }
 
 interface CartProps {
@@ -20,15 +21,21 @@ const Cart: React.FC<CartProps> = ({ items, setItems }) => {
   const [showModal, setShowModal] = useState(false);
   const [showToast, setShowToast] = useState(false);
 
-  const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const importeGravable = items.filter(item => (item.type || 'gravable') === 'gravable').reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const importeExento = items.filter(item => item.type === 'exento').reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const importeExonerado = items.filter(item => item.type === 'exonerado').reduce((sum, item) => sum + item.price * item.quantity, 0);
+
+  const subtotalL = importeGravable + importeExento + importeExonerado;
   const discountAmount = facturaData.discountAmount || 0.0;
-  const discount = subtotal * discountAmount; // Ejemplo: 0% de descuento
+  const discount = subtotalL * discountAmount; // Ejemplo: 0% de descuento
   const principalISv = facturaData.principalISv || 0.15;
   const secundaryIsv = facturaData.secundaryIsv || 0.00;
-  const principalTax = (subtotal - discount) * principalISv; // Aplicar ISV principal al subtotal
-  const secundaryTax = (subtotal - discount) * secundaryIsv; // Aplicar ISV secundario al subtotal
+  const principalTax = (importeGravable - discount) * principalISv; // Aplicar ISV principal al importe gravable
+  const secundaryTax = (importeGravable - discount) * secundaryIsv; // Aplicar ISV secundario al importe gravable
   const totalTax = principalTax + secundaryTax; // Sumar ambos ISV
-  const total = subtotal - discount + totalTax;
+  const subtotal = subtotalL - discount;
+  const total = subtotal + totalTax;
+  
 
   const removeItem = (index: number) => {
     setItems(prevItems => prevItems.filter((_, i) => i !== index));
@@ -66,7 +73,7 @@ const Cart: React.FC<CartProps> = ({ items, setItems }) => {
             i.id === item.id ? { ...i, quantity: i.quantity + 1 } : i
           );
         } else {
-          return [...prevItems, { ...item, quantity: 1 }];
+          return [...prevItems, { ...item, quantity: 1, type: item.type || 'gravable' }];
         }
       });
     },
@@ -121,20 +128,20 @@ const Cart: React.FC<CartProps> = ({ items, setItems }) => {
         ))}
       </div>
       <div className="cart-summary">
-        <div className="cart-subtotal">
-          Subtotal: ${subtotal.toFixed(2)}
-        </div>
         <div className="cart-discount">
-          Descuento(${(discountAmount * 100).toFixed(2)}%): -${discount.toFixed(2)}
-        </div>
-        <div className="cart-tax">
-          ISV1 (${(principalISv * 100).toFixed(2)}%): ${principalTax.toFixed(2)}
-        </div>
-        <div className="cart-tax">
-          ISV2 (${(secundaryIsv * 100).toFixed(2)}%): ${secundaryTax.toFixed(2)}
+          Descuentos: -${discount.toFixed(2)}
         </div>
         <div className="cart-total">
-          Total: ${total.toFixed(2)}
+          Sub-Total: ${subtotal.toFixed(2)}
+        </div>
+        <div className="cart-tax">
+          ISV (15%): ${principalTax.toFixed(2)}
+        </div>
+        <div className="cart-tax">
+          ISV (18%): ${secundaryTax.toFixed(2)}
+        </div>
+        <div className="cart-total">
+          TOTAL: ${total.toFixed(2)}
         </div>
         <button className="sell-button" onClick={handleSale}>Vender</button>
       </div>
@@ -149,7 +156,7 @@ const Cart: React.FC<CartProps> = ({ items, setItems }) => {
         <div className="modal-overlay" onClick={() => setShowModal(false)}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <h3>Vendido e imprimir recibo</h3>
-            <button className="print-button" onClick={() => handleDownloadPdf(items, subtotal, discount, totalTax, total, principalISv, secundaryIsv, principalTax, secundaryTax)}>
+            <button className="print-button" onClick={() => handleDownloadPdf(items, subtotalL, subtotal, discount, totalTax, total, principalISv, secundaryIsv, principalTax, secundaryTax, importeGravable, importeExento, importeExonerado)}>
               Descargar PDF
             </button>
           </div>

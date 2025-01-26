@@ -19,9 +19,10 @@ const date = new Date().toLocaleDateString('es-ES', {
   year: 'numeric'
 });
 
-export const handleDownloadPdf = (items: Product[], subtotal: number, discount: number, totalTax: number, total: number, principalISv: number, secundaryIsv: number, principalTax: number, secundaryTax: number) => {
+export const handleDownloadPdf = (items: Product[], subtotalL: number, subtotal: number, discount: number, totalTax: number, total: number, principalISv: number, secundaryIsv: number, principalTax: number, secundaryTax: number, importeGravable: number, importeExento: number, importeExonerado: number) => {
   // Asegurarse de que los valores sean números
   console.log('Items:', items);
+  console.log('Subtotal L:', subtotalL);
   console.log('Subtotal:', subtotal);
   console.log('Discount:', discount);
   console.log('Total Tax:', totalTax);
@@ -30,6 +31,10 @@ export const handleDownloadPdf = (items: Product[], subtotal: number, discount: 
   console.log('Secundary ISV:', secundaryIsv);
   console.log('Principal Tax:', principalTax);
   console.log('Secundary Tax:', secundaryTax);
+  console.log('Importe Gravable:', importeGravable);
+  console.log('Importe Exento:', importeExento);
+  console.log('Importe Exonerado:', importeExonerado);
+  subtotalL = Number(subtotalL) || 0;
   subtotal = Number(subtotal) || 0;
   discount = Number(discount) || 0;
   totalTax = Number(totalTax) || 0;
@@ -38,6 +43,9 @@ export const handleDownloadPdf = (items: Product[], subtotal: number, discount: 
   secundaryIsv = Number(secundaryIsv) || 0;
   principalTax = Number(principalTax) || 0;
   secundaryTax = Number(secundaryTax) || 0;
+  importeGravable = Number(importeGravable) || 0;
+  importeExento = Number(importeExento) || 0;
+  importeExonerado = Number(importeExonerado) || 0;
 
   // Obtener datos del cliente comprador desde localStorage
   const clienteComprador = JSON.parse(localStorage.getItem('clienteComprador') || '{}');
@@ -130,14 +138,20 @@ export const handleDownloadPdf = (items: Product[], subtotal: number, discount: 
 
   // Resumen
   currentY += 10;
-  doc.text(`Subtotal: $${subtotal.toFixed(2)}`, 195, currentY, { align: "right" });
-  doc.text(`Descuento: -$${discount.toFixed(2)}`, 195, currentY + 6, { align: "right" });
-  doc.text(`ISV1 (${(principalISv * 100).toFixed(2)}%): ${principalTax.toFixed(2)}`, 195, currentY + 12, { align: "right" });
-  doc.text(`ISV2 (${(secundaryIsv * 100).toFixed(2)}%): ${secundaryTax.toFixed(2)}`, 195, currentY + 18, { align: "right" });
-  doc.text(`Total: $${total.toFixed(2)}`, 195, currentY + 24, { align: "right" });
+  doc.text(`Importe Gravable: $${importeGravable.toFixed(2)}`, 195, currentY, { align: "right" });
+  doc.text(`Importe Exento: $${importeExento.toFixed(2)}`, 195, currentY + 6, { align: "right" });
+  doc.text(`Importe Exonerado: $${importeExonerado.toFixed(2)}`, 195, currentY + 12, { align: "right" });
+  doc.text(`Sub-Total L.: $${subtotalL.toFixed(2)}`, 195, currentY + 18, { align: "right" });
+  doc.text(`Descuentos y rebajas: -$${discount.toFixed(2)}`, 195, currentY + 24, { align: "right" });
+  doc.text(`Gravados (18%): $${(importeGravable - discount).toFixed(2)}`, 195, currentY + 30, { align: "right" });
+  doc.text(`Sub Total neto L.: $${subtotal.toFixed(2)}`, 195, currentY + 36, { align: "right" });
+  doc.text(`ISV (15%): $${principalTax.toFixed(2)}`, 195, currentY + 42, { align: "right" });
+  doc.text(`ISV (18%): $${secundaryTax.toFixed(2)}`, 195, currentY + 48, { align: "right" });
+  doc.text(`TOTAL: $${total.toFixed(2)}`, 195, currentY + 54, { align: "right" });
+
+  currentY += 60;
 
   // Pie de página
-  currentY += 30;
   doc.text(envoiceFooter, 10, currentY);
   //doc.text("Precio no incluye la instalación", 10, currentY + 6);
 
