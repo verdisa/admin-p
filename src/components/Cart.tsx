@@ -129,7 +129,7 @@ const Cart: React.FC<CartProps> = ({ items, setItems }) => {
       </div>
       <div className="cart-summary">
         <div className="cart-discount">
-          Descuentos: -${discount.toFixed(2)}
+          Descuentos({discountAmount * 100}%): -${discount.toFixed(2)}
         </div>
         <div className="cart-total">
           SubTotal: ${subtotal.toFixed(2)}
