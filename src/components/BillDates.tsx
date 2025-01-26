@@ -19,7 +19,26 @@ const date = new Date().toLocaleDateString('es-ES', {
   year: 'numeric'
 });
 
-export const handleDownloadPdf = (items: Product[]) => {
+export const handleDownloadPdf = (items: Product[], subtotal: number, discount: number, totalTax: number, total: number, principalISv: number, secundaryIsv: number, principalTax: number, secundaryTax: number) => {
+  // Asegurarse de que los valores sean números
+  console.log('Items:', items);
+  console.log('Subtotal:', subtotal);
+  console.log('Discount:', discount);
+  console.log('Total Tax:', totalTax);
+  console.log('Total:', total);
+  console.log('Principal ISV:', principalISv);
+  console.log('Secundary ISV:', secundaryIsv);
+  console.log('Principal Tax:', principalTax);
+  console.log('Secundary Tax:', secundaryTax);
+  subtotal = Number(subtotal) || 0;
+  discount = Number(discount) || 0;
+  totalTax = Number(totalTax) || 0;
+  total = Number(total) || 0;
+  principalISv = Number(principalISv) || 0;
+  secundaryIsv = Number(secundaryIsv) || 0;
+  principalTax = Number(principalTax) || 0;
+  secundaryTax = Number(secundaryTax) || 0;
+
   // Obtener datos del cliente comprador desde localStorage
   const clienteComprador = JSON.parse(localStorage.getItem('clienteComprador') || '{}');
   
@@ -46,14 +65,6 @@ export const handleDownloadPdf = (items: Product[]) => {
 
   // Envoice data
   const envoiceFooter = clienteComprador.envoiceFooter || "N/A";
-
-  // Cálculos
-  const principalISv = facturaData.principalISv || 0.15;
-  const secundaryIsv = facturaData.secundaryIsv || 0.00;
-  const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  const totalIsv = principalISv + secundaryIsv; // Sumar ambos ISV
-  const tax = subtotal * totalIsv; // Aplicar el total de ISV al subtotal
-  const total = subtotal + tax;
 
   // Crear PDF
   const doc = new jsPDF();
@@ -120,12 +131,13 @@ export const handleDownloadPdf = (items: Product[]) => {
   // Resumen
   currentY += 10;
   doc.text(`Subtotal: $${subtotal.toFixed(2)}`, 195, currentY, { align: "right" });
-  doc.text(`Impuestos (${facturaData.principalISv}%): $${tax.toFixed(2)}`, 195, currentY + 6, { align: "right" });
-  doc.text(`Impuesto2 (${facturaData.secundaryIsv}%): $${tax.toFixed(2)}`, 195, currentY + 12, { align: "right" });
-  doc.text(`Total: $${total.toFixed(2)}`, 195, currentY + 18, { align: "right" });
+  doc.text(`Descuento: -$${discount.toFixed(2)}`, 195, currentY + 6, { align: "right" });
+  doc.text(`ISV1 (${(principalISv * 100).toFixed(2)}%): ${principalTax.toFixed(2)}`, 195, currentY + 12, { align: "right" });
+  doc.text(`ISV2 (${(secundaryIsv * 100).toFixed(2)}%): ${secundaryTax.toFixed(2)}`, 195, currentY + 18, { align: "right" });
+  doc.text(`Total: $${total.toFixed(2)}`, 195, currentY + 24, { align: "right" });
 
   // Pie de página
-  currentY += 20;
+  currentY += 30;
   doc.text(envoiceFooter, 10, currentY);
   //doc.text("Precio no incluye la instalación", 10, currentY + 6);
 

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useDrop } from 'react-dnd';
 import './Cart.css';
-import jsPDF from "jspdf";
 import { handleDownloadPdf } from './BillDates'; // Importar handleDownloadPdf
 
 interface Product {
@@ -17,13 +16,19 @@ interface CartProps {
 }
 
 const Cart: React.FC<CartProps> = ({ items, setItems }) => {
+  const facturaData = JSON.parse(localStorage.getItem('facturaData') || '{}');
   const [showModal, setShowModal] = useState(false);
   const [showToast, setShowToast] = useState(false);
 
   const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  const discount = subtotal * 0.1; // Ejemplo: 10% de descuento
-  const tax = (subtotal - discount) * 0.15; // Ejemplo: 15% de impuestos
-  const total = subtotal - discount + tax;
+  const discountAmount = facturaData.discountAmount || 0.0;
+  const discount = subtotal * discountAmount; // Ejemplo: 0% de descuento
+  const principalISv = facturaData.principalISv || 0.15;
+  const secundaryIsv = facturaData.secundaryIsv || 0.00;
+  const principalTax = (subtotal - discount) * principalISv; // Aplicar ISV principal al subtotal
+  const secundaryTax = (subtotal - discount) * secundaryIsv; // Aplicar ISV secundario al subtotal
+  const totalTax = principalTax + secundaryTax; // Sumar ambos ISV
+  const total = subtotal - discount + totalTax;
 
   const removeItem = (index: number) => {
     setItems(prevItems => prevItems.filter((_, i) => i !== index));
@@ -120,10 +125,13 @@ const Cart: React.FC<CartProps> = ({ items, setItems }) => {
           Subtotal: ${subtotal.toFixed(2)}
         </div>
         <div className="cart-discount">
-          Descuento: -${discount.toFixed(2)}
+          Descuento(${(discountAmount * 100).toFixed(2)}%): -${discount.toFixed(2)}
         </div>
         <div className="cart-tax">
-          Impuestos: ${tax.toFixed(2)}
+          ISV1 (${(principalISv * 100).toFixed(2)}%): ${principalTax.toFixed(2)}
+        </div>
+        <div className="cart-tax">
+          ISV2 (${(secundaryIsv * 100).toFixed(2)}%): ${secundaryTax.toFixed(2)}
         </div>
         <div className="cart-total">
           Total: ${total.toFixed(2)}
@@ -141,7 +149,7 @@ const Cart: React.FC<CartProps> = ({ items, setItems }) => {
         <div className="modal-overlay" onClick={() => setShowModal(false)}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <h3>Vendido e imprimir recibo</h3>
-            <button className="print-button" onClick={() => handleDownloadPdf(items)}>
+            <button className="print-button" onClick={() => handleDownloadPdf(items, subtotal, discount, totalTax, total, principalISv, secundaryIsv, principalTax, secundaryTax)}>
               Descargar PDF
             </button>
           </div>
