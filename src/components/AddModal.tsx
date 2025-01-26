@@ -71,8 +71,8 @@ const AddModal: React.FC<AddModalProps> = ({ fields, onSave, onClose }) => {
             </div>
           ))}
           <div className="modal-actions">
-            <button type="submit">Guardar</button>
-            <button type="button" onClick={onClose}>
+            <button type="submit" id = "savebtn">Guardar</button>
+            <button type="button" id = "closebtn" onClick={onClose}>
               Cancelar
             </button>
           </div>
