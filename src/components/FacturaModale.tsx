@@ -13,12 +13,12 @@ const FacturaModale: React.FC<FacturaModaleProps> = ({ onClose }) => {
     rango: "000000000001 al 000000000100",
     address: "Residencial Altos del Comercio\n3era cuadra izquierda 3era casa izquierda",
     contact: "Tel: +504 2705-9182 | info@solsolenergy.com",
-    principalISv: 15, // Valor de 0 a 100
-    secundaryIsv: 18, // Valor de 0 a 100
-    discountAmount: 0, // Valor de 0 a 100
-    importeGravable: 0.0,
-    importeExento: 0.0,
-    importeExonerado: 0.0,
+    principalISv: "15", // Valor de 0 a 100 como cadena de texto
+    secundaryIsv: "18", // Valor de 0 a 100 como cadena de texto
+    discountAmount: "0", // Valor de 0 a 100 como cadena de texto
+    importeGravable: "0.0",
+    importeExento: "0.0",
+    importeExonerado: "0.0",
     companyLogo: "", // Campo para la imagen del logo
     moneda: "", // Nueva propiedad para la moneda
   });
@@ -31,16 +31,7 @@ const FacturaModale: React.FC<FacturaModaleProps> = ({ onClose }) => {
   }, []);
 
   const handleInputChange = (key: string, value: any) => {
-    if (key === 'moneda') {
-      setFormData(prev => ({ ...prev, [key]: value }));
-      return;
-    }
-    let val = parseInt(value, 10);
-    if (key === 'principalISv' || key === 'secundaryIsv' || key === 'discountAmount') {
-      if (val < 0) val = 0;
-      if (val > 100) val = 100;
-    }
-    setFormData(prev => ({ ...prev, [key]: isNaN(val) ? 0 : val }));
+    setFormData(prev => ({ ...prev, [key]: value }));
   };
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -109,14 +100,6 @@ const FacturaModale: React.FC<FacturaModaleProps> = ({ onClose }) => {
               onChange={(e) => handleInputChange('address', e.target.value)}
             />
           </div>
-          <div className="modal-field">
-            <label>Contacto</label>
-            <input
-              type="text"
-              value={formData.contact}
-              onChange={(e) => handleInputChange('contact', e.target.value)}
-            />
-          </div>
 
           <div className="modal-field">
             <label>Logo de la Empresa</label>
@@ -129,6 +112,17 @@ const FacturaModale: React.FC<FacturaModaleProps> = ({ onClose }) => {
               <img src={formData.companyLogo} alt="Company Logo" className="company-logo" />
             )}
           </div>
+          
+          <div className="modal-field">
+            <label>Contacto</label>
+            <input
+              type="text"
+              value={formData.contact}
+              onChange={(e) => handleInputChange('contact', e.target.value)}
+            />
+          </div>
+
+
           <div className="modal-field">
             <label>Moneda</label>
             <input
@@ -143,7 +137,7 @@ const FacturaModale: React.FC<FacturaModaleProps> = ({ onClose }) => {
             <input
               type="number"
               value={formData.principalISv}
-              onChange={(e) => handleInputChange('principalISv', parseInt(e.target.value))}
+              onChange={(e) => handleInputChange('principalISv', e.target.value)}
             />
           </div>
           <div className="modal-field">
@@ -151,7 +145,7 @@ const FacturaModale: React.FC<FacturaModaleProps> = ({ onClose }) => {
             <input
               type="number"
               value={formData.secundaryIsv}
-              onChange={(e) => handleInputChange('secundaryIsv', parseInt(e.target.value))}
+              onChange={(e) => handleInputChange('secundaryIsv', e.target.value)}
             />
           </div>
 
@@ -160,7 +154,7 @@ const FacturaModale: React.FC<FacturaModaleProps> = ({ onClose }) => {
             <input
               type="number"
               value={formData.discountAmount}
-              onChange={(e) => handleInputChange('discountAmount', parseInt(e.target.value))}
+              onChange={(e) => handleInputChange('discountAmount', e.target.value)}
             />
           </div>
           <div className="modal-field">
@@ -168,7 +162,7 @@ const FacturaModale: React.FC<FacturaModaleProps> = ({ onClose }) => {
             <input
               type="number"
               value={formData.importeGravable}
-              onChange={(e) => handleInputChange('importeGravable', parseFloat(e.target.value))}
+              onChange={(e) => handleInputChange('importeGravable', e.target.value)}
             />
           </div>
 
@@ -177,7 +171,7 @@ const FacturaModale: React.FC<FacturaModaleProps> = ({ onClose }) => {
             <input
               type="number"
               value={formData.importeExento}
-              onChange={(e) => handleInputChange('importeExento', parseFloat(e.target.value))}
+              onChange={(e) => handleInputChange('importeExento', e.target.value)}
             />
           </div>
           <div className="modal-field">
@@ -185,7 +179,7 @@ const FacturaModale: React.FC<FacturaModaleProps> = ({ onClose }) => {
             <input
               type="number"
               value={formData.importeExonerado}
-              onChange={(e) => handleInputChange('importeExonerado', parseFloat(e.target.value))}
+              onChange={(e) => handleInputChange('importeExonerado', e.target.value)}
             />
           </div>
         </div>

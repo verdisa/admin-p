@@ -50,3 +50,9 @@
   margin-left: 10px;
   padding: 10px 20px;
 }
+
+
+textarea {
+  /* resize: vertical; */
+  height: 150px;
+}
