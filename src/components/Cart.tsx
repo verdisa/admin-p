@@ -158,7 +158,7 @@ const Cart: React.FC<CartProps> = ({ items, setItems }) => {
         <div className="modal-overlay" onClick={() => setShowModal(false)}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <h3>Vendido e imprimir recibo</h3>
-            <button className="print-button" onClick={() => handleDownloadPdf(items, subtotalL, subtotal, discount, totalTax, total, principalISv, secundaryIsv, principalTax, secundaryTax, importeGravable, importeExento, importeExonerado, moneda)}>
+            <button className="print-button" onClick={() => handleDownloadPdf(items, subtotalL, subtotal, discount, totalTax, total, principalISv, secundaryIsv, principalTax, secundaryTax, importeGravable, importeExento, importeExonerado, moneda, discountAmount)}>
               Descargar PDF
             </button>
           </div>

@@ -26,7 +26,7 @@ const limitDate = new Date(currentDate.setMonth(currentDate.getMonth() + 6)).toL
   year: 'numeric'
 });
 
-export const handleDownloadPdf = (items: Product[], subtotalL: number, subtotal: number, discount: number, totalTax: number, total: number, principalISv: number, secundaryIsv: number, principalTax: number, secundaryTax: number, importeGravable: number, importeExento: number, importeExonerado: number, moneda: string) => {
+export const handleDownloadPdf = (items: Product[], subtotalL: number, subtotal: number, discount: number, totalTax: number, total: number, principalISv: number, secundaryIsv: number, principalTax: number, secundaryTax: number, importeGravable: number, importeExento: number, importeExonerado: number, moneda: string, discountAmount: Number) => {
   // Asegurarse de que los valores sean números
   importeGravable = Number(importeGravable) || 0;
   importeExento = Number(importeExento) || 0;
@@ -155,7 +155,7 @@ export const handleDownloadPdf = (items: Product[], subtotalL: number, subtotal:
   doc.text("Sub-Total:", 140, currentY + 18, { align: "left" });
   doc.text(`${moneda}${subtotalL.toFixed(2)}`, 195, currentY + 18, { align: "right" });
   
-  doc.text("Descuento:", 140, currentY + 24, { align: "left" });
+  doc.text(`Descuento (${discountAmount * 100}%):`, 140, currentY + 24, { align: "left" });
   doc.text(`-${moneda}${discount.toFixed(2)}`, 195, currentY + 24, { align: "right" });
   
   doc.text("Gravados (18%):", 140, currentY + 30, { align: "left" });
