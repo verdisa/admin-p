@@ -2,8 +2,6 @@
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
   background: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
@@ -14,10 +12,20 @@
   background: white;
   padding: 20px;
   border-radius: 5px;
-  width: 400px;
+  width: 900px; /* Ajustar el ancho para acomodar dos columnas */
+}
+
+/* Estilo para la cuadrícula de dos columnas */
+.custom-grid {
+  display: grid;
+  grid-template-columns: 2fr 2fr;
+  gap: 16px; /* Equivalente a Tailwind's gap-4 */
+  margin-top: 20px;
 }
 
 .modal-field {
+  display: flex;
+  flex-direction: column;
   margin-bottom: 15px;
 }
 

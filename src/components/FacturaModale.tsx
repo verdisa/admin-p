@@ -1,3 +1,4 @@
+import './FacturaModale.css';
 import React, { useState, useEffect } from 'react';
 
 interface FacturaModaleProps {
@@ -61,123 +62,134 @@ const FacturaModale: React.FC<FacturaModaleProps> = ({ onClose }) => {
 
   return (
     <div className="modal">
-      <div className="modal-content">
+      <div className="modal-content custom-modal-width">
         <h2>Datos de la Factura</h2>
-        <div className="modal-field">
-          <label>Nombre de la Empresa</label>
-          <input
-            type="text"
-            value={formData.companyName}
-            onChange={(e) => handleInputChange('companyName', e.target.value)}
-          />
+        
+        {/* Agrupar campos en una cuadrícula de dos columnas */}
+        <div className="custom-grid">
+          {/* Campos del formulario */}
+          <div className="modal-field">
+            <label>Nombre de la Empresa</label>
+            <input
+              type="text"
+              value={formData.companyName}
+              onChange={(e) => handleInputChange('companyName', e.target.value)}
+            />
+          </div>
+          <div className="modal-field">
+            <label>RTN</label>
+            <input
+              type="text"
+              value={formData.rtn}
+              onChange={(e) => handleInputChange('rtn', e.target.value)}
+            />
+          </div>
+          
+          <div className="modal-field">
+            <label>CAI</label>
+            <input
+              type="text"
+              value={formData.cai}
+              onChange={(e) => handleInputChange('cai', e.target.value)}
+            />
+          </div>
+          <div className="modal-field">
+            <label>Rango</label>
+            <input
+              type="text"
+              value={formData.rango}
+              onChange={(e) => handleInputChange('rango', e.target.value)}
+            />
+          </div>
+
+          <div className="modal-field">
+            <label>Dirección</label>
+            <textarea
+              value={formData.address}
+              onChange={(e) => handleInputChange('address', e.target.value)}
+            />
+          </div>
+          <div className="modal-field">
+            <label>Contacto</label>
+            <input
+              type="text"
+              value={formData.contact}
+              onChange={(e) => handleInputChange('contact', e.target.value)}
+            />
+          </div>
+
+          <div className="modal-field">
+            <label>Logo de la Empresa</label>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleImageUpload}
+            />
+            {formData.companyLogo && (
+              <img src={formData.companyLogo} alt="Company Logo" className="company-logo" />
+            )}
+          </div>
+          <div className="modal-field">
+            <label>Moneda</label>
+            <input
+              type="text"
+              value={formData.moneda}
+              onChange={(e) => handleInputChange('moneda', e.target.value)}
+            />
+          </div>
+
+          <div className="modal-field">
+            <label>ISV Principal (%)</label>
+            <input
+              type="number"
+              value={formData.principalISv}
+              onChange={(e) => handleInputChange('principalISv', parseInt(e.target.value))}
+            />
+          </div>
+          <div className="modal-field">
+            <label>ISV Secundario (%)</label>
+            <input
+              type="number"
+              value={formData.secundaryIsv}
+              onChange={(e) => handleInputChange('secundaryIsv', parseInt(e.target.value))}
+            />
+          </div>
+
+          <div className="modal-field">
+            <label>Descuento (%)</label>
+            <input
+              type="number"
+              value={formData.discountAmount}
+              onChange={(e) => handleInputChange('discountAmount', parseInt(e.target.value))}
+            />
+          </div>
+          <div className="modal-field">
+            <label>Importe Gravable</label>
+            <input
+              type="number"
+              value={formData.importeGravable}
+              onChange={(e) => handleInputChange('importeGravable', parseFloat(e.target.value))}
+            />
+          </div>
+
+          <div className="modal-field">
+            <label>Importe Exento</label>
+            <input
+              type="number"
+              value={formData.importeExento}
+              onChange={(e) => handleInputChange('importeExento', parseFloat(e.target.value))}
+            />
+          </div>
+          <div className="modal-field">
+            <label>Importe Exonerado</label>
+            <input
+              type="number"
+              value={formData.importeExonerado}
+              onChange={(e) => handleInputChange('importeExonerado', parseFloat(e.target.value))}
+            />
+          </div>
         </div>
-        <div className="modal-field">
-          <label>RTN</label>
-          <input
-            type="text"
-            value={formData.rtn}
-            onChange={(e) => handleInputChange('rtn', e.target.value)}
-          />
-        </div>
-        <div className="modal-field">
-          <label>CAI</label>
-          <input
-            type="text"
-            value={formData.cai}
-            onChange={(e) => handleInputChange('cai', e.target.value)}
-          />
-        </div>
-        <div className="modal-field">
-          <label>Rango</label>
-          <input
-            type="text"
-            value={formData.rango}
-            onChange={(e) => handleInputChange('rango', e.target.value)}
-          />
-        </div>
-        <div className="modal-field">
-          <label>Dirección</label>
-          <textarea
-            value={formData.address}
-            onChange={(e) => handleInputChange('address', e.target.value)}
-          />
-        </div>
-        <div className="modal-field">
-          <label>Contacto</label>
-          <input
-            type="text"
-            value={formData.contact}
-            onChange={(e) => handleInputChange('contact', e.target.value)}
-          />
-        </div>
-        <div className="modal-field">
-          <label>Logo de la Empresa</label>
-          <input
-            type="file"
-            accept="image/*"
-            onChange={handleImageUpload}
-          />
-          {formData.companyLogo && (
-            <img src={formData.companyLogo} alt="Company Logo" style={{ width: '100px', height: '100px' }} />
-          )}
-        </div>
-        <div className="modal-field">
-          <label>Moneda</label>
-          <input
-            type="text"
-            value={formData.moneda}
-            onChange={(e) => handleInputChange('moneda', e.target.value)}
-          />
-        </div>
-        <h3>Configuración de Impuestos</h3>
-        <div className="modal-field">
-          <label>ISV Principal (%)</label>
-          <input
-            type="number"
-            value={formData.principalISv}
-            onChange={(e) => handleInputChange('principalISv', parseInt(e.target.value))}
-          />
-        </div>
-        <div className="modal-field">
-          <label>ISV Secundario (%)</label>
-          <input
-            type="number"
-            value={formData.secundaryIsv}
-            onChange={(e) => handleInputChange('secundaryIsv', parseInt(e.target.value))}
-          />
-        </div>
-        <div className="modal-field">
-          <label>Descuento (%)</label>
-          <input
-            type="number"
-            value={formData.discountAmount}
-            onChange={(e) => handleInputChange('discountAmount', parseInt(e.target.value))}
-          />
-        </div>
-        <div className="modal-field">
-          <label>Importe Gravable</label>
-          <input
-            type="number"
-            value={formData.importeGravable}
-            onChange={(e) => handleInputChange('importeGravable', parseFloat(e.target.value))}
-          />
-        </div>
-        <div className="modal-field">
-          <label>Importe Exento</label>
-          <input
-            type="number"
-            value={formData.importeExento}
-            onChange={(e) => handleInputChange('importeExento', parseFloat(e.target.value))}
-          />
-        </div>
-        <div className="modal-field">
-          <label>Importe Exonerado</label>
-          <input
-            type="number"
-            value={formData.importeExonerado}
-            onChange={(e) => handleInputChange('importeExonerado', parseFloat(e.target.value))}
-          />
-        </div>
+
         <div className="modal-actions">
           <button type="button" id="savebtn" onClick={handleSave}>
             Guardar
