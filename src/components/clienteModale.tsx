@@ -43,6 +43,14 @@ const ClienteModale: React.FC<ClienteModaleProps> = ({ onClose }) => {
     setFilteredClientes(results);
   };
 
+  const handleSave = () => {
+    if (selectedCliente) {
+      localStorage.setItem('clienteComprador', JSON.stringify(selectedCliente));
+      window.dispatchEvent(new Event('storage'));
+      onClose();
+    }
+  };
+
   return (
     <div className="modal">
       <div className="modal-content">
@@ -65,43 +73,46 @@ const ClienteModale: React.FC<ClienteModaleProps> = ({ onClose }) => {
           <div className="custom-grid">
             <div className="modal-field">
               <label>Nombre:</label>
-              <p>{selectedCliente.nombre}</p>
+              <input type="text" value={selectedCliente.nombre} readOnly />
             </div>
             <div className="modal-field">
               <label>Nombre Empresa:</label>
-              <p>{selectedCliente.companyName}</p>
+              <input type="text" value={selectedCliente.companyName} readOnly />
             </div>
             <div className="modal-field">
               <label>Nombre Factura:</label>
-              <p>{selectedCliente.costumerEnvoiceFileName}</p>
+              <input type="text" value={selectedCliente.costumerEnvoiceFileName} readOnly />
             </div>
             <div className="modal-field">
               <label>CAI:</label>
-              <p>{selectedCliente.cai}</p>
+              <input type="text" value={selectedCliente.cai} readOnly />
             </div>
             <div className="modal-field">
               <label>Dirección Empresa:</label>
-              <p>{selectedCliente.address}</p>
+              <input type="text" value={selectedCliente.address} readOnly />
             </div>
             <div className="modal-field">
               <label>Contacto Empresa:</label>
-              <p>{selectedCliente.contact}</p>
+              <input type="text" value={selectedCliente.contact} readOnly />
             </div>
             <div className="modal-field">
               <label>Nombre Negocio:</label>
-              <p>{selectedCliente.costumerBusinessName}</p>
+              <input type="text" value={selectedCliente.costumerBusinessName} readOnly />
             </div>
             <div className="modal-field">
               <label>Número Negocio:</label>
-              <p>{selectedCliente.costumerBusinessWithNumber}</p>
+              <input type="text" value={selectedCliente.costumerBusinessWithNumber} readOnly />
             </div>
             <div className="modal-field">
               <label>Factura Footer:</label>
-              <p>{selectedCliente.envoiceFooter}</p>
+              <input type="text" value={selectedCliente.envoiceFooter} readOnly />
             </div>
           </div>
         )}
         <div className="modal-actions">
+          <button type="button" id="savebtn" onClick={handleSave}>
+            Guardar
+          </button>
           <button type="button" id="closebtn" onClick={onClose}>
             Cerrar
           </button>
