@@ -51,6 +51,11 @@
   padding: 10px 20px;
 }
 
+.search-container {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
 
 textarea {
   /* resize: vertical; */
