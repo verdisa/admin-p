@@ -164,10 +164,10 @@ export const handleDownloadPdf = (items: Product[], subtotalL: number, subtotal:
   doc.text("Sub Total neto:", 140, currentY + 36, { align: "left" });
   doc.text(`${moneda}${subtotal.toFixed(2)}`, 195, currentY + 36, { align: "right" });
   
-  doc.text(`ISV (${principalISv}%):`, 140, currentY + 42, { align: "left" });
+  doc.text(`ISV (${principalISv * 100}%):`, 140, currentY + 42, { align: "left" });
   doc.text(`${moneda}${principalTax.toFixed(2)}`, 195, currentY + 42, { align: "right" });
   
-  doc.text(`ISV (${secundaryIsv}%):`, 140, currentY + 48, { align: "left" });
+  doc.text(`ISV (${secundaryIsv * 100}%):`, 140, currentY + 48, { align: "left" });
   doc.text(`${moneda}${secundaryTax.toFixed(2)}`, 195, currentY + 48, { align: "right" });
   
   // Total
