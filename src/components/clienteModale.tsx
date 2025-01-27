@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Cliente } from '../interfaces/ClienteInterface';
+import './FacturaModale.css';
 
 interface ClienteModaleProps {
   onClose: () => void;
@@ -61,17 +62,43 @@ const ClienteModale: React.FC<ClienteModaleProps> = ({ onClose }) => {
           ))}
         </select>
         {selectedCliente && (
-          <div className="cliente-details">
-            <h3>Detalles del Cliente</h3>
-            <p><strong>Nombre:</strong> {selectedCliente.nombre}</p>
-            <p><strong>Nombre Empresa:</strong> {selectedCliente.companyName}</p>
-            <p><strong>Nombre Factura:</strong> {selectedCliente.costumerEnvoiceFileName}</p>
-            <p><strong>CAI:</strong> {selectedCliente.cai}</p>
-            <p><strong>Dirección Empresa:</strong> {selectedCliente.address}</p>
-            <p><strong>Contacto Empresa:</strong> {selectedCliente.contact}</p>
-            <p><strong>Nombre Negocio:</strong> {selectedCliente.costumerBusinessName}</p>
-            <p><strong>Número Negocio:</strong> {selectedCliente.costumerBusinessWithNumber}</p>
-            <p><strong>Factura Footer:</strong> {selectedCliente.envoiceFooter}</p>
+          <div className="custom-grid">
+            <div className="modal-field">
+              <label>Nombre:</label>
+              <p>{selectedCliente.nombre}</p>
+            </div>
+            <div className="modal-field">
+              <label>Nombre Empresa:</label>
+              <p>{selectedCliente.companyName}</p>
+            </div>
+            <div className="modal-field">
+              <label>Nombre Factura:</label>
+              <p>{selectedCliente.costumerEnvoiceFileName}</p>
+            </div>
+            <div className="modal-field">
+              <label>CAI:</label>
+              <p>{selectedCliente.cai}</p>
+            </div>
+            <div className="modal-field">
+              <label>Dirección Empresa:</label>
+              <p>{selectedCliente.address}</p>
+            </div>
+            <div className="modal-field">
+              <label>Contacto Empresa:</label>
+              <p>{selectedCliente.contact}</p>
+            </div>
+            <div className="modal-field">
+              <label>Nombre Negocio:</label>
+              <p>{selectedCliente.costumerBusinessName}</p>
+            </div>
+            <div className="modal-field">
+              <label>Número Negocio:</label>
+              <p>{selectedCliente.costumerBusinessWithNumber}</p>
+            </div>
+            <div className="modal-field">
+              <label>Factura Footer:</label>
+              <p>{selectedCliente.envoiceFooter}</p>
+            </div>
           </div>
         )}
         <div className="modal-actions">
