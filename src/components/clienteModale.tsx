@@ -130,14 +130,6 @@ const ClienteModale: React.FC<ClienteModaleProps> = ({ onClose }) => {
               />
             </div>
             <div className="modal-field">
-              <label>Nombre Factura:</label>
-              <input
-                type="text"
-                value={selectedCliente.costumerEnvoiceFileName}
-                onChange={(e) => handleInputChange('costumerEnvoiceFileName', e.target.value)}
-              />
-            </div>
-            <div className="modal-field">
               <label>CAI:</label>
               <input
                 type="text"
@@ -159,14 +151,6 @@ const ClienteModale: React.FC<ClienteModaleProps> = ({ onClose }) => {
                 type="text"
                 value={selectedCliente.contact}
                 onChange={(e) => handleInputChange('contact', e.target.value)}
-              />
-            </div>
-            <div className="modal-field">
-              <label>Nombre Negocio:</label>
-              <input
-                type="text"
-                value={selectedCliente.costumerBusinessName}
-                onChange={(e) => handleInputChange('costumerBusinessName', e.target.value)}
               />
             </div>
             <div className="modal-field">

@@ -8,6 +8,8 @@ interface FacturaModaleProps {
 const FacturaModale: React.FC<FacturaModaleProps> = ({ onClose }) => {
   const [formData, setFormData] = useState({
     companyName: "SOLUCIONES SOLARES S.A.",
+    envoiceForm: "PROFORMA",
+    fileEnvoiceName: "PROFORMA-",
     rtn: "08019014639996",
     cai: "B2EDD8-0F6781-4D4B86-8B96A2-CD3A12-D5",
     rango: "000000000001 al 000000000100",
@@ -90,6 +92,23 @@ const FacturaModale: React.FC<FacturaModaleProps> = ({ onClose }) => {
               type="text"
               value={formData.rango}
               onChange={(e) => handleInputChange('rango', e.target.value)}
+            />
+          </div>
+
+          <div className="modal-field">
+            <label>Forma de Facturación</label>
+            <input
+              type="text"
+              value={formData.envoiceForm}
+              onChange={(e) => handleInputChange('envoiceForm', e.target.value)}
+            />
+          </div>
+          <div className="modal-field">
+            <label>Nombre del Archivo</label>
+            <input
+              type="text"
+              value={formData.fileEnvoiceName}
+              onChange={(e) => handleInputChange('fileEnvoiceName', e.target.value)}
             />
           </div>
 

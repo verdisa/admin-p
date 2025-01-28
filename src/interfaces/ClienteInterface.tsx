@@ -15,8 +15,6 @@ export interface Cliente {
   cai: string; // CAI de la empresa.
   address: string; // Dirección de la empresa.
   contact: string; // Contacto de la empresa.
-  invoiceNumber: string; // Número de factura.
-  costumerBusinessName: string; // Nombre del negocio del cliente.
   costumerBusinessWithNumber: string; // Número del negocio del cliente.
   envoiceFooter: string; // Pie de página de la factura.
 }

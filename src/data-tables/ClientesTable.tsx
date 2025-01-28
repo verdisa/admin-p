@@ -76,7 +76,7 @@ const Clientes = () => {
     }
   };
 
-  const columns = ['nombre', 'apellidos', 'email', 'telefono', 'rtn', 'contacto', 'direccion', 'companyName', 'cai', 'address', 'contact', 'invoiceNumber', 'date', 'order', 'costumerEnvoiceFileName', 'costumerBusinessName', 'costumerBusinessWithNumber', 'envoiceFooter'];
+  const columns = ['nombre', 'apellidos', 'email', 'telefono', 'rtn', 'contacto', 'direccion', 'companyName', 'cai', 'address', 'contact', 'costumerBusinessWithNumber', 'envoiceFooter'];
   const columnNames = {
     nombre: 'Nombre',
     email: 'Correo Electrónico',
@@ -88,16 +88,11 @@ const Clientes = () => {
     cai: 'CAI',
     address: 'Dirección Empresa',
     contact: 'Contacto Empresa',
-    invoiceNumber: 'Número Factura',
-    date: 'Fecha Factura',
-    order: 'Orden Factura',
-    costumerEnvoiceFileName: 'Nombre Factura',
-    costumerBusinessName: 'Nombre Negocio',
     costumerBusinessWithNumber: 'Número Negocio',
     envoiceFooter: 'Factura Footer',
   };
 
-  const editableColumns = ['nombre', 'apellidos', 'email', 'telefono', 'rtn', 'contacto', 'direccion', 'companyName', 'cai', 'address', 'contact', 'invoiceNumber', 'date', 'order', 'costumerEnvoiceFileName', 'costumerBusinessName', 'costumerBusinessWithNumber', 'envoiceFooter'];
+  const editableColumns = ['nombre', 'apellidos', 'email', 'telefono', 'rtn', 'contacto', 'direccion', 'companyName', 'cai', 'address', 'contact', 'costumerBusinessWithNumber', 'envoiceFooter'];
 
   return (
     <div className="users-container">
@@ -128,8 +123,6 @@ const Clientes = () => {
             { key: 'cai', label: 'CAI' },
             { key: 'address', label: 'Dirección Empresa' },
             { key: 'contact', label: 'Contacto  Empresa' },
-            { key: 'costumerEnvoiceFileName', label: 'Nombre Factura' },
-            { key: 'costumerBusinessName', label: 'Nombre  Negocio' },
             { key: 'costumerBusinessWithNumber', label: 'Número  Negocio' },
             { key: 'envoiceFooter', label: 'Factura Footer' },
           ]}
