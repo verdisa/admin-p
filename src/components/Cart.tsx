@@ -8,7 +8,7 @@ interface Product {
   name: string;
   price: number;
   quantity: number;
-  type?: 'gravable' | 'exento' | 'exonerado';
+  type?: 'gravable' | 'gravable2' |'exento' | 'exonerado';
 }
 
 interface CartProps {

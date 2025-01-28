@@ -155,7 +155,8 @@ const ProductosTable = () => {
             { key: 'price', label: 'Precio' },
             { key: 'stock', label: 'Stock' },
             { key: 'type', label: 'Tipo', type: 'select', options: [
-              { id: 'gravable', name: 'Gravable' },
+              { id: 'gravable', name: 'Gravable 15%' },
+              { id: 'gravable2', name: 'Gravable 18%' },
               { id: 'exento', name: 'Exento' },
               { id: 'exonerado', name: 'Exonerado' }
             ]},
