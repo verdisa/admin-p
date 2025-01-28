@@ -38,7 +38,10 @@ const PosTable: React.FC = () => {
         .map((p: any) => ({
           id: p.uid,
           name: p.name,
-          price: p.price
+          price: p.price,
+          quantity: p.stock,
+          type: p.type,
+
         }))
     }));
 

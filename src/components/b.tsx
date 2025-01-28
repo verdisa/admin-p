@@ -23,7 +23,7 @@ const Cart: React.FC<CartProps> = ({ items, setItems }) => {
 
   const moneda = facturaData.moneda || 'L';
   const importeGravable1 = items
-    .filter(item => item.type === 'gravable' || item.type === undefined)
+    .filter(item => item.type === 'gravable')
     .reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   const importeGravable2 = items

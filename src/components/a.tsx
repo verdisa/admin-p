@@ -147,7 +147,7 @@ export const handleDownloadPdf = (items: Product[], subtotalL: number, subtotal:
 
   // Información de importes
   doc.text("Importe Gravable:", 140, currentY, { align: "left" });
-  doc.text(`${moneda}${subtotalL.toFixed(2)}`, 195, currentY, { align: "right" });
+  doc.text(`${moneda}${importeGravable1.toFixed(2) + importeGravable2.toFixed(2)}`, 195, currentY, { align: "right" });
   
   doc.text("Importe Exento:", 140, currentY + 6, { align: "left" });
   doc.text(`${moneda}${importeExento.toFixed(2)}`, 195, currentY + 6, { align: "right" });
@@ -163,26 +163,26 @@ export const handleDownloadPdf = (items: Product[], subtotalL: number, subtotal:
   
   doc.text(`Gravados (${principalISv * 100}%):`, 140, currentY + 30, { align: "left" });
   doc.text(`${moneda}${(importeGravable1 - discount).toFixed(2)}`, 195, currentY + 30, { align: "right" });
+
+  doc.text(`Gravados (${principalISv * 100}%):`, 140, currentY + 30, { align: "left" });
+  doc.text(`${moneda}${(importeGravable2 - discount).toFixed(2)}`, 195, currentY + 30, { align: "right" });
   
-  doc.text(`Gravados (${secundaryIsv * 100}%):`, 140, currentY + 36, { align: "left" });
-  doc.text(`${moneda}${(importeGravable2 - discount).toFixed(2)}`, 195, currentY + 36, { align: "right" });
+  doc.text("Sub Total neto:", 140, currentY + 36, { align: "left" });
+  doc.text(`${moneda}${subtotal.toFixed(2)}`, 195, currentY + 36, { align: "right" });
   
-  doc.text("Sub Total neto:", 140, currentY + 42, { align: "left" });
-  doc.text(`${moneda}${subtotal.toFixed(2)}`, 195, currentY + 42, { align: "right" });
+  doc.text(`ISV (${principalISv * 100}%):`, 140, currentY + 42, { align: "left" });
+  doc.text(`${moneda}${principalTax.toFixed(2)}`, 195, currentY + 42, { align: "right" });
   
-  doc.text(`ISV (${principalISv * 100}%):`, 140, currentY + 48, { align: "left" });
-  doc.text(`${moneda}${principalTax.toFixed(2)}`, 195, currentY + 48, { align: "right" });
-  
-  doc.text(`ISV (${secundaryIsv * 100}%):`, 140, currentY + 54, { align: "left" });
-  doc.text(`${moneda}${secundaryTax.toFixed(2)}`, 195, currentY + 54, { align: "right" });
+  doc.text(`ISV (${secundaryIsv * 100}%):`, 140, currentY + 48, { align: "left" });
+  doc.text(`${moneda}${secundaryTax.toFixed(2)}`, 195, currentY + 48, { align: "right" });
   
   // Total
   doc.setFontSize(10);
   doc.setFont(undefined, 'bold');
-  doc.text("TOTAL:", 140, currentY + 60, { align: "left" });
-  doc.text(`${moneda}${total.toFixed(2)}`, 195, currentY + 60, { align: "right" });
+  doc.text("TOTAL:", 140, currentY + 54, { align: "left" });
+  doc.text(`${moneda}${total.toFixed(2)}`, 195, currentY + 54, { align: "right" });
   
-  currentY += 66;
+  currentY += 60;
 
   doc.text(envoiceFooter, 80, currentY + 20);
   //doc.text("Precio no incluye la instalación", 10, currentY + 6);

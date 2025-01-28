@@ -6,6 +6,8 @@ interface Product {
   id: string;
   name: string;
   price: number | string;
+  quantity?: number;
+  type?: 'gravable' | 'gravable2' | 'exento' | 'exonerado';
 }
 
 interface Category {
