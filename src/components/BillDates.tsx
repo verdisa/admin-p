@@ -58,7 +58,7 @@ export const handleDownloadPdf = (items: Product[], subtotalL: number, subtotal:
   const companyLogo = facturaData.companyLogo || "";
   const rango = facturaData.rango || "N/A";
   const fileEnvoiceName = facturaData.fileEnvoiceName || "factura-";
-  const envoiceFormType = clienteComprador.envoiceForm || "N/A";
+  const envoiceFormType = facturaData.envoiceForm || "N/A";
 
 
 
