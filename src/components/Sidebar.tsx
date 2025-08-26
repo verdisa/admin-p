@@ -13,32 +13,18 @@ type MenuItem = {
 
 const menuItems: MenuItem[] = [
   {
-    id: 'dashboard',
-    label: 'Dashboard',
-    icon: 'fas fa-tachometer-alt',
-    path: '/dashboard',
-    submenu: [
-      {
-        id: 'analytics-users',
-        label: 'Analíticas Usuarios',
-        icon: 'fas fa-chart-line',
-        path: '/analytics-users',
-      },
-      {
-        id: 'analytics-operators',
-        label: 'Analíticas Operadores',
-        icon: 'fas fa-chart-bar',
-        path: '/analytics-operators',
-      },
-    ],
-  },
-  {
-    id: 'ventas',
-    label: 'Ventas',
+    id: 'pos',
+    label: 'POS',
     icon: 'fas fa-shopping-cart',
-    path: '/ventas',
+    path: '/pos',
     submenu: [
       {
+        id: 'pos-list',
+        label: 'POS',
+        icon: 'fas fa-credit-card',
+        path: '/pos',
+      },
+      /* {
         id: 'ventas-list',
         label: 'Lista Ventas',
         icon: 'fas fa-list',
@@ -49,27 +35,27 @@ const menuItems: MenuItem[] = [
         label: 'Cierre de Caja',
         icon: 'fas fa-cash-register',
         path: '/cierres',
-      },
-      {
-        id: 'pos-list',
-        label: 'POS',
-        icon: 'fas fa-credit-card',
-        path: '/pos',
-      },
+      }, */
     ],
   },
   {
-    id: 'inventory',
-    label: 'Inventario',
-    icon: 'fas fa-boxes',
-    path: '/inventory',
+    id: 'categories',
+    label: 'Categorías',
+    icon: 'fas fa-th-large',
+    path: '/categories',
     submenu: [
       {
-        id: 'inventory-list',
-        label: 'Lista Inventario',
+        id: 'category-list',
+        label: 'Lista Categorías',
         icon: 'fas fa-list',
-        path: '/inventory',
+        path: '/categorias',
       },
+      /* {
+        id: 'subcategory-list',
+        label: 'Lista Sub Categorías',
+        icon: 'fas fa-list-alt',
+        path: '/subcategorias',
+      }, */
     ],
   },
   {
@@ -97,68 +83,6 @@ const menuItems: MenuItem[] = [
         label: 'Lista Productos',
         icon: 'fas fa-list',
         path: '/productos',
-      },
-    ],
-  },
-  {
-    id: 'categories',
-    label: 'Categorías',
-    icon: 'fas fa-th-large',
-    path: '/categories',
-    submenu: [
-      {
-        id: 'category-list',
-        label: 'Lista Categorías',
-        icon: 'fas fa-list',
-        path: '/categorias',
-      },
-      {
-        id: 'subcategory-list',
-        label: 'Lista Sub Categorías',
-        icon: 'fas fa-list-alt',
-        path: '/subcategorias',
-      },
-    ],
-  },
-  {
-    id: 'users',
-    label: 'Usuarios',
-    icon: 'fas fa-users',
-    path: '/users',
-    submenu: [
-      {
-        id: 'user-list',
-        label: 'Lista Usuarios',
-        icon: 'fas fa-list',
-        path: '/usuarios',
-      },
-    ],
-  },
-  {
-    id: 'proveedores',
-    label: 'Proveedores',
-    icon: 'fas fa-parachute-box',
-    path: '/proveedores',
-    submenu: [
-      {
-        id: 'proveedores-list',
-        label: 'Lista proveedores',
-        icon: 'fas fa-list',
-        path: '/proveedores',
-      },
-    ],
-  },
-  {
-    id: 'documentation',
-    label: 'Documentación',
-    icon: 'fas fa-book',
-    path: '/documentation',
-    submenu: [
-      {
-        id: 'documents',
-        label: 'Documentos',
-        icon: 'fas fa-file-alt',
-        path: '/docs',
       },
     ],
   },

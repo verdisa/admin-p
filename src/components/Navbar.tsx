@@ -90,18 +90,28 @@ const Navbar: React.FC = () => {
       <nav className="navbar">
         <ul className="navbar-list">
           <li className="navbar-item">
-            <Link to="/ventas">
-              <i className="fas fa-shopping-cart"></i> Ventas
+            <Link to="/pos">
+              <i className="fas fa-shopping-cart"></i> POS
             </Link>
           </li>
           <li className="navbar-item">
-            <Link to="/pos">
-              <i className="fas fa-credit-card"></i> POS
+            <Link to="/categorias">
+              <i className="fas fa-tags"></i> Categorías
+            </Link>
+          </li>
+          <li className="navbar-item">
+            <Link to="/clientes">
+              <i className="fas fa-users"></i> Clientes
             </Link>
           </li>
           <li className="navbar-item">
             <Link to="/productos">
               <i className="fas fa-box"></i> Productos
+            </Link>
+          </li>
+          {/* <li className="navbar-item">
+            <Link to="/pos">
+              <i className="fas fa-credit-card"></i> POS
             </Link>
           </li>
           <li className="navbar-item">
@@ -113,7 +123,7 @@ const Navbar: React.FC = () => {
             <Link to="/inventory">
               <i className="fas fa-boxes"></i> Inventario
             </Link>
-          </li>
+          </li> */}
         </ul>
         <div className="login-panel">
           {currentAdmin && (
