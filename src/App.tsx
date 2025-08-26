@@ -1,8 +1,8 @@
 // src/App.tsx
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import ProtectedRoute from './components/ProtectedRoute';
 
-import Home from './pages/Home';
 import Usuarios from './pages/Usuarios';
 import Categorias from './pages/Categorias';
 import Empleados from './pages/Empleados';
@@ -19,21 +19,24 @@ import Clientes from './pages/Clientes';
 const App: React.FC = () => {
   return (
     <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/categorias" element={<Categorias />} />
-        <Route path="/subcategorias" element={<SubCategorias />} />
-        <Route path="/usuarios" element={<Usuarios />} />
-        <Route path="/empleados" element={<Empleados />} />
-        <Route path="/docs" element={<Docs />} />
-        <Route path="/proveedores" element={<Machines />} />
-        <Route path="/inventory" element={<InventoryPage />} />
-        <Route path="/ventas" element={<VentasPage />} />
-        <Route path="/cierres" element={<CierreCajaPage />} />
-        <Route path="/pos" element={<PosPage />} />
-        <Route path="/productos" element={<ProductosPage />} />
-        <Route path="/clientes" element={<Clientes />} />
-      </Routes>
+      <ProtectedRoute>
+        <Routes>
+          <Route path="/" element={<PosPage />} />
+          <Route path="/home" element={<PosPage />} />
+          <Route path="/categorias" element={<Categorias />} />
+          <Route path="/subcategorias" element={<SubCategorias />} />
+          <Route path="/usuarios" element={<Usuarios />} />
+          <Route path="/empleados" element={<Empleados />} />
+          <Route path="/docs" element={<Docs />} />
+          <Route path="/proveedores" element={<Machines />} />
+          <Route path="/inventory" element={<InventoryPage />} />
+          <Route path="/ventas" element={<VentasPage />} />
+          <Route path="/cierres" element={<CierreCajaPage />} />
+          <Route path="/pos" element={<PosPage />} />
+          <Route path="/productos" element={<ProductosPage />} />
+          <Route path="/clientes" element={<Clientes />} />
+        </Routes>
+      </ProtectedRoute>
     </Router>
   );
 };

@@ -1,8 +1,20 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
 const Navbar: React.FC = () => {
+  const { currentAdmin, logout } = useAuth();
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      window.location.reload();
+    } catch (error) {
+      console.error('Error during logout:', error);
+    }
+  };
+
   return (
     <>
       <style>
@@ -45,21 +57,33 @@ const Navbar: React.FC = () => {
 
           .login-panel {
             color: white;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
           }
 
-          .login-panel a {
+          .login-panel button {
             color: white;
-            text-decoration: none;
+            background: none;
+            border: none;
             padding: 0.5rem 1rem;
+            cursor: pointer;
             transition: background-color 0.3s;
+            display: flex;
+            align-items: center;
           }
 
-          .login-panel a:hover {
+          .login-panel button:hover {
             background-color: #555;
           }
 
           .login-icon {
             font-size: 1.5rem;
+          }
+
+          .user-info {
+            font-size: 0.9rem;
+            color: #cbd5e0;
           }
         `}
       </style>
@@ -92,9 +116,14 @@ const Navbar: React.FC = () => {
           </li>
         </ul>
         <div className="login-panel">
-          <Link to="/login">
-            <i className="fas fa-sign-in-alt login-icon"></i>
-          </Link>
+          {currentAdmin && (
+            <span className="user-info">
+              Bienvenido, {currentAdmin.username}
+            </span>
+          )}
+          <button onClick={handleLogout}>
+            <i className="fas fa-sign-out-alt login-icon"></i>
+          </button>
         </div>
       </nav>
     </>
