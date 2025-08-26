@@ -6,14 +6,15 @@ import { getAuth } from 'firebase/auth';
 
 // Configuración de Firebase
 const firebaseConfig = {
-  apiKey: "AIzaSyDq5W5FGwE-GVjWiL1Ic2cpsenG_qocAlE",
-  authDomain: "midonkipos.firebaseapp.com",
-  projectId: "midonkipos",
-  storageBucket: "midonkipos.firebasestorage.app",
-  messagingSenderId: "477040758139",
-  appId: "1:477040758139:web:7924a691c7520300b2c1de",
-  measurementId: "G-3TTHN4GZND"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
 };
+
 
 
 // Inicializa Firebase
