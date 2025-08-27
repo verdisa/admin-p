@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import './sidebar.css';
@@ -90,6 +90,28 @@ const menuItems: MenuItem[] = [
 
 const Sidebar = () => {
   const [expanded, setExpanded] = useState<string | null>(null);
+  const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    const handleToggleSidebar = () => {
+      setIsOpen(!isOpen);
+    };
+
+    const handleClickOutside = (event: MouseEvent) => {
+      const sidebar = document.querySelector('.sidebar');
+      if (sidebar && !sidebar.contains(event.target as Node) && isOpen) {
+        setIsOpen(false);
+      }
+    };
+
+    window.addEventListener('toggleSidebar', handleToggleSidebar);
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      window.removeEventListener('toggleSidebar', handleToggleSidebar);
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isOpen]);
 
   const toggleSubmenu = (itemId: string) => {
     setExpanded(expanded === itemId ? null : itemId);
@@ -117,7 +139,7 @@ const Sidebar = () => {
         {hasSubmenu && isExpanded && item.submenu && (
           <div className="submenu">
             {item.submenu.map((subItem) => (
-              <Link key={subItem.id} to={subItem.path} className="submenu-item">
+              <Link key={subItem.id} to={subItem.path} className="submenu-item" onClick={() => setIsOpen(false)}>
                 <i className={`${subItem.icon} submenu-icon`}></i>
                 <span className="submenu-label">{subItem.label}</span>
               </Link>
@@ -129,7 +151,7 @@ const Sidebar = () => {
   };
 
   return (
-    <div className="sidebar">
+    <div className={`sidebar ${isOpen ? 'open' : ''}`}>
       <div className="sidebar-header">
         <i className="fas fa-bars header-icon"></i>
         <h2 className="header-title">POS</h2>

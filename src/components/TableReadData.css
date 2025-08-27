@@ -182,3 +182,78 @@
   color: green;
   font-size: 16px;
 }
+
+/* Media queries para responsividad */
+@media (max-width: 768px) {
+  .users-table-container {
+    max-width: 100%;
+    padding: 10px;
+    margin: 0;
+  }
+
+  .users-table {
+    font-size: 0.9rem;
+  }
+
+  .users-table th,
+  .users-table td {
+    padding: 8px;
+  }
+
+  .users-table td.actions-cell {
+    width: 120px;
+  }
+
+  .users-table .delete-button {
+    padding: 4px 8px;
+    font-size: 12px;
+  }
+
+  .modal-content {
+    width: 90%;
+    padding: 15px;
+  }
+
+  .modal-actions {
+    flex-direction: column;
+  }
+
+  .modal-actions button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .users-table-container {
+    padding: 5px;
+  }
+
+  .users-table {
+    font-size: 0.8rem;
+  }
+
+  .users-table th,
+  .users-table td {
+    padding: 6px;
+  }
+
+  .user-photo,
+  .profile-image {
+    width: 30px;
+    height: 30px;
+  }
+
+  .users-table td.actions-cell {
+    width: 100px;
+  }
+
+  .users-table .delete-button {
+    padding: 3px 6px;
+    font-size: 11px;
+  }
+
+  .add-user-button {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+  }
+}

@@ -84,3 +84,54 @@ h1, h2 {
   font-weight: bold;
   text-align: right;
 }
+
+/* Media queries para responsividad */
+@media (max-width: 768px) {
+  .pos-container {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .sidebar {
+    width: 100%;
+    order: 1;
+  }
+
+  .products-section {
+    width: 100%;
+    order: 2;
+  }
+
+  .cart-section {
+    width: 100%;
+    order: 3;
+  }
+
+  .product-lists {
+    height: auto;
+    max-height: 50vh;
+  }
+}
+
+@media (max-width: 480px) {
+  .sidebar {
+    padding: 0.5rem;
+  }
+
+  .products-section {
+    padding: 0.5rem;
+  }
+
+  .cart-section {
+    padding: 0.5rem;
+  }
+
+  h1, h2 {
+    font-size: 1.25rem;
+  }
+
+  .category-button {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.9rem;
+  }
+}

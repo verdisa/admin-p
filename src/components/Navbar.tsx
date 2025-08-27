@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
 const Navbar: React.FC = () => {
   const { currentAdmin, logout } = useAuth();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleLogout = async () => {
     try {
@@ -13,6 +14,12 @@ const Navbar: React.FC = () => {
     } catch (error) {
       console.error('Error during logout:', error);
     }
+  };
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+    // Emitir evento para toggle sidebar
+    window.dispatchEvent(new CustomEvent('toggleSidebar'));
   };
 
   return (
@@ -85,27 +92,102 @@ const Navbar: React.FC = () => {
             font-size: 0.9rem;
             color: #cbd5e0;
           }
+
+          .menu-toggle {
+            display: none;
+            color: white;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+          }
+
+          /* Media queries para responsividad */
+          @media (max-width: 768px) {
+            .navbar-list {
+              position: fixed;
+              top: 100%;
+              left: 0;
+              width: 100%;
+              background-color: #1a202c;
+              flex-direction: column;
+              transform: translateY(-100%);
+              opacity: 0;
+              visibility: hidden;
+              transition: all 0.3s ease;
+              z-index: 999;
+            }
+
+            .navbar-list.open {
+              transform: translateY(0);
+              opacity: 1;
+              visibility: visible;
+            }
+
+            .navbar-item {
+              margin: 0;
+              width: 100%;
+            }
+
+            .navbar-item a {
+              justify-content: center;
+              padding: 1rem;
+            }
+
+            .menu-toggle {
+              display: block;
+            }
+
+            .login-panel {
+              flex-direction: column;
+              gap: 0.5rem;
+            }
+
+            .user-info {
+              text-align: center;
+            }
+          }
+
+          @media (max-width: 480px) {
+            .navbar {
+              padding: 0.75rem;
+            }
+
+            .navbar-item a {
+              font-size: 0.9rem;
+              padding: 0.75rem;
+            }
+
+            .login-panel button {
+              padding: 0.4rem 0.8rem;
+              font-size: 0.9rem;
+            }
+          }
         `}
       </style>
       <nav className="navbar">
-        <ul className="navbar-list">
+        <button className="menu-toggle" onClick={toggleMenu}>
+          <i className="fas fa-bars"></i>
+        </button>
+        <ul className={`navbar-list ${isMenuOpen ? 'open' : ''}`}>
           <li className="navbar-item">
-            <Link to="/pos">
+            <Link to="/pos" onClick={() => setIsMenuOpen(false)}>
               <i className="fas fa-shopping-cart"></i> POS
             </Link>
           </li>
           <li className="navbar-item">
-            <Link to="/categorias">
+            <Link to="/categorias" onClick={() => setIsMenuOpen(false)}>
               <i className="fas fa-tags"></i> Categorías
             </Link>
           </li>
           <li className="navbar-item">
-            <Link to="/clientes">
+            <Link to="/clientes" onClick={() => setIsMenuOpen(false)}>
               <i className="fas fa-users"></i> Clientes
             </Link>
           </li>
           <li className="navbar-item">
-            <Link to="/productos">
+            <Link to="/productos" onClick={() => setIsMenuOpen(false)}>
               <i className="fas fa-box"></i> Productos
             </Link>
           </li>
