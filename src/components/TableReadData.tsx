@@ -26,7 +26,7 @@ const TableReadData = <T extends { [key: string]: any }>(
   const [editValue, setEditValue] = useState<{ [key: string]: any }>({});
   const [editing, setEditing] = useState<{ [key: string]: boolean }>({});
 
-  const defaultRenderer = (value: any, column: string) => {
+  const defaultRenderer = (value: any, _column: string) => {
     if (typeof value === 'boolean') {
       return value ? <i className="fas fa-check check-icon"></i> : null;
     }

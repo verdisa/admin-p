@@ -17,7 +17,7 @@ const CierreCajaTable = () => {
           console.log("Datos cargados desde localStorage");
         } else {
           const cierresList = await fetchCollectionData("cierres");
-          setCierres(cierresList as CierreCaja[]);
+          setCierres(cierresList as unknown as CierreCaja[]);
           localStorage.setItem("cierres", JSON.stringify(cierresList));
           console.log("Datos cargados desde Firebase y guardados en localStorage");
         }
@@ -31,7 +31,7 @@ const CierreCajaTable = () => {
 
   const handleSaveCierre = async (updatedRow: CierreCaja) => {
     try {
-      await handleSave("cierres", updatedRow);
+      await handleSave("cierres", updatedRow as { uid?: string });
       setCierres((prevCierres) => {
         const updatedCierres = prevCierres.map((cierre) =>
           cierre.id === updatedRow.id ? updatedRow : cierre

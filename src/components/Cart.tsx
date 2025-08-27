@@ -3,7 +3,7 @@ import { useDrop } from 'react-dnd';
 import './Cart.css';
 import { handleDownloadPdf } from './BillDates'; // Importar handleDownloadPdf
 
-interface Product {
+export interface Product {
   id: string;
   name: string;
   price: number;

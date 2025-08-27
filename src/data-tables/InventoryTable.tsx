@@ -30,7 +30,7 @@ const InventoryTable: React.FC = () => {
     const fetchCategories = async () => {
       try {
         const categoriesList = await fetchCollectionData("categories");
-        setCategories(categoriesList as { id: string; name: string }[]);
+        setCategories(categoriesList as unknown as { id: string; name: string }[]);
         localStorage.setItem("categories", JSON.stringify(categoriesList));
         console.log("Datos de categorías cargados desde Firebase y guardados en localStorage");
       } catch (error) {

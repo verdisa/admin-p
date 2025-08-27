@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Cliente } from '../interfaces/ClienteInterface';
 import { handleSave } from '../utils-components/firebaseUtils';
+// @ts-ignore
 import debounce from 'lodash.debounce';
 import './FacturaModale.css';
 
@@ -46,7 +47,7 @@ const ClienteModale: React.FC<ClienteModaleProps> = ({ onClose }) => {
       setFilteredClientes(results);
       setSearching(false);
       setSearchResult(results.length > 0 ? 'Cliente encontrado' : 'No se encontraron clientes');
-      if (results.length > 0) {
+      if (results.length > 0 && results[0].uid) {
         handleSelectCliente(results[0].uid);
       }
     }, 300),

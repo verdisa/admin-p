@@ -1,4 +1,3 @@
-import React from 'react';
 import Navbar from '../components/Navbar';
 import ClientesTable from '../data-tables/ClientesTable'; // Cambiar UserTable a ClientesTable
 import Sidebar from '../components/Sidebar';

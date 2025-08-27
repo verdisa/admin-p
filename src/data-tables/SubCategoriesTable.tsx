@@ -30,7 +30,7 @@ const SubCategories = () => {
     const fetchCategories = async () => {
       try {
         const categoriesList = await fetchCollectionData("categories");
-        setCategories(categoriesList as { id: string; name: string }[]);
+        setCategories(categoriesList as unknown as { id: string; name: string }[]);
         localStorage.setItem("categories", JSON.stringify(categoriesList));
         console.log("Datos de categorías cargados desde Firebase y guardados en localStorage");
       } catch (error) {
@@ -45,7 +45,7 @@ const SubCategories = () => {
   const handleSaveSubcategory = async (updatedRow: Subcategory) => {
     try {
       // Guarda los cambios en Firebase usando la función genérica
-      await handleSave("subCategories", updatedRow);
+      await handleSave("subCategories", updatedRow as { uid?: string });
 
       // Actualiza el estado local
       setSubcategories((prevSubcategories) => {

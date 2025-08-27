@@ -119,12 +119,12 @@ const Empleados = () => {
             { key: 'apellidos', label: 'Apellidos' },
             { key: 'email', label: 'Correo Electrónico' },
             { key: 'telefono', label: 'Teléfono' },
-            { key: 'roles', label: 'Roles', type: 'select', options: ['cajero', 'supervisor', 'visita'] },
+            { key: 'roles', label: 'Roles', type: 'select', options: [{ id: 'cajero', name: 'Cajero' }, { id: 'supervisor', name: 'Supervisor' }, { id: 'visita', name: 'Visita' }] },
             { key: 'posicion', label: 'Posición' },
             { key: 'fechaContratacion', label: 'Fecha de Contratación' },
             { key: 'turnoAsignado', label: 'Turno Asignado' },
             { key: 'sucursal', label: 'Sucursal' },
-            { key: 'estado', label: 'Estado', type: 'select', options: ['Activo', 'Inactivo', 'Bloqueado'] },
+            { key: 'estado', label: 'Estado', type: 'select', options: [{ id: 'Activo', name: 'Activo' }, { id: 'Inactivo', name: 'Inactivo' }, { id: 'Bloqueado', name: 'Bloqueado' }] },
             { key: 'photoURL', label: 'Foto (URL)' },
           ]}
           onSave={(data) => handleAddEmpleado(data as Omit<User, 'uid'>)}

@@ -1,4 +1,3 @@
-import React from 'react';
 import Navbar from '../components/Navbar';
 import SubCategoriesTable from '../data-tables/SubCategoriesTable';
 import Sidebar from '../components/Sidebar';

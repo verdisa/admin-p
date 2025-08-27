@@ -1,4 +1,3 @@
-import React from 'react';
 import jsPDF from "jspdf";
 import { Product } from './Cart'; // Asegúrate de exportar la interfaz Product desde Cart.tsx
 
@@ -81,10 +80,10 @@ export const handleDownloadPdf = (items: Product[], subtotalL: number, subtotal:
     doc.addImage(companyLogo, 'PNG', 10, 10, 45, 15); // Ajustar el tamaño y posición según sea necesario
   }
   doc.setFontSize(14);
-  doc.setFont(undefined, 'bold');
+  doc.setFont('helvetica', 'bold');
   doc.text(companyName, 10, 36); // 45 - 9
   doc.setFontSize(10);
-  doc.setFont(undefined, 'normal');
+  doc.setFont('helvetica', 'normal');
   doc.text(`RTN: ${rtn}`, 10, 42); // 51 - 9
   doc.text(`CAI: ${cai}`, 10, 46); // 55 - 9
   doc.text(`Del ${rango}`, 10, 50); // Añadir rango
@@ -98,23 +97,23 @@ export const handleDownloadPdf = (items: Product[], subtotalL: number, subtotal:
 
   // Información de factura
   doc.setFontSize(10);
-  doc.setFont(undefined, 'bold');
+  doc.setFont('helvetica', 'bold');
   doc.text(costumerBusinessWithNumber, 140, 36, { align: "right" }); // 46 - 10
   doc.text("Fecha:", 140, 40, { align: "right" }); // 50 - 10
   doc.text("Orden:", 140, 44, { align: "right" }); // 54 - 10
-  doc.setFont(undefined, 'normal');
+  doc.setFont('helvetica', 'normal');
   doc.text(invoiceNumber, 195, 36, { align: "right" }); // 46 - 10
   doc.text(date, 195, 40, { align: "right" }); // 50 - 10
   doc.text(order, 195, 44, { align: "right" }); // 54 - 10
   
   // Información del cliente
-  doc.setFont(undefined, 'bold');
+  doc.setFont('helvetica', 'bold');
   doc.text("Facturar a:", 140, 52, { align: "right" }); // 62 - 10
   doc.text("RTN:", 140, 56, { align: "right" }); // 66 - 10
   doc.text("Contacto:", 140, 60, { align: "right" }); // 70 - 10
   doc.text("Tel:", 140, 64, { align: "right" }); // 74 - 10
   doc.text("Email:", 140, 68, { align: "right" }); // 78 - 10
-  doc.setFont(undefined, 'normal');
+  doc.setFont('helvetica', 'normal');
   doc.text(customerName, 195, 52, { align: "right" }); // 62 - 10
   doc.text(customerRTN, 195, 56, { align: "right" }); // 66 - 10
   doc.text(customerContact, 195, 60, { align: "right" }); // 70 - 10
@@ -178,7 +177,7 @@ export const handleDownloadPdf = (items: Product[], subtotalL: number, subtotal:
   
   // Total
   doc.setFontSize(10);
-  doc.setFont(undefined, 'bold');
+  doc.setFont('helvetica', 'bold');
   doc.text("TOTAL:", 140, currentY + 60, { align: "left" });
   doc.text(`${moneda}${total.toFixed(2)}`, 195, currentY + 60, { align: "right" });
   

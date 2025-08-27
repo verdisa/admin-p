@@ -17,7 +17,7 @@ const VentasTable = () => {
           console.log("Datos cargados desde localStorage");
         } else {
           const ventasList = await fetchCollectionData("ventas");
-          setVentas(ventasList as Venta[]);
+          setVentas(ventasList as unknown as Venta[]);
           localStorage.setItem("ventas", JSON.stringify(ventasList));
           console.log("Datos cargados desde Firebase y guardados en localStorage");
         }
@@ -31,7 +31,7 @@ const VentasTable = () => {
 
   const handleSaveVenta = async (updatedRow: Venta) => {
     try {
-      await handleSave("ventas", updatedRow);
+      await handleSave("ventas", updatedRow as { uid?: string });
       setVentas((prevVentas) => {
         const updatedVentas = prevVentas.map((venta) =>
           venta.id === updatedRow.id ? updatedRow : venta

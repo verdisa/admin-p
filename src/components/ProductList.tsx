@@ -1,14 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDrag } from 'react-dnd';
 import './ProductList.css';
-
-interface Product {
-  id: string;
-  name: string;
-  price: number | string;
-  quantity?: number;
-  type?: 'gravable' | 'gravable2' | 'exento' | 'exonerado';
-}
+import { Product } from './Cart';
 
 interface Category {
   name: string;
@@ -21,7 +14,7 @@ interface ProductListProps {
 }
 
 const ProductList: React.FC<ProductListProps> = ({ category, addToCart }) => {
-  const { name, products } = category || { name: '', products: [] };
+  const { products } = category || { name: '', products: [] };
   const facturaData = JSON.parse(localStorage.getItem('facturaData') || '{}');
   const moneda = facturaData.moneda || 'L';
   const [monedaState, setMonedaState] = useState(moneda);

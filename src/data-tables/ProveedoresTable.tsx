@@ -118,7 +118,7 @@ const ProveedoresTable = () => {
             { key: 'rfcNitTaxId', label: 'RFC/NIT/Tax ID' },
             { key: 'horarioAtencion', label: 'Horario de Atención' },
             { key: 'cuentaBancaria', label: 'Cuenta Bancaria' },
-            { key: 'estado', label: 'Estado', type: 'select', options: ['Activo', 'Inactivo'] },
+            { key: 'estado', label: 'Estado', type: 'select', options: [{ id: 'Activo', name: 'Activo' }, { id: 'Inactivo', name: 'Inactivo' }] },
           ]}
           onSave={(data) => handleAddProveedor(data as Omit<Proveedor, 'id'>)}
           onClose={() => setIsModalOpen(false)}

@@ -177,10 +177,10 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
               justifyContent: 'center'
             }}
             onMouseEnter={(e) => {
-              if (!loading) e.target.style.backgroundColor = '#2c5282';
+              if (!loading) (e.target as HTMLElement).style.backgroundColor = '#2c5282';
             }}
             onMouseLeave={(e) => {
-              if (!loading) e.target.style.backgroundColor = '#3182ce';
+              if (!loading) (e.target as HTMLElement).style.backgroundColor = '#3182ce';
             }}
           >
             {loading ? (

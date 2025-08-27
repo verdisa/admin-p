@@ -1,4 +1,3 @@
-import React from 'react';
 import Navbar from '../components/Navbar';
 import UserTable from '../data-tables/UserTable';
 import Sidebar from '../components/Sidebar';

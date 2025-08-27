@@ -119,14 +119,14 @@ const Users = () => {
             { key: 'email', label: 'Correo Electrónico' },
             { key: 'telefono', label: 'Teléfono' },
             { key: 'username', label: 'Nombre de Usuario' },
-            { key: 'roles', label: 'Roles', type: 'select', options: ['admin', 'cajero', 'supervisor', 'visita'] },
+            { key: 'roles', label: 'Roles', type: 'select', options: [{ id: 'admin', name: 'Admin' }, { id: 'cajero', name: 'Cajero' }, { id: 'supervisor', name: 'Supervisor' }, { id: 'visita', name: 'Visita' }] },
             { key: 'posicion', label: 'Posición' },
             { key: 'fechaContratacion', label: 'Fecha de Contratación' },
             { key: 'turnoAsignado', label: 'Turno Asignado' },
             { key: 'sucursal', label: 'Sucursal' },
-            { key: 'estado', label: 'Estado', type: 'select', options: ['Activo', 'Inactivo', 'Bloqueado'] },
+            { key: 'estado', label: 'Estado', type: 'select', options: [{ id: 'Activo', name: 'Activo' }, { id: 'Inactivo', name: 'Inactivo' }, { id: 'Bloqueado', name: 'Bloqueado' }] },
             { key: 'salario', label: 'Salario' },
-            { key: 'isEmailVerified', label: 'Correo Verificado', type: 'select', options: ['true', 'false'] },
+            { key: 'isEmailVerified', label: 'Correo Verificado', type: 'select', options: [{ id: 'true', name: 'True' }, { id: 'false', name: 'False' }] },
           ]}
           onSave={(data) => handleAddUser(data as Omit<User, 'uid'>)}
           onClose={() => setIsModalOpen(false)}

@@ -116,7 +116,7 @@ const CategoriesTable = () => {
           fields={[
             { key: 'name', label: 'Nombre' },
             { key: 'description', label: 'Descripción' },
-            { key: 'isActive', label: 'Activo', type: 'select', options: ['true', 'false'] },
+            { key: 'isActive', label: 'Activo', type: 'select', options: [{ id: 'true', name: 'True' }, { id: 'false', name: 'False' }] },
             { key: 'photoUrl', label: 'URL de la Foto' },
             { key: 'priority', label: 'Prioridad' },
           ]}

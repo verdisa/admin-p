@@ -1,4 +1,3 @@
-import React from 'react';
 import Navbar from '../components/Navbar';
 import Sidebar from '../components/Sidebar';
 
@@ -13,7 +12,7 @@ export default function Home() {
           <p>ESTA ES LA PAGINA DE INICIO DE MIDONKI ADMIN.</p>
         </div>
       </div>
-      <style jsx>{`
+      <style>{`
         .home-container {
           display: flex;
           flex-direction: column;

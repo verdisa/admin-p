@@ -6,13 +6,7 @@ import Cart from '../components/Cart';
 import ClienteModale from '../components/clienteModale';
 import FacturaModale from '../components/FacturaModale';
 import './PosTable.css';
-
-interface Product {
-  id: string;
-  name: string;
-  price: number;
-  quantity?: number;
-}
+import { Product } from '../components/Cart';
 
 interface Category {
   uid: string;

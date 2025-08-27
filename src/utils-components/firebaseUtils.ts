@@ -1,13 +1,8 @@
 // firebaseUtils.ts
 import { deleteDoc, setDoc, collection, query, where, getDocs, DocumentData, doc, updateDoc, addDoc, getDoc, DocumentReference } from "firebase/firestore";
 import { db } from '../firebaseConfig';
-import { Subcategory, Category } from '../interfaces/subCategoryInterface';
-import { Empleado } from '../interfaces/EmpleadosInterface';
-import { User } from '../interfaces/UserInterface';
+import { Subcategory, Category } from '../interfaces/subCategoriaInterface';
 import { Inventory } from '../interfaces/Inventarionterface';
-
-// Type aliases to avoid JSX parsing issues
-type DocRef = DocumentReference<DocumentData>;
 
 // Define missing interfaces
 interface Operator {
@@ -147,12 +142,12 @@ export const fetchInventoriesWithUsersAndCategories = async (): Promise<Inventor
 
     // Crear un mapa de categorías para búsqueda rápida
     const categoryMap = new Map(
-      categories.map((category) => [category.id, category.name])
+      categories.map((category: Category) => [category.id, category.name])
     );
 
     // Combine data based on matching `uid` and `IdCategory`
-    const combinedData = inventories.map((inventory) => {
-      const user = users.find((user) => user.id === inventory.uid); // Buscar usuario correspondiente
+    const combinedData = inventories.map((inventory: any) => {
+      const user = users.find((user: any) => user.id === inventory.uid); // Buscar usuario correspondiente
       const categoryName = categoryMap.get(inventory.IdCategory) || 'Categoría no encontrada'; // Buscar categoría correspondiente
       return {
         ...inventory,
@@ -191,8 +186,8 @@ export const fetchOperatorsWithUsers = async (): Promise<Operator[]> => {
     }
 
     // Combine data based on matching `uid`
-    const combinedData = operators.map((operator) => {
-      const user = users.find((user) => user.id === operator.uid); // Buscar usuario correspondiente
+    const combinedData = operators.map((operator: any) => {
+      const user = users.find((user: any) => user.id === operator.uid); // Buscar usuario correspondiente
       return {
         id: operator.id, // Mantener el `id` del operador
         uid: operator.uid, // Mantener el `uid` del operador
@@ -242,12 +237,12 @@ export const fetchMachinesWithUsersAndCategories = async (): Promise<Machine[]> 
 
     // Crear un mapa de categorías para búsqueda rápida
     const categoryMap = new Map(
-      categories.map((category) => [category.id, category.name])
+      categories.map((category: Category) => [category.id, category.name])
     );
 
     // Combine data based on matching `uid` and `IdCategory`
-    const combinedData = machines.map((machine) => {
-      const user = users.find((user) => user.id === machine.uid); // Buscar usuario correspondiente
+    const combinedData = machines.map((machine: any) => {
+      const user = users.find((user: any) => user.id === machine.uid); // Buscar usuario correspondiente
       const categoryName = categoryMap.get(machine.IdCategory) || 'Categoría no encontrada'; // Buscar categoría correspondiente
       return {
         ...machine,
@@ -265,7 +260,7 @@ export const fetchMachinesWithUsersAndCategories = async (): Promise<Machine[]> 
 
 
 
-export const handleAdd = async <T>(
+export const handleAdd = async <T extends DocumentData>(
   collectionName: string,
   data: T
 ): Promise<DocumentReference<DocumentData>> => {
