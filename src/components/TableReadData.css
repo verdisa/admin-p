@@ -83,6 +83,8 @@
   border-radius: 8px;
   width: 400px;
   max-width: 90%;
+  max-height: 80vh; /* Limitar la altura máxima al 80% de la ventana */
+  overflow-y: auto; /* Agregar scrollbar vertical cuando sea necesario */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 

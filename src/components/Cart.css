@@ -137,6 +137,8 @@
   background-color: white;
   padding: 1rem;
   border-radius: 0.5rem;
+  max-height: 80vh; /* Limitar la altura máxima al 80% de la ventana */
+  overflow-y: auto; /* Agregar scrollbar vertical cuando sea necesario */
 }
 
 .print-button {

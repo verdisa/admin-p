@@ -13,6 +13,8 @@
   padding: 20px;
   border-radius: 5px;
   width: 900px; /* Ajustar el ancho para acomodar dos columnas */
+  max-height: 80vh; /* Limitar la altura máxima al 80% de la ventana */
+  overflow-y: auto; /* Agregar scrollbar vertical cuando sea necesario */
 }
 
 /* Estilo para la cuadrícula de dos columnas */
