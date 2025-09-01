@@ -20,6 +20,7 @@ const PosTable: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState<string>('');
   const [isClienteModaleOpen, setIsClienteModaleOpen] = useState(false);
   const [isFacturaModaleOpen, setIsFacturaModaleOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   useEffect(() => {
     const storedCategories = JSON.parse(localStorage.getItem("categories") || "[]");
@@ -61,7 +62,12 @@ const PosTable: React.FC = () => {
   return (
     <DndProvider backend={HTML5Backend}>
       <div className="pos-container">
-        <div className="sidebar">
+        {isSidebarOpen && (
+          <div className="sidebar-overlay active">
+            <div className="sidebar-overlay-clickable" onClick={() => setIsSidebarOpen(false)}></div>
+          </div>
+        )}
+        <div className={`sidebar ${isSidebarOpen ? 'open' : ''}`}>
           <div className="icon-menu">
             <a href="#" className="icon-menu-item" onClick={() => setIsFacturaModaleOpen(true)}>
               <i className="fas fa-file-invoice"></i>
@@ -76,7 +82,10 @@ const PosTable: React.FC = () => {
               <button
                 key={category.uid}
                 className={`category-button ${activeCategory === category.uid ? 'active' : ''}`}
-                onClick={() => setActiveCategory(category.uid)}
+                onClick={() => {
+                  setActiveCategory(category.uid);
+                  setIsSidebarOpen(false);
+                }}
               >
                 {category.name}
               </button>
@@ -84,7 +93,12 @@ const PosTable: React.FC = () => {
           </div>
         </div>
         <div className="products-section">
-          <h1>Productos</h1>
+          <div className="products-header">
+            <button className="sidebar-toggle" onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
+              <i className="fas fa-bars"></i> Categorías
+            </button>
+            <h1>Productos</h1>
+          </div>
           <div className="product-lists">
             {categories.map(category => (
               <div key={category.uid} className={activeCategory === category.uid ? 'active' : 'hidden'}>
