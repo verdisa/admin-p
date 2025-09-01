@@ -18,6 +18,7 @@ const ProductList: React.FC<ProductListProps> = ({ category, addToCart }) => {
   const facturaData = JSON.parse(localStorage.getItem('facturaData') || '{}');
   const moneda = facturaData.moneda || 'L';
   const [monedaState, setMonedaState] = useState(moneda);
+  const [viewMode, setViewMode] = useState<'list' | 'grid'>('list');
 
   useEffect(() => {
     const handleStorageChange = () => {
@@ -32,10 +33,32 @@ const ProductList: React.FC<ProductListProps> = ({ category, addToCart }) => {
   }, []);
 
   return (
-    <div className="product-list">
-      {products.map((product) => (
-        <ProductItem key={product.id} product={product} addToCart={addToCart} monedaState={monedaState} />
-      ))}
+    <div>
+      <div className="view-toggle">
+        <button
+          className={viewMode === 'list' ? 'active' : ''}
+          onClick={() => setViewMode('list')}
+        >
+          Lista
+        </button>
+        <button
+          className={viewMode === 'grid' ? 'active' : ''}
+          onClick={() => setViewMode('grid')}
+        >
+          Grilla
+        </button>
+      </div>
+      <div className={`product-list ${viewMode}`}>
+        {products.map((product) => (
+          <ProductItem
+            key={product.id}
+            product={product}
+            addToCart={addToCart}
+            monedaState={monedaState}
+            viewMode={viewMode}
+          />
+        ))}
+      </div>
     </div>
   );
 }
@@ -44,15 +67,39 @@ interface ProductItemProps {
   product: Product;
   addToCart: (product: Product) => void;
   monedaState: string;
+  viewMode: 'list' | 'grid';
 }
 
-const ProductItem: React.FC<ProductItemProps> = ({ product, addToCart, monedaState }) => {
+const ProductItem: React.FC<ProductItemProps> = ({ product, addToCart, monedaState, viewMode }) => {
   const [, drag] = useDrag(() => ({
     type: 'product',
     item: product,
   }));
 
   const price = typeof product.price === 'number' ? product.price : parseFloat(product.price);
+
+  if (viewMode === 'grid') {
+    return (
+      <div
+        ref={drag}
+        className="product-item-grid"
+        onDoubleClick={() => addToCart(product)}
+      >
+        <img
+          src={(product as any).image || '/vite.svg'}
+          alt={product.name}
+          className="product-image"
+        />
+        <div className="product-info">
+          <span className="product-name">{product.name}</span>
+          <span className="product-price">{monedaState}{price.toFixed(2)}</span>
+        </div>
+        <button className="add-button" onClick={() => addToCart(product)}>
+          <i className="fas fa-plus"></i>
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div
