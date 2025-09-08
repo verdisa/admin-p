@@ -3,17 +3,18 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import ProtectedRoute from './components/ProtectedRoute';
 
-import Usuarios from './pages/Usuarios';
-import Categorias from './pages/Categorias';
-import Empleados from './pages/Empleados';
-import SubCategorias from './pages/SubCategorias';
-import Docs from './pages/docs';
-import Machines from './pages/Proveedores';
-import InventoryPage from './pages/Inventario';
-import VentasPage from './pages/Ventas';
-import CierreCajaPage from './pages/CierreCaja';
+import Usuarios from './usuarios/UsuariosPage';
+import CategoriasPage from './categorias/CategoriasPage';
+import EmpleadosPage from './empleados/EmpleadosPage';
+import SubCategorias from './subcategorias/SubCategoriasPage';
+import Docs from './docs/DocsPage';
+import ProveedoresPage from './proveedores/ProveedoresPage';
+import InventarioPage from './inventario/InventarioPage';
+import VentasPage from './ventas/VentasPage';
+import CierreCajaPage from './cierre-caja/CierreCajaPage';
+import HomePage from './home/HomePage';
 import PosPage from './pages/Pos';
-import ProductosPage from './pages/Productos';
+import ProductosPage from './productos/ProductosPage';
 import ClientesPage from './clientes/ClientesPage';
 
 const App: React.FC = () => {
@@ -22,14 +23,14 @@ const App: React.FC = () => {
       <ProtectedRoute>
         <Routes>
           <Route path="/" element={<PosPage />} />
-          <Route path="/home" element={<PosPage />} />
-          <Route path="/categorias" element={<Categorias />} />
+          <Route path="/home" element={<HomePage />} />
+          <Route path="/categorias" element={<CategoriasPage />} />
           <Route path="/subcategorias" element={<SubCategorias />} />
           <Route path="/usuarios" element={<Usuarios />} />
-          <Route path="/empleados" element={<Empleados />} />
+          <Route path="/empleados" element={<EmpleadosPage />} />
           <Route path="/docs" element={<Docs />} />
-          <Route path="/proveedores" element={<Machines />} />
-          <Route path="/inventory" element={<InventoryPage />} />
+          <Route path="/proveedores" element={<ProveedoresPage />} />
+          <Route path="/inventory" element={<InventarioPage />} />
           <Route path="/ventas" element={<VentasPage />} />
           <Route path="/cierres" element={<CierreCajaPage />} />
           <Route path="/pos" element={<PosPage />} />

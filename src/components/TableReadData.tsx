@@ -106,12 +106,11 @@ const TableReadData = <T extends { [key: string]: any }>(
                 </td>
               );
             })}
-            {/* Columna de Acciones */}
             {onDelete && (
               <td className="actions-cell">
                 <button
                   className="delete-button"
-                  onClick={() => onDelete(row.uid)} // Llamar la función de eliminar
+                  onClick={() => onDelete(row.uid)}
                 >
                   Eliminar
                 </button>

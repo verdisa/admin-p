@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { fetchCollectionData, handleAdd, handleSave, handleDelete } from '../utils-components/firebaseUtils';
-import { User } from '../interfaces/UserInterface';
+import { User } from '../usuarios/types/UserInterface';
 import TableReadData from '../components/TableReadData';
 import AddModal from '../components/AddModal';
 

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { loginWithCredentials } from '../utils-components/authUtils';
+import logo from '../assets/solsol.png';
 
 interface LoginProps {
   onLoginSuccess: () => void;
@@ -46,7 +47,7 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
       }}>
         <div style={{ textAlign: 'center', marginBottom: '32px' }}>
           <img 
-            src="/src/assets/solsol.png" 
+            src={logo} 
             alt="Logo" 
             style={{
               height: '64px',

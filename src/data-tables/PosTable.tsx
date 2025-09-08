@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import ProductList from '../components/ProductList';
+import ProductList from '../productos/components/ProductList';
 import Cart from '../components/Cart';
 import ClienteModal from '../clientes/components/ClienteModal';
 import FacturaModale from '../components/FacturaModale';

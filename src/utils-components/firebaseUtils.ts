@@ -1,8 +1,8 @@
 // firebaseUtils.ts
 import { deleteDoc, setDoc, collection, query, where, getDocs, DocumentData, doc, updateDoc, addDoc, getDoc, DocumentReference } from "firebase/firestore";
 import { db } from '../firebaseConfig';
-import { Subcategory, Category } from '../interfaces/subCategoriaInterface';
-import { Inventory } from '../interfaces/Inventarionterface';
+import { Subcategory, Category } from '../subcategorias/types/SubCategoriaInterface';
+import { Inventory } from '../inventario/types/InventarioInterface';
 
 // Define missing interfaces
 interface Operator {

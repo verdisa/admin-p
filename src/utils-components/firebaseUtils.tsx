@@ -2,9 +2,9 @@
 import { deleteDoc, setDoc, collection, query, where, getDocs, DocumentData, doc, updateDoc, addDoc, getDoc, DocumentReference } from "firebase/firestore";
 import { db } from '../firebaseConfig';
 import { Subcategory, Category } from '../interfaces/subCategoryInterface';
-import { Empleado } from '../interfaces/EmpleadosInterface';
-import { User } from '../interfaces/UserInterface';
-import { Inventory } from '../interfaces/Inventarionterface';
+import { Empleado } from '../empleados/types/EmpleadosInterface';
+import { User } from '../usuarios/types/UserInterface';
+import { Inventory } from '../inventario/types/InventarioInterface';
 
 // Type aliases to avoid JSX parsing issues
 type DocRef = DocumentReference<DocumentData>;
