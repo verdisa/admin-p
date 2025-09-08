@@ -1,5 +1,6 @@
 import Navbar from '../components/Navbar';
 import Sidebar from '../components/Sidebar';
+import '../pages/Comun.css'; // Importar estilos del layout principal
 
 const Docs = () => {
   return (

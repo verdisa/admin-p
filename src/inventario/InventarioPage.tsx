@@ -2,6 +2,7 @@ import React from 'react';
 import Navbar from '../components/Navbar';
 import Sidebar from '../components/Sidebar';
 import InventoryTable from './components/InventoryTable';
+import '../pages/Comun.css'; // Importar estilos del layout principal
 import './styles/InventarioPage.css';
 
 const InventarioPage: React.FC = () => {

@@ -1,5 +1,20 @@
 .usuarios-container {
   display: flex;
+  min-height: 100vh;
+}
+
+/* Desktop: margen izquierdo para el sidebar fijo */
+@media (min-width: 769px) {
+  .usuarios-container {
+    margin-left: 250px; /* Ancho del sidebar */
+  }
+}
+
+/* Tablet y móvil: sin margen, sidebar se desliza desde la izquierda */
+@media (max-width: 768px) {
+  .usuarios-container {
+    margin-left: 0;
+  }
 }
 
 /* Estilo general para el contenedor de la tabla */

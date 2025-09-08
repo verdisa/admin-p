@@ -1,11 +1,12 @@
 import Navbar from '../components/Navbar';
 import Sidebar from '../components/Sidebar';
+import '../pages/Comun.css'; // Importar estilos del layout principal
 
 export default function Home() {
   return (
-    <div className="home-container">
+    <div>
       <Navbar />
-      <div className="home-content">
+      <div className="usuarios-container">
         <Sidebar />
         <div className="main-content">
           <h1>PAGINA INICIO</h1>
@@ -13,13 +14,6 @@ export default function Home() {
         </div>
       </div>
       <style>{`
-        .home-container {
-          display: flex;
-          flex-direction: column;
-        }
-        .home-content {
-          display: flex;
-        }
         .main-content {
           flex: 1;
           padding: 20px;
