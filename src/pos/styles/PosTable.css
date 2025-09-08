@@ -6,8 +6,17 @@
 }
 
 .sidebar {
-  width: 250px;
-  padding: 1rem;
+  width:@media (max-width: 768px) {
+  .category-buttons {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .category-button {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+  }
+}g: 1rem;
   background-color: #1a202c;
   color: #ffffff;
   pointer-events: auto; /* Asegura que sea interactuable en desktop */
@@ -102,23 +111,39 @@ h1, h2 {
   margin-bottom: 1rem;
 }
 
-.category-buttons {
+.category-tags {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  background-color: #ffffff;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .category-button {
-  padding: 0.5rem 1rem;
-  margin-bottom: 0.5rem;
-  border-radius: 0.25rem;
-  background-color: #4b5a79;
-  border: none;
+  padding: 0.25rem 0.75rem;
+  border-radius: 1rem;
+  background-color: #e5e7eb;
+  border: 1px solid #d1d5db;
   cursor: pointer;
+  font-size: 0.875rem;
+  color: #374151;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.category-button:hover {
+  background-color: #d1d5db;
+  border-color: #9ca3af;
 }
 
 .category-button.active {
   background-color: #3b82f6;
   color: white;
+  border-color: #3b82f6;
 }
 
 .product-lists {
@@ -221,5 +246,16 @@ h1, h2 {
   .category-button {
     padding: 0.4rem 0.8rem;
     font-size: 0.9rem;
+  }
+
+  .category-buttons {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .category-tags {
+    flex-direction: column;
+    gap: 0.25rem;
+    padding: 0.25rem;
   }
 }

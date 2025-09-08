@@ -54,6 +54,17 @@ const PosTable: React.FC = () => {
             </button>
             <h1>Productos</h1>
           </div>
+          <div className="category-tags">
+            {categories.map(category => (
+              <button
+                key={category.uid}
+                className={`category-button ${activeCategory === category.uid ? 'active' : ''}`}
+                onClick={() => setActiveCategory(category.uid)}
+              >
+                {category.name}
+              </button>
+            ))}
+          </div>
           <div className="product-lists">
             {categories.map(category => (
               <div key={category.uid} className={activeCategory === category.uid ? 'active' : 'hidden'}>
