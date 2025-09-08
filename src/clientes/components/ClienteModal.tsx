@@ -1,15 +1,15 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Cliente } from '../interfaces/ClienteInterface';
-import { handleSave } from '../utils-components/firebaseUtils';
+import { Cliente } from '../types/ClienteInterface';
+import { handleSave } from '../../utils-components/firebaseUtils';
 // @ts-ignore
 import debounce from 'lodash.debounce';
-import './FacturaModale.css';
+import '../styles/ClienteModal.css';
 
-interface ClienteModaleProps {
+interface ClienteModalProps {
   onClose: () => void;
 }
 
-const ClienteModale: React.FC<ClienteModaleProps> = ({ onClose }) => {
+const ClienteModal: React.FC<ClienteModalProps> = ({ onClose }) => {
   const [clientes, setClientes] = useState<Cliente[]>([]);
   const [filteredClientes, setFilteredClientes] = useState<Cliente[]>([]);
   const [selectedCliente, setSelectedCliente] = useState<Cliente | null>(null);
@@ -185,4 +185,4 @@ const ClienteModale: React.FC<ClienteModaleProps> = ({ onClose }) => {
   );
 };
 
-export default ClienteModale;
+export default ClienteModal;

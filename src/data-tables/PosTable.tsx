@@ -3,7 +3,7 @@ import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import ProductList from '../components/ProductList';
 import Cart from '../components/Cart';
-import ClienteModale from '../components/clienteModale';
+import ClienteModal from '../clientes/components/ClienteModal';
 import FacturaModale from '../components/FacturaModale';
 import './PosTable.css';
 import { Product } from '../components/Cart';
@@ -18,7 +18,7 @@ const PosTable: React.FC = () => {
   const [cartItems, setCartItems] = useState<Product[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [activeCategory, setActiveCategory] = useState<string>('');
-  const [isClienteModaleOpen, setIsClienteModaleOpen] = useState(false);
+  const [isClienteModalOpen, setIsClienteModalOpen] = useState(false);
   const [isFacturaModaleOpen, setIsFacturaModaleOpen] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
@@ -72,7 +72,7 @@ const PosTable: React.FC = () => {
             <a href="#" className="icon-menu-item" onClick={() => setIsFacturaModaleOpen(true)}>
               <i className="fas fa-file-invoice"></i>
             </a>
-            <a href="#" className="icon-menu-item" onClick={() => setIsClienteModaleOpen(true)}>
+            <a href="#" className="icon-menu-item" onClick={() => setIsClienteModalOpen(true)}>
               <i className="fas fa-user-cog"></i>
             </a>
           </div>
@@ -112,7 +112,7 @@ const PosTable: React.FC = () => {
           <Cart items={cartItems} setItems={setCartItems} />
         </div>
       </div>
-      {isClienteModaleOpen && <ClienteModale onClose={() => setIsClienteModaleOpen(false)} />}
+      {isClienteModalOpen && <ClienteModal onClose={() => setIsClienteModalOpen(false)} />}
       {isFacturaModaleOpen && <FacturaModale onClose={() => setIsFacturaModaleOpen(false)} />}
     </DndProvider>
   );

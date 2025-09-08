@@ -14,7 +14,7 @@ import VentasPage from './pages/Ventas';
 import CierreCajaPage from './pages/CierreCaja';
 import PosPage from './pages/Pos';
 import ProductosPage from './pages/Productos';
-import Clientes from './pages/Clientes';
+import ClientesPage from './clientes/ClientesPage';
 
 const App: React.FC = () => {
   return (
@@ -34,7 +34,7 @@ const App: React.FC = () => {
           <Route path="/cierres" element={<CierreCajaPage />} />
           <Route path="/pos" element={<PosPage />} />
           <Route path="/productos" element={<ProductosPage />} />
-          <Route path="/clientes" element={<Clientes />} />
+          <Route path="/clientes" element={<ClientesPage />} />
         </Routes>
       </ProtectedRoute>
     </Router>

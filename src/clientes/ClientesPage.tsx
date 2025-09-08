@@ -1,9 +1,9 @@
 import Navbar from '../components/Navbar';
-import ClientesTable from '../data-tables/ClientesTable'; // Cambiar UserTable a ClientesTable
+import ClientesTable from './components/ClientesTable';
 import Sidebar from '../components/Sidebar';
-import './Usuarios.css'; // Asegúrate de importar el archivo CSS
+import './styles/ClientesPage.css';
 
-export default function Clientes() {
+export default function ClientesPage() {
   return (
     <div>
       <Navbar />
