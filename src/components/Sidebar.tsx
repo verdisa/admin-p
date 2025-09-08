@@ -183,9 +183,9 @@ const Sidebar = () => {
           )}
         </div>
 
-        {hasSubmenu && isExpanded && item.submenu && (
-          <div className="submenu">
-            {item.submenu.map((subItem) => {
+        {hasSubmenu && (
+          <div className={`submenu ${isExpanded ? 'expanded' : ''}`}>
+            {item.submenu?.map((subItem) => {
               const isSubActive = location.pathname === subItem.path;
               return (
                 <Link key={subItem.id} to={subItem.path} className={`submenu-item ${isSubActive ? 'active' : ''}`} onClick={() => setIsOpen(false)}>
