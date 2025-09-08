@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
-import { fetchInventoriesWithUsersAndCategories, handleSave, handleAdd, handleDelete, fetchCollectionData } from '../../utils-components/firebaseUtils';
+import { useEffect, useState } from "react";
+import { fetchInventoriesWithUsersAndCategories } from "../../pages/inventario/services/inventarioService";
+import { handleSave, handleAdd, handleDelete, fetchCollectionData } from '../../utils-components/firebaseUtils';
 import { Inventory } from '../types/InventarioInterface';
 
 export const useInventario = () => {

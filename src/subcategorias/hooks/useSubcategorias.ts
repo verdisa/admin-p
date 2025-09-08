@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { fetchSubcategoriesWithCategories, handleSave, handleAdd, handleDelete, fetchCollectionData } from "../../utils-components/firebaseUtils";
+import { fetchSubcategoriesWithCategories } from "../../pages/subcategorias/services/subcategoriasService";
+import { handleSave, handleAdd, handleDelete, fetchCollectionData } from "../../utils-components/firebaseUtils";
 import { Subcategory } from "../types/SubCategoriaInterface";
 
 export const useSubcategorias = () => {
