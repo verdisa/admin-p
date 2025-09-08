@@ -13,7 +13,7 @@ import InventarioPage from './inventario/InventarioPage';
 import VentasPage from './ventas/VentasPage';
 import CierreCajaPage from './cierre-caja/CierreCajaPage';
 import HomePage from './home/HomePage';
-import PosPage from './pages/Pos';
+import { PosPage } from './pos';
 import ProductosPage from './productos/ProductosPage';
 import ClientesPage from './clientes/ClientesPage';
 

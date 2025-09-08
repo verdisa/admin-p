@@ -1,6 +1,6 @@
-import Navbar from '../components/Navbar';
-import Sidebar from '../components/Sidebar';
-import PosTable from '../data-tables/PosTable';
+import Navbar from '../../components/Navbar';
+import Sidebar from '../../components/Sidebar';
+import PosTable from './PosTable';
 
 
 
