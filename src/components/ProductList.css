@@ -9,6 +9,8 @@
   grid-template-columns: repeat(5, 1fr);
   gap: 1rem;
   height: auto;
+  max-width: 1100px;
+  margin: 0 auto;
 }
 
 .product-item {
