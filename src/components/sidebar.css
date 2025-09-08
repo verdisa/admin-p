@@ -54,6 +54,15 @@
   background-color: #2d3748;
 }
 
+.menu-item.active {
+  background-color: #3182ce;
+  color: #ffffff;
+}
+
+.menu-item.active:hover {
+  background-color: #2c5282;
+}
+
 /* Icono y etiqueta del menú */
 .menu-item-content {
   display: flex;
@@ -99,6 +108,15 @@
 
 .submenu-item:hover {
   background-color: #4a5568;
+}
+
+.submenu-item.active {
+  background-color: #3182ce;
+  color: #ffffff;
+}
+
+.submenu-item.active:hover {
+  background-color: #2c5282;
 }
 
 .submenu-icon {
