@@ -3,19 +3,7 @@
   min-height: 100vh;
 }
 
-/* Desktop: margen izquierdo para el sidebar fijo */
-@media (min-width: 769px) {
-  .usuarios-container {
-    margin-left: 250px; /* Ancho del sidebar */
-  }
-}
-
-/* Tablet y móvil: sin margen, sidebar se desliza desde la izquierda */
-@media (max-width: 768px) {
-  .usuarios-container {
-    margin-left: 0;
-  }
-}
+/* Ya no necesitamos margin-left ya que el sidebar está en el flujo y empuja el contenido */
 
 /* Estilo general para el contenedor de la tabla */
 .users-table-container {

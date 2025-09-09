@@ -6,20 +6,17 @@
 }
 
 .sidebar {
-  width:@media (max-width: 768px) {
-  .category-buttons {
-    flex-direction: column;
-    gap: 0.25rem;
-  }
-
-  .category-button {
-    padding: 0.5rem 1rem;
-    font-size: 1rem;
-  }
-}g: 1rem;
+  width: 250px;
   background-color: #1a202c;
   color: #ffffff;
   pointer-events: auto; /* Asegura que sea interactuable en desktop */
+  position: relative; /* Cambiar a relative para que empuje el contenido */
+  left: -250px; /* Oculto por defecto */
+  transition: left 0.3s ease;
+}
+
+.sidebar.open {
+  left: 0; /* Visible cuando abierto */
 }
 
 .icon-menu {

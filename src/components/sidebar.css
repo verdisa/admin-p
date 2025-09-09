@@ -1,7 +1,7 @@
 /* Contenedor principal del sidebar */
 .sidebar {
   width: 250px;
-  height: 100vh; /* Altura fija en lugar de min-height */
+  min-height: 100vh; /* Cambiar a min-height para que se ajuste al contenido */
   background-color: #1a202c; /* Fondo oscuro */
   color: #ffffff;
   display: flex;
@@ -10,10 +10,7 @@
   border-right: 1px solid #2d3748;
   overflow: hidden; /* Prevenir desbordamiento */
   box-sizing: border-box; /* Incluir padding en el cálculo de dimensiones */
-  position: fixed; /* Posición fija para evitar cambios de layout */
-  left: 0;
-  top: 0;
-  z-index: 1000;
+  position: relative; /* Asegurar que esté en el flujo del documento */
 }
 
 /* Encabezado del sidebar */
