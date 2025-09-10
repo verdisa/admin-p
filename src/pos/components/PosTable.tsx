@@ -59,11 +59,11 @@ const PosTable: React.FC = () => {
         </div>
         <div className="products-section">
           <div className="products-header">
-            <button className="sidebar-toggle" onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
-              <i className="fas fa-bars"></i> Categorías
-            </button>
             <div className="products-header-content">
               <div className="products-actions">
+                <button className="action-icon" onClick={() => setIsSidebarOpen(!isSidebarOpen)} title="Categorías">
+                  <i className="fas fa-th-large"></i>
+                </button>
                 <button className="action-icon" onClick={() => setIsFacturaModaleOpen(true)} title="Configurar Factura">
                   <i className="fas fa-file-invoice"></i>
                 </button>
