@@ -3,6 +3,7 @@
   height: 100vh;
   position: relative; /* Asegura que sea el contexto de posicionamiento */
   z-index: 1; /* Z-index base para el contenedor */
+  margin-left: 250px; /* Dejar espacio para el sidebar principal de navegación */
 }
 
 .sidebar {
@@ -10,13 +11,17 @@
   background-color: #1a202c;
   color: #ffffff;
   pointer-events: auto; /* Asegura que sea interactuable en desktop */
-  position: relative; /* Cambiar a relative para que empuje el contenido */
-  left: -250px; /* Oculto por defecto */
-  transition: left 0.3s ease;
+  position: fixed; /* Fijo para que se superponga correctamente */
+  left: 250px; /* Posicionado justo después del sidebar principal */
+  top: 0;
+  height: 100vh;
+  z-index: 999; /* Z-index menor que el sidebar principal pero mayor que el contenido */
+  transform: translateX(-100%); /* Oculto por defecto */
+  transition: transform 0.3s ease;
 }
 
 .sidebar.open {
-  left: 0; /* Visible cuando abierto */
+  transform: translateX(0); /* Visible cuando abierto */
 }
 
 .icon-menu {
@@ -70,11 +75,11 @@
 .sidebar-overlay {
   position: fixed;
   top: 0;
-  left: 0;
-  width: 100%;
+  left: 250px; /* Empezar después del sidebar principal */
+  width: calc(100% - 250px); /* Cubrir el resto del área */
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
-  z-index: 999;
+  z-index: 998; /* Justo debajo del sidebar de categorías pero encima del contenido */
   pointer-events: none; /* No bloquea clics en otros elementos */
   display: none; /* Oculto por defecto */
 }
@@ -166,22 +171,29 @@ h1, h2 {
     height: auto;
     position: relative;
     z-index: 1;
+    margin-left: 0; /* Sin margen en móvil */
   }
 
   .sidebar {
     position: fixed;
     top: 0;
-    left: -250px;
+    left: -250px; /* Oculto fuera de la pantalla en móvil */
     height: 100vh;
     z-index: 1001;
     transition: left 0.3s ease;
+    transform: none; /* Usar left en lugar de transform en móvil */
     width: 250px;
     pointer-events: none; /* No bloquea interacciones cuando está cerrado */
   }
 
   .sidebar.open {
-    left: 0;
+    left: 0; /* Visible desde el borde izquierdo en móvil */
     pointer-events: auto; /* Interactuable cuando está abierto */
+  }
+
+  .sidebar-overlay {
+    left: 0; /* Cubrir toda la pantalla en móvil */
+    width: 100%;
   }
 
   .sidebar-toggle {
@@ -212,7 +224,7 @@ h1, h2 {
 @media (max-width: 480px) {
   .sidebar {
     width: 200px;
-    left: -200px;
+    left: -200px; /* Ajustar para el ancho menor */
     z-index: 1001;
     pointer-events: none; /* No bloquea interacciones cuando está cerrado */
   }
@@ -254,5 +266,24 @@ h1, h2 {
     flex-direction: column;
     gap: 0.25rem;
     padding: 0.25rem;
+  }
+}
+
+/* Para desktop, asegurar que el posicionamiento sea correcto */
+@media (min-width: 769px) {
+  .pos-container {
+    margin-left: 250px; /* Siempre dejar espacio para el sidebar principal */
+  }
+  
+  .sidebar {
+    position: fixed;
+    left: 250px;
+    top: 0;
+    z-index: 999;
+  }
+
+  .sidebar-overlay {
+    left: 250px;
+    width: calc(100% - 250px);
   }
 }
