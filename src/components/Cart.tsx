@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useDrop } from 'react-dnd';
 import './Cart.css';
 import { handleDownloadPdf } from './BillDates'; // Importar handleDownloadPdf
+import { formatNumber } from '../utils/numberFormat';
 
 export interface Product {
   id: string;
@@ -120,7 +121,7 @@ const Cart: React.FC<CartProps> = ({ items, setItems, clearCart }) => {
               <div className="name-price">
                 <span className="item-name">{item.name}</span>
                 <span className="item-price">
-                  {moneda}{(item.price * item.quantity).toFixed(2)}
+                  {moneda}{formatNumber(item.price * item.quantity)}
                 </span>
               </div>
               <div className="quantity-controls">
@@ -153,19 +154,19 @@ const Cart: React.FC<CartProps> = ({ items, setItems, clearCart }) => {
       </div>
       <div className="cart-summary">
         <div className="cart-discount">
-          Descuentos({discountAmount * 100}%): -{moneda}{discount.toFixed(2)}
+          Descuentos({discountAmount * 100}%): -{moneda}{formatNumber(discount)}
         </div>
         <div className="cart-total">
-          SubTotal: {moneda}{subtotal.toFixed(2)}
+          SubTotal: {moneda}{formatNumber(subtotal)}
         </div>
         <div className="cart-tax">
-          ISV ({principalISv * 100}%): {moneda}{principalTax.toFixed(2)}
+          ISV ({principalISv * 100}%): {moneda}{formatNumber(principalTax)}
         </div>
         <div className="cart-tax">
-          ISV ({secundaryIsv * 100}%): {moneda}{secundaryTax.toFixed(2)}
+          ISV ({secundaryIsv * 100}%): {moneda}{formatNumber(secundaryTax)}
         </div>
         <div className="cart-total">
-          TOTAL: {moneda}{total.toFixed(2)}
+          TOTAL: {moneda}{formatNumber(total)}
         </div>
         <button className="sell-button" onClick={handleSale}>Vender</button>
       </div>

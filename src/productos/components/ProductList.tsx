@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDrag } from 'react-dnd';
 import '../styles/ProductList.css';
 import { Product } from '../../components/Cart';
+import { formatNumber } from '../../utils/numberFormat';
 
 interface Category {
   name: string;
@@ -102,7 +103,7 @@ const ProductItem: React.FC<ProductItemProps> = ({ product, addToCart, monedaSta
         />
         <div className="product-info">
           <span className="product-name">{product.name}</span>
-          <span className="product-price">{monedaState}{price.toFixed(2)}</span>
+          <span className="product-price">{monedaState}{formatNumber(price)}</span>
         </div>
         <button className="add-button" onClick={() => addToCart(product)}>
           <i className="fas fa-plus"></i>
@@ -118,7 +119,7 @@ const ProductItem: React.FC<ProductItemProps> = ({ product, addToCart, monedaSta
       onDoubleClick={() => addToCart(product)}
     >
       <span className="product-name">{product.name}</span>
-      <span className="product-price">{monedaState}{price.toFixed(2)}</span>
+      <span className="product-price">{monedaState}{formatNumber(price)}</span>
       <button className="add-button" onClick={() => addToCart(product)}>
         <i className="fas fa-plus"></i> 
       </button>
