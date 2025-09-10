@@ -62,8 +62,7 @@ const PosTable: React.FC = () => {
             <button className="sidebar-toggle" onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
               <i className="fas fa-bars"></i> Categorías
             </button>
-            <div className="products-title-container">
-              <h1>Productos</h1>
+            <div className="products-header-content">
               <div className="products-actions">
                 <button className="action-icon" onClick={() => setIsFacturaModaleOpen(true)} title="Configurar Factura">
                   <i className="fas fa-file-invoice"></i>
@@ -71,6 +70,9 @@ const PosTable: React.FC = () => {
                 <button className="action-icon" onClick={() => setIsClienteModalOpen(true)} title="Gestionar Cliente">
                   <i className="fas fa-user-cog"></i>
                 </button>
+              </div>
+              <div className="products-title">
+                <h1>Productos</h1>
               </div>
             </div>
           </div>
