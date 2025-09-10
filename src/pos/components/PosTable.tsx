@@ -9,10 +9,20 @@ import '../styles/PosTable.css';
 import { usePos } from '../hooks/usePos';
 
 const PosTable: React.FC = () => {
-  const { cartItems, setCartItems, categories, activeCategory, setActiveCategory, addToCart } = usePos();
+  const { cartItems, setCartItems, categories, activeCategory, setActiveCategory, addToCart, clearCart } = usePos();
   const [isClienteModalOpen, setIsClienteModalOpen] = useState(false);
   const [isFacturaModaleOpen, setIsFacturaModaleOpen] = useState(false);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  
+  // Cargar el estado del sidebar desde localStorage
+  const [isSidebarOpen, setIsSidebarOpen] = useState(() => {
+    const savedSidebarState = localStorage.getItem('posSidebarOpen');
+    return savedSidebarState === 'true';
+  });
+
+  // Guardar el estado del sidebar cuando cambie
+  React.useEffect(() => {
+    localStorage.setItem('posSidebarOpen', isSidebarOpen.toString());
+  }, [isSidebarOpen]);
 
   return (
     <DndProvider backend={HTML5Backend}>
@@ -75,7 +85,7 @@ const PosTable: React.FC = () => {
         </div>
         <div className="cart-section">
           <h2>Carrito de Compras</h2>
-          <Cart items={cartItems} setItems={setCartItems} />
+          <Cart items={cartItems} setItems={setCartItems} clearCart={clearCart} />
         </div>
       </div>
       {isClienteModalOpen && <ClienteModal onClose={() => setIsClienteModalOpen(false)} />}

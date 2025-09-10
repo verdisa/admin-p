@@ -14,9 +14,10 @@ export interface Product {
 interface CartProps {
   items: Product[];
   setItems: React.Dispatch<React.SetStateAction<Product[]>>;
+  clearCart?: () => void; // Nueva prop opcional para limpiar el carrito
 }
 
-const Cart: React.FC<CartProps> = ({ items, setItems }) => {
+const Cart: React.FC<CartProps> = ({ items, setItems, clearCart }) => {
   const facturaData = JSON.parse(localStorage.getItem('facturaData') || '{}');
   const [showModal, setShowModal] = useState(false);
   const [showToast, setShowToast] = useState(false);
@@ -97,6 +98,19 @@ const Cart: React.FC<CartProps> = ({ items, setItems }) => {
     }, 1500);
   };
 
+  const handlePrintAndClearCart = () => {
+    // Descargar PDF
+    handleDownloadPdf(items, subtotalL, subtotal, discount, totalTax, total, principalISv, secundaryIsv, principalTax, secundaryTax, importeGravable1, importeGravable2, importeExento, importeExonerado, moneda, discountAmount);
+    
+    // Limpiar carrito después de la venta
+    if (clearCart) {
+      clearCart();
+    }
+    
+    // Cerrar modal
+    setShowModal(false);
+  };
+
   return (
     <div ref={drop} className="cart">
       <div className="cart-items">
@@ -166,8 +180,11 @@ const Cart: React.FC<CartProps> = ({ items, setItems }) => {
         <div className="modal-overlay" onClick={() => setShowModal(false)}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <h3>Vendido e imprimir recibo</h3>
-            <button className="print-button" onClick={() => handleDownloadPdf(items, subtotalL, subtotal, discount, totalTax, total, principalISv, secundaryIsv, principalTax, secundaryTax, importeGravable1, importeGravable2, importeExento, importeExonerado, moneda, discountAmount)}>
+            <button className="print-button" onClick={handlePrintAndClearCart}>
               Descargar PDF
+            </button>
+            <button className="cancel-button" onClick={() => setShowModal(false)}>
+              Cancelar
             </button>
           </div>
         </div>

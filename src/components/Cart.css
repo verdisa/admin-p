@@ -145,10 +145,29 @@
   background-color: #3b82f6;
   color: white;
   border: none;
-  padding: 0.5rem;
+  padding: 0.5rem 1rem;
+  margin-top: 1rem;
+  margin-right: 0.5rem;
+  border-radius: 0.25rem;
+  cursor: pointer;
+}
+
+.print-button:hover {
+  background-color: #2563eb;
+}
+
+.cancel-button {
+  background-color: #6b7280;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
   margin-top: 1rem;
   border-radius: 0.25rem;
   cursor: pointer;
+}
+
+.cancel-button:hover {
+  background-color: #4b5563;
 }
 
 .toast-confirmation {

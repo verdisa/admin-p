@@ -18,7 +18,17 @@ const ProductList: React.FC<ProductListProps> = ({ category, addToCart }) => {
   const facturaData = JSON.parse(localStorage.getItem('facturaData') || '{}');
   const moneda = facturaData.moneda || 'L';
   const [monedaState, setMonedaState] = useState(moneda);
-  const [viewMode, setViewMode] = useState<'list' | 'grid'>('list');
+  
+  // Cargar el modo de vista desde localStorage
+  const [viewMode, setViewMode] = useState<'list' | 'grid'>(() => {
+    const savedViewMode = localStorage.getItem('posViewMode');
+    return (savedViewMode as 'list' | 'grid') || 'list';
+  });
+
+  // Guardar el modo de vista en localStorage cuando cambie
+  useEffect(() => {
+    localStorage.setItem('posViewMode', viewMode);
+  }, [viewMode]);
 
   useEffect(() => {
     const handleStorageChange = () => {

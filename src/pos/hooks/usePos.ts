@@ -8,9 +8,30 @@ export interface Category {
 }
 
 export const usePos = () => {
-  const [cartItems, setCartItems] = useState<Product[]>([]);
+  // Cargar el carrito desde localStorage
+  const [cartItems, setCartItems] = useState<Product[]>(() => {
+    const savedCart = localStorage.getItem('posCartItems');
+    return savedCart ? JSON.parse(savedCart) : [];
+  });
+  
   const [categories, setCategories] = useState<Category[]>([]);
-  const [activeCategory, setActiveCategory] = useState<string>('');
+  
+  // Cargar la categoría activa desde localStorage
+  const [activeCategory, setActiveCategory] = useState<string>(() => {
+    return localStorage.getItem('posActiveCategory') || '';
+  });
+
+  // Guardar el carrito en localStorage cuando cambie
+  useEffect(() => {
+    localStorage.setItem('posCartItems', JSON.stringify(cartItems));
+  }, [cartItems]);
+
+  // Guardar la categoría activa en localStorage cuando cambie
+  useEffect(() => {
+    if (activeCategory) {
+      localStorage.setItem('posActiveCategory', activeCategory);
+    }
+  }, [activeCategory]);
 
   useEffect(() => {
     const storedCategories = JSON.parse(localStorage.getItem("categories") || "[]");
@@ -30,10 +51,12 @@ export const usePos = () => {
     }));
 
     setCategories(categoriesWithProducts);
-    if (categoriesWithProducts.length > 0) {
+    
+    // Solo establecer la primera categoría si no hay una guardada
+    if (categoriesWithProducts.length > 0 && !activeCategory) {
       setActiveCategory(categoriesWithProducts[0].uid);
     }
-  }, []);
+  }, [activeCategory]);
 
   const addToCart = (product: Product) => {
     setCartItems(prevItems => {
@@ -48,12 +71,18 @@ export const usePos = () => {
     });
   };
 
+  const clearCart = () => {
+    setCartItems([]);
+    localStorage.removeItem('posCartItems');
+  };
+
   return {
     cartItems,
     setCartItems,
     categories,
     activeCategory,
     setActiveCategory,
-    addToCart
+    addToCart,
+    clearCart
   };
 };
