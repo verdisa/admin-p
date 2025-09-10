@@ -1,17 +1,17 @@
 import Navbar from '../../components/Navbar';
 import Sidebar from '../../components/Sidebar';
 import PosTable from './PosTable';
-import '../../pages/Comun.css'; // Importar estilos del layout principal
-
-
+import '../styles/PosPage.css'; // Importar estilos específicos del POS
 
 export default function PosPage() {
   return (
-    <div>
+    <div className="pos-page-container">
       <Navbar />
-      <div className="usuarios-container">
+      <div className="pos-layout">
         <Sidebar />
-        <PosTable />
+        <div className="pos-content">
+          <PosTable />
+        </div>
       </div>
     </div>
   );
