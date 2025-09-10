@@ -1,5 +1,6 @@
 import jsPDF from "jspdf";
 import { Product } from './Cart'; // Asegúrate de exportar la interfaz Product desde Cart.tsx
+import { formatNumber } from '../utils/numberFormat';
 
 // Generar número de factura y orden de forma aleatoria
 const generateRandomString = (length: number) => {
@@ -136,8 +137,8 @@ export const handleDownloadPdf = (items: Product[], subtotalL: number, subtotal:
     doc.text(`${index + 1}`, 10, currentY);
     doc.text(item.name, 30, currentY);
     doc.text(`${item.quantity}`, 130, currentY, { align: "right" });
-    doc.text(`${moneda}${price.toFixed(2)}`, 165, currentY, { align: "right" });
-    doc.text(`${moneda}${(item.quantity * price).toFixed(2)}`, 195, currentY, { align: "right" });
+    doc.text(`${moneda}${formatNumber(price)}`, 165, currentY, { align: "right" });
+    doc.text(`${moneda}${formatNumber(item.quantity * price)}`, 195, currentY, { align: "right" });
     currentY += 6;
   });
 
@@ -146,40 +147,40 @@ export const handleDownloadPdf = (items: Product[], subtotalL: number, subtotal:
 
   // Información de importes
   doc.text("Importe Gravable:", 140, currentY, { align: "left" });
-  doc.text(`${moneda}${subtotalL.toFixed(2)}`, 195, currentY, { align: "right" });
+  doc.text(`${moneda}${formatNumber(subtotalL)}`, 195, currentY, { align: "right" });
   
   doc.text("Importe Exento:", 140, currentY + 6, { align: "left" });
-  doc.text(`${moneda}${importeExento.toFixed(2)}`, 195, currentY + 6, { align: "right" });
+  doc.text(`${moneda}${formatNumber(importeExento)}`, 195, currentY + 6, { align: "right" });
   
   doc.text("Importe Exonerado:", 140, currentY + 12, { align: "left" });
-  doc.text(`${moneda}${importeExonerado.toFixed(2)}`, 195, currentY + 12, { align: "right" });
+  doc.text(`${moneda}${formatNumber(importeExonerado)}`, 195, currentY + 12, { align: "right" });
   
   doc.text("Sub-Total:", 140, currentY + 18, { align: "left" });
-  doc.text(`${moneda}${subtotalL.toFixed(2)}`, 195, currentY + 18, { align: "right" });
+  doc.text(`${moneda}${formatNumber(subtotalL)}`, 195, currentY + 18, { align: "right" });
   
   doc.text(`Descuento (${discountAmount * 100}%):`, 140, currentY + 24, { align: "left" });
-  doc.text(`-${moneda}${discount.toFixed(2)}`, 195, currentY + 24, { align: "right" });
+  doc.text(`-${moneda}${formatNumber(discount)}`, 195, currentY + 24, { align: "right" });
   
   doc.text(`Gravados (${principalISv * 100}%):`, 140, currentY + 30, { align: "left" });
-  doc.text(`${moneda}${(importeGravable1 - discount).toFixed(2)}`, 195, currentY + 30, { align: "right" });
+  doc.text(`${moneda}${formatNumber(importeGravable1 - discount)}`, 195, currentY + 30, { align: "right" });
   
   doc.text(`Gravados (${secundaryIsv * 100}%):`, 140, currentY + 36, { align: "left" });
-  doc.text(`${moneda}${(importeGravable2 - discount).toFixed(2)}`, 195, currentY + 36, { align: "right" });
+  doc.text(`${moneda}${formatNumber(importeGravable2 - discount)}`, 195, currentY + 36, { align: "right" });
   
   doc.text("Sub Total neto:", 140, currentY + 42, { align: "left" });
-  doc.text(`${moneda}${subtotal.toFixed(2)}`, 195, currentY + 42, { align: "right" });
+  doc.text(`${moneda}${formatNumber(subtotal)}`, 195, currentY + 42, { align: "right" });
   
   doc.text(`ISV (${principalISv * 100}%):`, 140, currentY + 48, { align: "left" });
-  doc.text(`${moneda}${principalTax.toFixed(2)}`, 195, currentY + 48, { align: "right" });
+  doc.text(`${moneda}${formatNumber(principalTax)}`, 195, currentY + 48, { align: "right" });
   
   doc.text(`ISV (${secundaryIsv * 100}%):`, 140, currentY + 54, { align: "left" });
-  doc.text(`${moneda}${secundaryTax.toFixed(2)}`, 195, currentY + 54, { align: "right" });
+  doc.text(`${moneda}${formatNumber(secundaryTax)}`, 195, currentY + 54, { align: "right" });
   
   // Total
   doc.setFontSize(10);
   doc.setFont('helvetica', 'bold');
   doc.text("TOTAL:", 140, currentY + 60, { align: "left" });
-  doc.text(`${moneda}${total.toFixed(2)}`, 195, currentY + 60, { align: "right" });
+  doc.text(`${moneda}${formatNumber(total)}`, 195, currentY + 60, { align: "right" });
   
   currentY += 66;
 
