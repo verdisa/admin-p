@@ -80,24 +80,47 @@
 }
 
 .cart-summary {
-  flex: 2; /* Ajustar el tamaño relativo para ocupar más espacio */
+  flex: 2;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  align-items: flex-start;
+  align-items: stretch; /* Cambiar a stretch para mejor alineación */
+  padding: 1rem;
+  background-color: #f8f9fa;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  min-width: 250px; /* Ancho mínimo para evitar compresión */
 }
 
 .cart-summary div {
   margin-bottom: 0.5rem;
-  font-size: 1rem;
+  font-size: 0.95rem;
   font-weight: 500;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  white-space: nowrap; /* Evitar salto de línea */
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cart-discount {
+  color: #ef4444;
+  font-size: 0.9rem;
+}
+
+.cart-tax {
+  color: #6b7280;
+  font-size: 0.9rem;
 }
 
 .cart-total {
-  font-size: 1.25rem;
+  font-size: 1.1rem;
   font-weight: bold;
-  text-align: right;
-  margin-bottom: 1rem; /* Añadir margen inferior */
+  margin-bottom: 1rem;
+  padding-top: 0.5rem;
+  border-top: 2px solid #e5e7eb;
+  color: #1f2937;
 }
 
 .name-price {
@@ -114,11 +137,24 @@
   background-color: #10b981;
   color: white;
   border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 0.25rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
   cursor: pointer;
   font-weight: 600;
-  margin-top: 1rem;
+  font-size: 1rem;
+  width: 100%;
+  margin-top: auto;
+  transition: background-color 0.2s;
+  box-shadow: 0 2px 4px rgba(16, 185, 129, 0.3);
+}
+
+.sell-button:hover {
+  background-color: #059669;
+  box-shadow: 0 4px 8px rgba(16, 185, 129, 0.4);
+}
+
+.sell-button:active {
+  transform: translateY(1px);
 }
 
 .modal-overlay {
@@ -199,6 +235,16 @@
 
   .cart-summary {
     flex: none;
+    min-width: auto;
+    padding: 0.75rem;
+  }
+
+  .cart-summary div {
+    font-size: 0.9rem;
+  }
+
+  .cart-total {
+    font-size: 1rem;
   }
 
   .cart-item {
@@ -213,6 +259,11 @@
 
   .quantity-controls {
     justify-content: center;
+  }
+
+  .sell-button {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
   }
 }
 
