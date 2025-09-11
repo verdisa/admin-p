@@ -13,49 +13,73 @@ type MenuItem = {
 
 const menuItems: MenuItem[] = [
   {
-    id: 'pos',
-    label: 'POS',
-    icon: 'fas fa-shopping-cart',
-    path: '/pos',
+    id: 'estadisticas',
+    label: 'Estadísticas',
+    icon: 'fas fa-chart-pie',
+    path: '/estadisticas',
     submenu: [
       {
-        id: 'pos-list',
-        label: 'POS',
-        icon: 'fas fa-credit-card',
-        path: '/pos',
+        id: 'estadisticas-list',
+        label: 'Ver estadísticas',
+        icon: 'fas fa-chart-bar',
+        path: '/estadisticas',
       },
-      /* {
-        id: 'ventas-list',
-        label: 'Lista Ventas',
-        icon: 'fas fa-list',
-        path: '/ventas',
-      },
-      {
-        id: 'cierres-list',
-        label: 'Cierre de Caja',
-        icon: 'fas fa-cash-register',
-        path: '/cierres',
-      }, */
     ],
   },
   {
-    id: 'categories',
-    label: 'Categorías',
-    icon: 'fas fa-th-large',
-    path: '/categories',
+    id: 'viajes',
+    label: 'Viajes',
+    icon: 'fas fa-route',
+    path: '/viajes',
     submenu: [
       {
-        id: 'category-list',
-        label: 'Lista Categorías',
+        id: 'viajes-list',
+        label: 'Lista Viajes',
         icon: 'fas fa-list',
-        path: '/categorias',
+        path: '/viajes',
       },
-      /* {
-        id: 'subcategory-list',
-        label: 'Lista Sub Categorías',
-        icon: 'fas fa-list-alt',
-        path: '/subcategorias',
-      }, */
+    ],
+  },
+  {
+    id: 'vehiculos',
+    label: 'Vehículos',
+    icon: 'fas fa-car',
+    path: '/vehiculos',
+    submenu: [
+      {
+        id: 'vehiculos-list',
+        label: 'Lista Vehículos',
+        icon: 'fas fa-list',
+        path: '/vehiculos',
+      },
+    ],
+  },
+  {
+    id: 'propuestas',
+    label: 'Propuestas',
+    icon: 'fas fa-lightbulb',
+    path: '/propuestas',
+    submenu: [
+      {
+        id: 'propuestas-list',
+        label: 'Lista Propuestas',
+        icon: 'fas fa-list',
+        path: '/propuestas',
+      },
+    ],
+  },
+  {
+    id: 'notificaciones',
+    label: 'Notificaciones',
+    icon: 'fas fa-bell',
+    path: '/notificaciones',
+    submenu: [
+      {
+        id: 'notificaciones-list',
+        label: 'Lista Notificaciones',
+        icon: 'fas fa-list',
+        path: '/notificaciones',
+      },
     ],
   },
   {
@@ -73,16 +97,44 @@ const menuItems: MenuItem[] = [
     ],
   },
   {
-    id: 'products',
-    label: 'Productos',
-    icon: 'fas fa-box',
-    path: '/productos',
+    id: 'operadores',
+    label: 'Operadores',
+    icon: 'fas fa-id-card',
+    path: '/operadores',
     submenu: [
       {
-        id: 'product-list',
-        label: 'Lista Productos',
+        id: 'operadores-list',
+        label: 'Lista Operadores',
         icon: 'fas fa-list',
-        path: '/productos',
+        path: '/operadores',
+      },
+    ],
+  },
+  {
+    id: 'usuarios',
+    label: 'Usuarios',
+    icon: 'fas fa-user-friends',
+    path: '/usuarios',
+    submenu: [
+      {
+        id: 'usuarios-list',
+        label: 'Lista Usuarios',
+        icon: 'fas fa-list',
+        path: '/usuarios',
+      },
+    ],
+  },
+  {
+    id: 'documentacion',
+    label: 'Documentación',
+    icon: 'fas fa-book',
+    path: '/documentacion',
+    submenu: [
+      {
+        id: 'documentacion-list',
+        label: 'Ver Documentación',
+        icon: 'fas fa-book-open',
+        path: '/documentacion',
       },
     ],
   },
@@ -204,7 +256,7 @@ const Sidebar = () => {
     <div className={`sidebar ${isOpen ? 'open' : ''}`}>
       <div className="sidebar-header">
         <i className="fas fa-bars header-icon"></i>
-        <h2 className="header-title">POS</h2>
+        <h2 className="header-title">HEY TAXY ADMIN</h2>
       </div>
       <nav className="menu">
         {menuItems.map(renderMenuItem)}

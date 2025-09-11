@@ -179,13 +179,28 @@ const Navbar: React.FC = () => {
         </button>
         <ul className={`navbar-list ${isMenuOpen ? 'open' : ''}`}>
           <li className="navbar-item">
-            <Link to="/pos" onClick={() => setIsMenuOpen(false)}>
-              <i className="fas fa-shopping-cart"></i> POS
+            <Link to="/estadisticas" onClick={() => setIsMenuOpen(false)}>
+              <i className="fas fa-chart-pie"></i> Estadísticas
             </Link>
           </li>
           <li className="navbar-item">
-            <Link to="/categorias" onClick={() => setIsMenuOpen(false)}>
-              <i className="fas fa-tags"></i> Categorías
+            <Link to="/viajes" onClick={() => setIsMenuOpen(false)}>
+              <i className="fas fa-route"></i> Viajes
+            </Link>
+          </li>
+          <li className="navbar-item">
+            <Link to="/vehiculos" onClick={() => setIsMenuOpen(false)}>
+              <i className="fas fa-car"></i> Vehículos
+            </Link>
+          </li>
+          <li className="navbar-item">
+            <Link to="/propuestas" onClick={() => setIsMenuOpen(false)}>
+              <i className="fas fa-lightbulb"></i> Propuestas
+            </Link>
+          </li>
+          <li className="navbar-item">
+            <Link to="/notificaciones" onClick={() => setIsMenuOpen(false)}>
+              <i className="fas fa-bell"></i> Notificaciones
             </Link>
           </li>
           <li className="navbar-item">
@@ -194,25 +209,20 @@ const Navbar: React.FC = () => {
             </Link>
           </li>
           <li className="navbar-item">
-            <Link to="/productos" onClick={() => setIsMenuOpen(false)}>
-              <i className="fas fa-box"></i> Productos
-            </Link>
-          </li>
-          {/* <li className="navbar-item">
-            <Link to="/pos">
-              <i className="fas fa-credit-card"></i> POS
+            <Link to="/operadores" onClick={() => setIsMenuOpen(false)}>
+              <i className="fas fa-id-card"></i> Operadores
             </Link>
           </li>
           <li className="navbar-item">
-            <Link to="/proveedores">
-              <i className="fas fa-parachute-box"></i> Proveedores
+            <Link to="/usuarios" onClick={() => setIsMenuOpen(false)}>
+              <i className="fas fa-user-friends"></i> Usuarios
             </Link>
           </li>
           <li className="navbar-item">
-            <Link to="/inventory">
-              <i className="fas fa-boxes"></i> Inventario
+            <Link to="/documentacion" onClick={() => setIsMenuOpen(false)}>
+              <i className="fas fa-book"></i> Documentación
             </Link>
-          </li> */}
+          </li>
         </ul>
         <div className="login-panel">
           {currentAdmin && (
