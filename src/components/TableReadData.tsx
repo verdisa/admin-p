@@ -34,6 +34,9 @@ const TableReadData = <T extends { [key: string]: any }>(
       const date = new Date(value.seconds * 1000 + value.nanoseconds / 1000000);
       return date.toLocaleDateString();
     }
+    if (value instanceof Date) {
+      return value.toLocaleDateString();
+    }
     return value ?? '';
   };
 
@@ -62,7 +65,7 @@ const TableReadData = <T extends { [key: string]: any }>(
           {columns.map((column) => (
             <th key={column}>{columnNames[column] || column}</th>
           ))}
-          {onDelete && <th>Acciones</th>} {/* Columna de acciones */}
+          {onDelete && <th>Acciones</th>}
         </tr>
       </thead>
       <tbody>

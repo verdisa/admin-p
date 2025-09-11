@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 // Removed Firebase imports, using API instead
 import { User } from '../types/UserInterface';
 
-const API_URL = '/api/customers/get';
+const API_URL = '/api/customers/get-admin';
 const JWT = 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIrNTA0OTgxODQ0OTYiLCJleHAiOjE3NTc2NTEwOTEsInVzZXJfaWQiOiI2ODU2NTY4ZTAyZWFkNWFmNzMwMWNhOGIifQ.YbVm0-7BsaO82C_7qrwSqncGQq-4XGeXQRIHGJX1Eh7e0WgTPVhGwuhdU5S0gkGzogXGwtcKTkWBeP-zhCuhEko3ZyfFMSeCbC7my6LD06G6k6EIHTFyUtmmKRz0AmQRkAtqsJZBneYbSLVNpRwd_R-2ymwksidGUxiDIg3AiXsVq5P6gjV5R6LKxGQQ6L9VurGu5tZ9LuVHG47LNU-Np3KaTHptVfQyecjFKoXI1rCq-6yVHsSrAf9QuBEZLvHMHCy1slFKzhjCk66v8A5NDmOQ1_lLaO7TbiFBkHpLNHU2Utq3RjsYUbM2VC1wx9TjFppl2U0aBtuPtsHUrghBcA';
 
 interface Customer {
@@ -46,39 +46,39 @@ export const useUsuarios = () => {
               'Authorization': JWT
             }
           });
-          const data: Customer = await response.json();
-          const users = [{
-            uid: data._id,
-            nombre: data.name,
+          const data: Customer[] = await response.json();
+          const users = data.map((customer) => ({
+            uid: customer._id,
+            nombre: customer.name,
             apellidos: '',
-            email: data.email,
-            telefono: data.phone_number,
-            username: data.dni,
+            email: customer.email,
+            telefono: customer.phone_number,
+            username: customer.dni,
             password: '',
             roles: [] as ("admin" | "cajero" | "supervisor" | "visita")[],
-            posicion: data.nationality,
-            fechaContratacion: new Date(data.birth_date),
+            posicion: customer.nationality,
+            fechaContratacion: new Date(customer.created_at),
             turnoAsignado: '',
-            sucursal: data.address,
-            estado: (data.is_active ? 'Activo' : 'Inactivo') as "Activo" | "Inactivo" | "Bloqueado",
+            sucursal: customer.address,
+            estado: (customer.is_active ? 'Activo' : 'Inactivo') as "Activo" | "Inactivo" | "Bloqueado",
             salario: '',
-            isEmailVerified: data.is_email_verified,
-            dni: data.dni,
-            nationality: data.nationality,
-            address: data.address,
-            status: data.status,
-            birth_date: data.birth_date,
-            dni_front_url: data.dni_front_url,
-            dni_back_url: data.dni_back_url,
-            phone_number: data.phone_number,
-            created_at: data.created_at,
-            updated_at: data.updated_at,
-            is_active: data.is_active,
-            modified_by: data.modified_by,
-            photo_url: data.photo_url,
-            additional_prop1: data.additional_prop1,
-            user_id: data.user_id
-          }];
+            isEmailVerified: customer.is_email_verified,
+            dni: customer.dni,
+            nationality: customer.nationality,
+            address: customer.address,
+            status: customer.status,
+            birth_date: customer.birth_date,
+            dni_front_url: customer.dni_front_url,
+            dni_back_url: customer.dni_back_url,
+            phone_number: customer.phone_number,
+            created_at: customer.created_at,
+            updated_at: customer.updated_at,
+            is_active: customer.is_active,
+            modified_by: customer.modified_by,
+            photo_url: customer.photo_url,
+            additional_prop1: customer.additional_prop1,
+            user_id: customer.user_id
+          }));
           setUsers(users);
           localStorage.setItem("users", JSON.stringify(users));
           console.log("Datos cargados desde API y guardados en localStorage");
@@ -104,9 +104,9 @@ export const useUsuarios = () => {
           name: updatedRow.nombre,
           email: updatedRow.email,
           dni: updatedRow.dni,
-          nationality: updatedRow.nationality,
-          address: updatedRow.address,
-          phone_number: updatedRow.phone_number,
+          nationality: updatedRow.posicion,
+          address: updatedRow.sucursal,
+          phone_number: updatedRow.telefono,
           birth_date: updatedRow.birth_date,
           is_email_verified: updatedRow.isEmailVerified,
           is_active: updatedRow.estado === 'Activo'
@@ -136,9 +136,9 @@ export const useUsuarios = () => {
           name: newUser.nombre,
           email: newUser.email,
           dni: newUser.dni,
-          nationality: newUser.nationality,
-          address: newUser.address,
-          phone_number: newUser.phone_number,
+          nationality: newUser.posicion,
+          address: newUser.sucursal,
+          phone_number: newUser.telefono,
           birth_date: newUser.birth_date,
           is_email_verified: newUser.isEmailVerified,
           is_active: newUser.estado === 'Activo'
@@ -179,23 +179,25 @@ export const useUsuarios = () => {
     }
   };
 
-  const columns = ['nombre', 'apellidos', 'email', 'telefono', 'username', 'roles', 'posicion', 'fechaContratacion', 'turnoAsignado', 'sucursal', 'estado', 'salario', 'isEmailVerified'];
+  const columns = ['nombre', 'apellidos', 'email', 'telefono', 'username', 'dni', 'roles', 'posicion', 'fechaContratacion', 'birth_date', 'turnoAsignado', 'sucursal', 'estado', 'salario', 'isEmailVerified'];
   const columnNames = {
     nombre: 'Nombre',
     apellidos: 'Apellidos',
     email: 'Correo Electrónico',
     telefono: 'Teléfono',
     username: 'Nombre de Usuario',
+    dni: 'DNI',
     roles: 'Roles',
     posicion: 'Posición',
     fechaContratacion: 'Fecha de Contratación',
+    birth_date: 'Fecha de Nacimiento',
     turnoAsignado: 'Turno Asignado',
     sucursal: 'Sucursal',
     estado: 'Estado',
     salario: 'Salario',
     isEmailVerified: 'Correo Verificado',
   };
-  const editableColumns = ['nombre', 'apellidos', 'telefono', 'posicion', 'turnoAsignado', 'sucursal', 'estado', 'salario'];
+  const editableColumns = ['nombre', 'apellidos', 'telefono', 'dni', 'posicion', 'birth_date', 'turnoAsignado', 'sucursal', 'estado', 'salario'];
 
   return {
     users,
