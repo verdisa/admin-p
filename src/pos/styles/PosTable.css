@@ -1,6 +1,6 @@
 .pos-container {
   display: flex;
-  height: calc(100vh - 64px); /* Restar altura del navbar (aproximadamente 64px) */
+  height: calc(100vh - 80px); /* Restar altura del navbar fijo */
   position: relative;
   z-index: 1;
   margin-left: 0; /* Ya no necesitamos margen porque el contenedor padre lo maneja */
@@ -13,8 +13,8 @@
   pointer-events: auto;
   position: fixed;
   left: 250px; /* Posicionado justo después del sidebar principal */
-  top: 64px; /* Empezar después del navbar (aproximadamente 64px) */
-  height: calc(100vh - 64px); /* Altura completa menos navbar */
+  top: 80px; /* Empezar después del navbar fijo */
+  height: calc(100vh - 80px); /* Altura completa menos navbar fijo */
   z-index: 999;
   transform: translateX(-100%); /* Oculto por defecto */
   transition: transform 0.3s ease;

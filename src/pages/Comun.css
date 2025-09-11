@@ -1,6 +1,7 @@
 .usuarios-container {
   display: flex;
-  min-height: 100vh;
+  min-height: calc(100vh - 80px); /* Restar altura del navbar fijo */
+  margin-top: 80px; /* Espacio para el navbar fijo */
 }
 
 /* Ya no necesitamos margin-left ya que el sidebar está en el flujo y empuja el contenido */
