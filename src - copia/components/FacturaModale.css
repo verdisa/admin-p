@@ -1,0 +1,123 @@
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1050; /* Z-index alto para aparecer por encima de otros elementos */
+}
+
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 5px;
+  width: 900px; /* Ajustar el ancho para acomodar dos columnas */
+  max-height: 80vh; /* Limitar la altura máxima al 80% de la ventana */
+  overflow-y: auto; /* Agregar scrollbar vertical cuando sea necesario */
+  position: relative;
+  z-index: 1051; /* Z-index más alto que el modal para asegurar que aparezca por encima */
+}
+
+/* Estilo para la cuadrícula de dos columnas */
+.custom-grid {
+  display: grid;
+  grid-template-columns: 2fr 2fr;
+  gap: 16px; /* Equivalente a Tailwind's gap-4 */
+  margin-top: 20px;
+}
+
+.modal-field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+.modal-field label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.modal-field input,
+.modal-field textarea {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.modal-actions button {
+  margin-left: 10px;
+  padding: 10px 20px;
+}
+
+.search-container {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+textarea {
+  /* resize: vertical; */
+  height: 150px;
+}
+
+/* Media queries para responsividad */
+@media (max-width: 768px) {
+  .modal-content {
+    width: 95%;
+    padding: 15px;
+  }
+
+  .custom-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .modal-actions {
+    flex-direction: column;
+  }
+
+  .modal-actions button {
+    margin-left: 0;
+    margin-top: 10px;
+    width: 100%;
+  }
+
+  .search-container {
+    flex-direction: column;
+  }
+
+  textarea {
+    height: 120px;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal-content {
+    width: 98%;
+    padding: 10px;
+  }
+
+  .modal-field input,
+  .modal-field textarea {
+    padding: 6px;
+    font-size: 0.9rem;
+  }
+
+  .modal-field label {
+    font-size: 0.9rem;
+  }
+
+  .modal-actions button {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+  }
+}

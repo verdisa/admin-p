@@ -1,0 +1,85 @@
+import React, { useState, useEffect } from 'react';
+
+interface Field {
+  key: string;
+  label: string;
+  type?: 'text' | 'select' | 'checkbox';
+  options?: { id: string; name: string }[];
+}
+
+interface AddModalProps {
+  fields: Field[];
+  onSave: (data: any) => void;
+  onClose: () => void;
+}
+
+const AddModal: React.FC<AddModalProps> = ({ fields, onSave, onClose }) => {
+  const [formData, setFormData] = useState<{ [key: string]: any }>({});
+
+  useEffect(() => {
+    const initialData: { [key: string]: any } = {};
+    fields.forEach(field => {
+      if (field.type === 'select' && field.options && field.options.length > 0) {
+        initialData[field.key] = '';
+      } else if (field.type === 'checkbox') {
+        initialData[field.key] = false;
+      } else {
+        initialData[field.key] = '';
+      }
+    });
+    setFormData(initialData);
+  }, [fields]);
+
+  const handleInputChange = (key: string, value: any) => {
+    setFormData(prev => ({ ...prev, [key]: value }));
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    onSave(formData);
+  };
+
+  return (
+    <div className="modal">
+      <div className="modal-content">
+        <form onSubmit={handleSubmit}>
+          {fields.map((field) => (
+            <div key={field.key} className="modal-field">
+              <label>{field.label}</label>
+              {field.type === 'select' && field.options ? (
+                <select
+                  value={formData[field.key] || ''}
+                  onChange={(e) => handleInputChange(field.key, e.target.value)}
+                >
+                  <option key={`${field.key}-default`} value="">
+                    Seleccione una opción
+                  </option>
+                  {field.options.map((option, index) => (
+                    <option key={option.id || index} value={option.id}>
+                      {option.name}
+                    </option>
+                  ))}
+                </select>
+              ) : (
+                <input
+                  type={field.type || 'text'}
+                  id={field.key}
+                  value={formData[field.key] || ''}
+                  onChange={(e) => handleInputChange(field.key, e.target.value)}
+                />
+              )}
+            </div>
+          ))}
+          <div className="modal-actions">
+            <button type="submit" id = "savebtn">Guardar</button>
+            <button type="button" id = "closebtn" onClick={onClose}>
+              Cancelar
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+};
+
+export default AddModal;
