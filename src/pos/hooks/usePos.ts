@@ -45,7 +45,7 @@ export const usePos = () => {
           id: p.uid,
           name: p.name,
           price: p.price,
-          quantity: p.stock,
+          stock: p.stock,
           type: p.type,
         }))
     }));
@@ -62,10 +62,19 @@ export const usePos = () => {
     setCartItems(prevItems => {
       const existingItem = prevItems.find(i => i.id === product.id);
       if (existingItem) {
+        const newQuantity = (existingItem.quantity || 1) + 1;
+        if (newQuantity > product.stock) {
+          alert(`No hay suficiente stock. Stock disponible: ${product.stock}`);
+          return prevItems;
+        }
         return prevItems.map(i =>
-          i.id === product.id ? { ...i, quantity: (i.quantity || 1) + 1 } : i
+          i.id === product.id ? { ...i, quantity: newQuantity } : i
         );
       } else {
+        if (1 > product.stock) {
+          alert(`No hay suficiente stock. Stock disponible: ${product.stock}`);
+          return prevItems;
+        }
         return [...prevItems, { ...product, quantity: 1 }];
       }
     });

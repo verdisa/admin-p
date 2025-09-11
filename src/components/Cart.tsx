@@ -8,7 +8,8 @@ export interface Product {
   id: string;
   name: string;
   price: number;
-  quantity: number;
+  quantity: number; // Cart quantity
+  stock: number; // Available stock
   type?: 'gravable' | 'gravable2' |'exento' | 'exonerado';
 }
 
@@ -57,7 +58,12 @@ const Cart: React.FC<CartProps> = ({ items, setItems, clearCart }) => {
     setItems(prevItems => {
       return prevItems.map((item, i) => {
         if (i === index) {
-          return { ...item, quantity: item.quantity + 1 };
+          const newQuantity = item.quantity + 1;
+          if (newQuantity > item.stock) {
+            alert(`No hay suficiente stock. Stock disponible: ${item.stock}`);
+            return item;
+          }
+          return { ...item, quantity: newQuantity };
         }
         return item;
       });
@@ -81,10 +87,19 @@ const Cart: React.FC<CartProps> = ({ items, setItems, clearCart }) => {
       setItems(prevItems => {
         const existingItem = prevItems.find(i => i.id === item.id);
         if (existingItem) {
+          const newQuantity = existingItem.quantity + 1;
+          if (newQuantity > item.stock) {
+            alert(`No hay suficiente stock. Stock disponible: ${item.stock}`);
+            return prevItems;
+          }
           return prevItems.map(i =>
-            i.id === item.id ? { ...i, quantity: i.quantity + 1 } : i
+            i.id === item.id ? { ...i, quantity: newQuantity } : i
           );
         } else {
+          if (1 > item.stock) {
+            alert(`No hay suficiente stock. Stock disponible: ${item.stock}`);
+            return prevItems;
+          }
           return [...prevItems, { ...item, quantity: 1, type: item.type || 'gravable' }];
         }
       });
@@ -131,9 +146,14 @@ const Cart: React.FC<CartProps> = ({ items, setItems, clearCart }) => {
                 <input
                   type="number"
                   min="1"
+                  max={item.stock}
                   value={item.quantity}
                   onChange={(e) => {
                     const newQty = parseInt(e.target.value, 10) || 1;
+                    if (newQty > item.stock) {
+                      alert(`No hay suficiente stock. Stock disponible: ${item.stock}`);
+                      return;
+                    }
                     setItems(prevItems =>
                       prevItems.map((prev, i) =>
                         i === index ? { ...prev, quantity: newQty } : prev
@@ -141,7 +161,7 @@ const Cart: React.FC<CartProps> = ({ items, setItems, clearCart }) => {
                     );
                   }}
                 />
-                <button onClick={() => incrementQuantity(index)}>
+                <button onClick={() => incrementQuantity(index)} disabled={item.quantity >= item.stock}>
                   <i className="fas fa-plus"></i>
                 </button>
                 <button onClick={() => removeItem(index)}>

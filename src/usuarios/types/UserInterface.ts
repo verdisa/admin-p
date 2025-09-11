@@ -16,6 +16,22 @@ export interface User {
     seconds: number;
     nanoseconds: number;
   }; // Fecha de creación del registro (opcional).
-  salario?: string; // URL de la foto de perfil del usuario (opcional).
+  salario?: string; // Salario del usuario (opcional).
   isEmailVerified?: boolean; // Indica si el correo del usuario está verificado (opcional).
+  // Nuevos campos de la API
+  dni: string;
+  nationality: string;
+  address: string;
+  status: string;
+  birth_date: string;
+  dni_front_url: string;
+  dni_back_url: string;
+  phone_number: string;
+  created_at: string;
+  updated_at: string | null;
+  is_active: boolean;
+  modified_by: string | null;
+  photo_url: string | null;
+  additional_prop1: string | null;
+  user_id: string | null;
 }
